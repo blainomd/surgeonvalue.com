@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SurgeonValue - The Practice OS for Orthopedic Surgeons</title>
+    <meta name="description" content="Recover lost margins, capture non-operative revenue, and protect your TEAM bundles. Free PROM compliance. Agentic billing. Zero click-debt.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>S</text></svg>">
+    <style>
+        :root {
+            --navy: #1B2A4A;
+            --teal: #0D7377;
+            --white: #FFFFFF;
+            --light: #F4F7FA;
+            --gray: #6B7280;
+            --dark-gray: #374151;
+            --accent: #10B981;
+            --warm: #F59E0B;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--navy);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 42, 74, 0.97);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            padding: 0 2rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand span { color: var(--teal); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--white); }
+
+        .btn {
+            display: inline-block;
+            padding: 0.625rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #0a5f62;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1.5px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--white);
+        }
+
+        .btn-large {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: var(--navy);
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(13, 115, 119, 0.08) 100%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            color: var(--teal);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            color: var(--white);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            max-width: 720px;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--teal);
+        }
+
+        .hero-sub {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.25rem;
+            max-width: 560px;
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-stat-value {
+            color: var(--teal);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .hero-stat-label {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* PROBLEM */
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            color: var(--teal);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .section h2 {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-lead {
+            color: var(--gray);
+            font-size: 1.125rem;
+            max-width: 640px;
+            margin-bottom: 3rem;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .problem-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .problem-card .number {
+            color: var(--teal);
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* AGENTS */
+        .agents-section {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .agents-section h2 { color: var(--white); }
+        .agents-section .section-lead { color: rgba(255,255,255,0.6); }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .agent-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .agent-card:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: var(--teal);
+        }
+
+        .agent-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(13, 115, 119, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .agent-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .agent-card .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 100px;
+            background: rgba(13, 115, 119, 0.2);
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-card p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+        }
+
+        /* MATH */
+        .math-section {
+            background: var(--light);
+        }
+
+        .math-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .math-box {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+
+        .math-box.before {
+            border-color: rgba(0,0,0,0.08);
+        }
+
+        .math-box.after {
+            border-color: var(--teal);
+            box-shadow: 0 4px 24px rgba(13, 115, 119, 0.12);
+        }
+
+        .math-box .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .math-box .amount {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .math-box.before .amount { color: var(--gray); }
+        .math-box.after .amount { color: var(--teal); }
+
+        .math-box .detail {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 0.75rem;
+        }
+
+        .math-arrow {
+            font-size: 2rem;
+            color: var(--teal);
+            font-weight: 800;
+        }
+
+        .math-footnote {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* COMPLIANCE */
+        .compliance-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .badge {
+            background: var(--white);
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .badge .code {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--navy);
+        }
+
+        .badge .desc {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 0.25rem;
+        }
+
+        /* HOW IT WORKS */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            counter-reset: step;
+        }
+
+        .step {
+            counter-increment: step;
+            position: relative;
+            padding-left: 0;
+        }
+
+        .step::before {
+            content: counter(step);
+            display: block;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: var(--navy);
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111827;
+            color: rgba(255,255,255,0.4);
+            padding: 3rem 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .math-comparison {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .math-arrow { transform: rotate(90deg); }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-brand">Surgeon<span>Value</span></div>
+    <div class="nav-links">
+        <a href="#problem">The Problem</a>
+        <a href="#agents">9 Agents</a>
+        <a href="#math">The Math</a>
+        <a href="#how">How It Works</a>
+        <a href="#cta" class="btn btn-primary">Register Your NPI</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-eyebrow">The Practice OS for Orthopedic Surgeons</div>
+        <h1>Your NPI is a <em>revenue engine.</em> We turn it on.</h1>
+        <p class="hero-sub">Free PROM compliance. Agentic billing for CCM, TCM, RTM, and ACCESS. Nine AI agents that run your non-operative practice while you operate.</p>
+        <div class="hero-ctas">
+            <a href="#cta" class="btn btn-primary btn-large">Register Your NPI</a>
+            <a href="#math" class="btn btn-outline btn-large">See the Math</a>
+        </div>
+        <div class="hero-stats">
+            <div>
+                <div class="hero-stat-value">-2.5%</div>
+                <div class="hero-stat-label">2026 MIPS Efficiency Cut</div>
+            </div>
+            <div>
+                <div class="hero-stat-value">$320</div>
+                <div class="hero-stat-label">Monthly Non-Op Revenue / Patient</div>
+            </div>
+            <div>
+                <div class="hero-stat-value">0</div>
+                <div class="hero-stat-label">Additional Staff Required</div>
+            </div>
+            <div>
+                <div class="hero-stat-value">30 sec</div>
+                <div class="hero-stat-label">Per Patient Per Day</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="problem">
+    <div class="section-inner">
+        <div class="section-eyebrow">The 2026 Squeeze</div>
+        <h2>CMS is cutting your fees. We recover the margin.</h2>
+        <p class="section-lead">Between mandatory TEAM bundles, MIPS efficiency cuts, and the ACCESS Model deadline, 2026 is the year that decides which practices survive independently.</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="number">-2.5%</div>
+                <h3>MIPS Efficiency Adjustment</h3>
+                <p>CMS says you're "too fast" and cut your surgical fees. Every case you do earns less than last year.</p>
+            </div>
+            <div class="problem-card">
+                <div class="number">96%</div>
+                <h3>CCM-Eligible, Not Enrolled</h3>
+                <p>Your non-surgical patients generate zero revenue between visits. That's $300-400/month per patient you're leaving on the table.</p>
+            </div>
+            <div class="problem-card">
+                <div class="number">30 days</div>
+                <h3>TEAM Bundle Liability</h3>
+                <p>Mandatory in Denver/Boulder. One readmission costs $15-25K. You own the risk for 30 days post-discharge.</p>
+            </div>
+            <div class="problem-card">
+                <div class="number">$0</div>
+                <h3>Non-Operative Revenue</h3>
+                <p>Patients in conservative care generate nothing. With SurgeonValue, every grey-zone patient becomes a billable, monitored asset.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section agents-section" id="agents">
+    <div class="section-inner">
+        <div class="section-eyebrow">Your Agentic Practice</div>
+        <h2>9 agents. 9 pipes to the patient. Zero click-debt.</h2>
+        <p class="section-lead">Each agent is visible for free. They execute when you upgrade. All billing runs through your own NPI.</p>
+        <div class="agents-grid">
+            <div class="agent-card">
+                <div class="agent-icon">P</div>
+                <h3>PROM Collector</h3>
+                <span class="tag">FREE</span>
+                <p>Automated KOOS/HOOS JR collection via SMS. ACCESS Model compliance built in. Patients complete in 90 seconds.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">B</div>
+                <h3>Billing Autopilot</h3>
+                <span class="tag">CORE</span>
+                <p>Identifies CCM, TCM, RTM, and PIN-eligible patients. Pre-populates documentation. You swipe to bill.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">T</div>
+                <h3>TEAM Guardian</h3>
+                <span class="tag">CORE</span>
+                <p>Monitors 30-day post-op window. Triggers caregiver support and PIN navigation before readmission risk spikes.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">A</div>
+                <h3>ACCESS Navigator</h3>
+                <span class="tag">PRO</span>
+                <p>Manages your MSK ACCESS Model track. Tracks OAP thresholds. Ensures you hit the 50% attainment gate.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">R</div>
+                <h3>RTM Monitor</h3>
+                <span class="tag">CORE</span>
+                <p>Short-cycle 2-15 day monitoring (98985). Captures the critical post-op window that was previously unbillable.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">S</div>
+                <h3>Surgical Strike Map</h3>
+                <span class="tag">PRO</span>
+                <p>Tracks PROM trends longitudinally. Identifies exactly when conservative care fails and surgical conversion is optimal.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">N</div>
+                <h3>Navigator Dispatch</h3>
+                <span class="tag">PRO</span>
+                <p>Connects to Co-op.Care community navigators. Bills G0023 PIN codes. Your patients get boots-on-the-ground support.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">C</div>
+                <h3>ClinicalSwipe Review</h3>
+                <span class="tag">PRO</span>
+                <p>Peer physician validation of AI care pathways. Independent review outside your influence. AKS/Stark clean.</p>
+            </div>
+            <div class="agent-card">
+                <div class="agent-icon">D</div>
+                <h3>Dashboard Intelligence</h3>
+                <span class="tag">CORE</span>
+                <p>Real-time panel analytics. Lost revenue identification. EMR-connected. Shows you exactly what you're missing today.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section math-section" id="math">
+    <div class="section-inner">
+        <div class="section-eyebrow">The Revenue Recovery</div>
+        <h2>89% revenue increase per episode. No additional staff.</h2>
+        <p class="section-lead">SurgeonValue neutralizes the MIPS cut and captures non-operative revenue that was always there.</p>
+
+        <div class="math-comparison">
+            <div class="math-box before">
+                <div class="label">Without SurgeonValue</div>
+                <div class="amount">$962</div>
+                <div class="detail">Net revenue per case after MIPS cut, marketing, and surgical leakage</div>
+            </div>
+            <div class="math-arrow">&rarr;</div>
+            <div class="math-box after">
+                <div class="label">With SurgeonValue</div>
+                <div class="amount">$1,820</div>
+                <div class="detail">Full surgical fee + $320/mo non-operative revenue + zero patient acquisition cost</div>
+            </div>
+        </div>
+
+        <p class="math-footnote">Based on combined CCM ($42/mo), PIN ($80/mo), RTM ($52/mo), TCM, and ACCESS OAP ($12/mo) per managed patient.</p>
+
+        <div class="compliance-badges">
+            <div class="badge"><div class="code">99490</div><div class="desc">CCM</div></div>
+            <div class="badge"><div class="code">99495/96</div><div class="desc">TCM</div></div>
+            <div class="badge"><div class="code">98985</div><div class="desc">RTM 2.0</div></div>
+            <div class="badge"><div class="code">G0023</div><div class="desc">PIN</div></div>
+            <div class="badge"><div class="code">G0019</div><div class="desc">CHI</div></div>
+            <div class="badge"><div class="code">G0136</div><div class="desc">Activity/Nutrition</div></div>
+            <div class="badge"><div class="code">ACCESS</div><div class="desc">MSK Track</div></div>
+            <div class="badge"><div class="code">TEAM</div><div class="desc">Bundle Guard</div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="how">
+    <div class="section-inner">
+        <div class="section-eyebrow">How It Works</div>
+        <h2>From NPI registration to first revenue in one week.</h2>
+        <p class="section-lead">No hardware. No staff. No long-term contracts. Your NPI is all we need.</p>
+
+        <div class="steps">
+            <div class="step">
+                <h3>Register your NPI</h3>
+                <p>30-second signup. We verify your NPI and connect to your EMR (Epic, Cerner, athena, eCW, ModMed, DrChrono) or import via CSV.</p>
+            </div>
+            <div class="step">
+                <h3>AI scans your panel</h3>
+                <p>Our agents analyze your patient population. Within minutes, your dashboard shows exactly how much non-operative revenue you're leaving on the table.</p>
+            </div>
+            <div class="step">
+                <h3>Patients get enrolled</h3>
+                <p>Automated PROM collection via SMS. CCM/TCM eligibility flagged. ACCESS Model patients identified. Zero manual data entry.</p>
+            </div>
+            <div class="step">
+                <h3>You swipe. We bill.</h3>
+                <p>Pre-populated documentation appears in your queue. Swipe to validate. Billing runs through your own NPI at flat $15-25/encounter. AKS clean.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section" id="cta">
+    <h2>Your NPI is worth more than your surgical fee.</h2>
+    <p>Free PROM compliance. Agentic billing. Zero click-debt. Register your NPI and see what you're missing in under 5 minutes.</p>
+    <a href="mailto:blaine@solvinghealth.com?subject=SurgeonValue%20NPI%20Registration" class="btn btn-primary btn-large">Register Your NPI</a>
+</section>
+
+<footer>
+    <div class="footer-links">
+        <a href="https://solvinghealth.com">SolvingHealth</a>
+        <a href="https://clinicalswipe.com">ClinicalSwipe</a>
+        <a href="https://co-op.care">Co-op.Care</a>
+        <a href="https://caregoals.com">CareGoals</a>
+    </div>
+    <p>SurgeonValue is a product of Solving Health Inc. Powered by the SolvingHealth Agentic Harness.</p>
+    <p style="margin-top: 0.5rem;">All billing runs through the surgeon's own NPI. Flat per-encounter fee. No percentage. No Medicare billing by SurgeonValue.</p>
+</footer>
+
+</body>
+</html>
