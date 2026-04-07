@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SurgeonValue — See It Work</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f172a;color:#e2e8f0;font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-x:hidden}
+
+.wrapper{max-width:720px;width:100%;padding:24px}
+
+.time-badge{text-align:center;margin-bottom:20px;opacity:0;transition:opacity 0.6s}
+.time-badge.visible{opacity:1}
+.time-badge span{font-family:'JetBrains Mono',monospace;font-size:13px;color:#3b82f6;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:6px 16px;border-radius:20px}
+
+.claude-window{background:#1e293b;border:1px solid #334155;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.4)}
+.claude-header{padding:12px 20px;background:#1a2332;display:flex;align-items:center;gap:8px;border-bottom:1px solid #334155}
+.dots{display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%}
+.dot-r{background:#ef4444}.dot-y{background:#f59e0b}.dot-g{background:#22c55e}
+.claude-title{font-size:13px;color:#94a3b8;margin-left:8px;font-weight:500}
+.connector-badge{margin-left:auto;font-size:11px;color:#3b82f6;background:rgba(59,130,246,0.1);padding:3px 10px;border-radius:10px;font-family:'JetBrains Mono',monospace}
+
+.chat-area{padding:20px;min-height:360px;max-height:480px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+
+.msg{max-width:88%;opacity:0;transform:translateY(12px);transition:opacity 0.4s,transform 0.4s;line-height:1.6}
+.msg.visible{opacity:1;transform:translateY(0)}
+.msg-user{align-self:flex-end;background:#3b82f6;color:#fff;padding:10px 16px;border-radius:16px 16px 4px 16px;font-size:14px}
+.msg-ai{align-self:flex-start;background:#293548;padding:14px 18px;border-radius:16px 16px 16px 4px;font-size:14px;color:#cbd5e1}
+.msg-ai strong{color:#f8fafc;font-weight:600}
+.msg-ai .warn{color:#f59e0b;font-weight:600}
+.msg-ai .safe{color:#22c55e;font-weight:600}
+.msg-ai .money{color:#3b82f6;font-weight:700;font-size:18px}
+.msg-ai code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(59,130,246,0.12);color:#93c5fd;padding:2px 6px;border-radius:4px}
+
+.agent-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;margin-top:8px;font-family:'JetBrains Mono',monospace}
+.agent-blue{background:rgba(59,130,246,0.15);color:#60a5fa}
+.agent-green{background:rgba(34,197,94,0.15);color:#4ade80}
+.agent-amber{background:rgba(245,158,11,0.15);color:#fbbf24}
+.agent-purple{background:rgba(139,92,246,0.15);color:#a78bfa}
+
+.typing{display:flex;gap:4px;padding:12px 16px;align-self:flex-start;opacity:0;transition:opacity 0.3s}
+.typing.visible{opacity:1}
+.typing span{width:6px;height:6px;background:#475569;border-radius:50%;animation:tbounce 1.4s infinite}
+.typing span:nth-child(2){animation-delay:0.2s}
+.typing span:nth-child(3){animation-delay:0.4s}
+@keyframes tbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+.endcard{text-align:center;margin-top:40px;opacity:0;transition:opacity 1s}
+.endcard.visible{opacity:1}
+.endcard h2{font-size:28px;font-weight:700;margin-bottom:8px}
+.endcard p{color:#94a3b8;font-size:15px;margin-bottom:20px}
+.endcard a{display:inline-block;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:12px;font-weight:600;text-decoration:none;font-size:15px}
+.endcard .sub{font-size:12px;color:#475569;margin-top:12px}
+
+.restart{position:fixed;bottom:24px;right:24px;background:#334155;color:#94a3b8;border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:13px;font-family:inherit;opacity:0;transition:opacity 0.5s}
+.restart.visible{opacity:1}
+.restart:hover{background:#475569;color:#fff}
+
+@media(max-width:600px){
+  .wrapper{padding:12px}
+  .chat-area{min-height:300px;padding:14px}
+  .msg{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="time-badge" id="timeBadge"><span id="timeText">6:47 AM</span></div>
+
+  <div class="claude-window">
+    <div class="claude-header">
+      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+      <span class="claude-title">Claude</span>
+      <span class="connector-badge">SurgeonValue connected</span>
+    </div>
+    <div class="chat-area" id="chat"></div>
+  </div>
+
+  <div class="endcard" id="endcard">
+    <h2>$4,200 captured. Zero added work.</h2>
+    <p>10 agents. One conversation. Add to Claude in 30 seconds.</p>
+    <a href="/">See how it works</a>
+    <div class="sub">surgeonvalue-mcp-production.up.railway.app/mcp</div>
+  </div>
+</div>
+
+<button class="restart" id="restartBtn" onclick="location.reload()">Watch again</button>
+
+<script>
+const chat = document.getElementById('chat');
+const timeBadge = document.getElementById('timeBadge');
+const timeText = document.getElementById('timeText');
+const endcard = document.getElementById('endcard');
+const restartBtn = document.getElementById('restartBtn');
+
+const SCRIPT = [
+  // Scene 1: Morning
+  { type:'time', text:'6:47 AM', delay:500 },
+  { type:'user', text:'What\'s my day look like?', delay:800 },
+  { type:'ai', text:'<strong>3 cases today:</strong><br>7:30 — Primary TKA, R knee (Johnson) — Zimmer Persona, size 5<br>10:00 — Revision THA, L hip (Martinez) — Smith & Nephew<br>1:30 — Partial knee, R (Chen) — Oxford<br><br>All implants confirmed. <span class="safe">No supply chain flags.</span>', agent:'Schedule Agent', agentClass:'agent-blue', delay:1800 },
+
+  // Scene 2: Prior auth
+  { type:'user', text:'Anything on my 9am revision?', delay:1200 },
+  { type:'ai', text:'<span class="warn">Martinez\'s insurance requires peer-to-peer call.</span> Prior auth letter drafted based on failed conservative care (14 months PT, 3 injections, BMI-adjusted HOOS: 31).<br><br>Want me to send to your office?', agent:'Prior Auth Agent', agentClass:'agent-amber', delay:1600 },
+  { type:'user', text:'Send it.', delay:600 },
+  { type:'ai', text:'<span class="safe">Sent.</span> Your coordinator will have it in 30 seconds.', delay:600 },
+
+  // Scene 3: Between cases — billing
+  { type:'time', text:'9:30 AM — Between Cases', delay:1500 },
+  { type:'user', text:'Codes from that TKA?', delay:800 },
+  { type:'ai', text:'<code>27447</code> Primary TKA — <strong>$1,420</strong><br><code>98976</code> + <code>98977</code> RTM enrollment — <strong>$112/mo x 4mo</strong><br><code>99424</code> PCM (single joint) — <strong>$135/mo</strong><br><br><span class="warn">NOTE: E/M during 90-day global period is NOT separately billable unless modifier-25 criteria met. Do NOT bill 99213 for post-op check.</span>', agent:'Revenue + Compliance', agentClass:'agent-green', delay:2200 },
+
+  // Scene 4: PROMs
+  { type:'user', text:'Send PROMs to this week\'s post-ops', delay:1000 },
+  { type:'ai', text:'KOOS-JR sent via SMS to 4 patients.<br>Average response time on your panel: <strong>6 minutes</strong>.<br>Completion rate: <strong>92%</strong> (vs 9% paper).', agent:'PROM Agent', agentClass:'agent-purple', delay:1200 },
+
+  // Scene 5: Voice note
+  { type:'time', text:'2:00 PM — Clinic', delay:1500 },
+  { type:'user', text:'🎤 "8-week post-op, right TKA, flexion 120, extension full, no effusion, phase 3 PT, return 6 weeks."', delay:1000 },
+  { type:'ai', text:'Visit documented. RTM data point logged <code>98977</code>.<br>KOOS-JR improvement: <strong>42 → 71 (+29 pts)</strong><br>Top quartile of your TKA outcomes.', agent:'Voice + Monitoring', agentClass:'agent-purple', delay:1600 },
+
+  // Scene 6: End of day
+  { type:'time', text:'4:30 PM', delay:1500 },
+  { type:'user', text:'How\'d we do?', delay:800 },
+  { type:'ai', text:'<strong>Today:</strong><br>3 cases completed<br>4 PROMs collected (92%)<br><span class="safe">Zero compliance flags</span><br><br><span class="money">$4,200 in new revenue captured</span><br><br>RTM enrollment x3, PCM x2, prior auth approved.<br>1 patient approaching global period end — reminder set.', agent:'All 10 Agents', agentClass:'agent-blue', delay:2000 },
+
+  // End
+  { type:'end', delay:2000 }
+];
+
+let i = 0;
+function next() {
+  if (i >= SCRIPT.length) return;
+  const step = SCRIPT[i];
+  i++;
+
+  if (step.type === 'time') {
+    timeText.textContent = step.text;
+    timeBadge.classList.add('visible');
+    setTimeout(next, step.delay);
+    return;
+  }
+
+  if (step.type === 'end') {
+    setTimeout(() => {
+      endcard.classList.add('visible');
+      restartBtn.classList.add('visible');
+    }, step.delay);
+    return;
+  }
+
+  // Show typing for AI
+  if (step.type === 'ai') {
+    const typing = document.createElement('div');
+    typing.className = 'typing';
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    chat.appendChild(typing);
+    setTimeout(() => typing.classList.add('visible'), 50);
+    chat.scrollTop = chat.scrollHeight;
+
+    setTimeout(() => {
+      typing.remove();
+      addMessage(step);
+      setTimeout(next, step.delay);
+    }, 800 + Math.random() * 400);
+    return;
+  }
+
+  addMessage(step);
+  setTimeout(next, step.delay);
+}
+
+function addMessage(step) {
+  const msg = document.createElement('div');
+  msg.className = 'msg msg-' + step.type;
+  let html = step.text;
+  if (step.agent) {
+    html += '<div class="agent-tag ' + step.agentClass + '">' + step.agent + '</div>';
+  }
+  msg.innerHTML = html;
+  chat.appendChild(msg);
+  setTimeout(() => msg.classList.add('visible'), 50);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// Start after a beat
+setTimeout(next, 1000);
+</script>
+</body>
+</html>
