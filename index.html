@@ -1,1995 +1,253 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SurgeonValue — Stop Leaving Revenue on the Table</title>
-    <meta name="description" content="10 AI agents that scan your panel, find missed billing codes, and capture $80,000+ in annual revenue — without adding a single minute of documentation.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a56db'/><path d='M25 50l18 18 32-36' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --blue-hero: #1a56db;
-            --blue-accent: #2563eb;
-            --blue-deep: #1e40af;
-            --blue-darker: #1e3a8a;
-            --green: #10b981;
-            --green-light: #d1fae5;
-            --green-dark: #059669;
-            --white: #ffffff;
-            --gray-50: #f8fafc;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-400: #94a3b8;
-            --gray-500: #64748b;
-            --gray-600: #475569;
-            --gray-700: #334155;
-            --gray-800: #1e293b;
-            --gray-900: #0f172a;
-            --red-500: #ef4444;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--gray-800);
-            line-height: 1.6;
-            background: var(--white);
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            line-height: 1.15;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* ===== NAV ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--gray-200);
-            transition: box-shadow 0.3s;
-        }
-
-        nav.scrolled {
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-        }
-
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
-        }
-
-        .nav-logo {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: var(--blue-hero);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--gray-600);
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--blue-hero);
-        }
-
-        .nav-cta {
-            background: var(--blue-hero);
-            color: var(--white) !important;
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 600 !important;
-            transition: background 0.2s, transform 0.2s;
-        }
-
-        .nav-cta:hover {
-            background: var(--blue-deep);
-            transform: translateY(-1px);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            padding: 160px 24px 120px;
-            background: linear-gradient(135deg, #0f172a 0%, var(--blue-deep) 40%, var(--blue-hero) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .hero-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(16,185,129,0.15);
-            border: 1px solid rgba(16,185,129,0.3);
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--green);
-            margin-bottom: 24px;
-            letter-spacing: 0.02em;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            color: var(--white);
-            max-width: 800px;
-            margin-bottom: 8px;
-        }
-
-        .hero-money {
-            color: var(--green);
-        }
-
-        .hero p {
-            font-size: clamp(1.1rem, 2vw, 1.35rem);
-            color: rgba(255,255,255,0.7);
-            max-width: 600px;
-            margin-bottom: 40px;
-            line-height: 1.7;
-        }
-
-        .hero-ctas {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--green);
-            color: var(--gray-900);
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            font-size: 1.05rem;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: all 0.25s;
-            box-shadow: 0 4px 24px rgba(16,185,129,0.3);
-        }
-
-        .btn-primary:hover {
-            background: #34d399;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(16,185,129,0.4);
-        }
-
-        .btn-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: transparent;
-            color: var(--white);
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            font-size: 1.05rem;
-            text-decoration: none;
-            border: 2px solid rgba(255,255,255,0.3);
-            transition: all 0.25s;
-        }
-
-        .btn-secondary:hover {
-            border-color: rgba(255,255,255,0.6);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 64px;
-            padding-top: 48px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .hero-stat {
-            text-align: center;
-        }
-
-        .hero-stat-number {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-            color: var(--green);
-        }
-
-        .hero-stat-label {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.5);
-            margin-top: 4px;
-        }
-
-        /* ===== SECTION SHARED ===== */
-        section {
-            padding: 100px 0;
-        }
-
-        .section-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--blue-accent);
-            margin-bottom: 16px;
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--gray-900);
-            margin-bottom: 16px;
-        }
-
-        .section-subtitle {
-            font-size: 1.15rem;
-            color: var(--gray-500);
-            max-width: 640px;
-            line-height: 1.7;
-        }
-
-        /* ===== PROBLEM SECTION ===== */
-        .problem {
-            background: var(--gray-50);
-        }
-
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 56px;
-        }
-
-        .problem-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 16px;
-            padding: 40px 32px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .problem-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--red-500);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .problem-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-        }
-
-        .problem-card:hover::before {
-            opacity: 1;
-        }
-
-        .problem-icon {
-            width: 48px;
-            height: 48px;
-            background: #fef2f2;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .problem-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--red-500);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .problem-stat {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 2.75rem;
-            color: var(--gray-900);
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .problem-card h3 {
-            font-size: 1.15rem;
-            color: var(--gray-800);
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .problem-card p {
-            font-size: 0.9rem;
-            color: var(--gray-500);
-            line-height: 1.6;
-        }
-
-        /* ===== AGENTS SECTION ===== */
-        .agents {
-            background: var(--white);
-        }
-
-        .agents-header {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-
-        .agents-header .section-subtitle {
-            margin: 0 auto;
-        }
-
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .agent-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 14px;
-            padding: 28px 24px;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .agent-card:hover {
-            border-color: var(--blue-accent);
-            box-shadow: 0 8px 32px rgba(37,99,235,0.1);
-            transform: translateY(-3px);
-        }
-
-        .agent-card-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-        }
-
-        .agent-card-icon svg {
-            width: 22px;
-            height: 22px;
-            stroke: var(--blue-accent);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .agent-card h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 6px;
-        }
-
-        .agent-card p {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .agent-impact {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--green-light);
-            color: var(--green-dark);
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .agent-impact svg {
-            width: 14px;
-            height: 14px;
-            stroke: var(--green-dark);
-            fill: none;
-            stroke-width: 2.5;
-        }
-
-        /* ===== MATH SECTION ===== */
-        .math {
-            background: linear-gradient(135deg, #0f172a 0%, var(--blue-deep) 50%, var(--blue-hero) 100%);
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .math::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .math-inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        .math .section-label {
-            color: var(--green);
-        }
-
-        .math .section-title {
-            color: var(--white);
-        }
-
-        .math .section-subtitle {
-            color: rgba(255,255,255,0.6);
-        }
-
-        .math-comparison {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 32px;
-            margin-top: 56px;
-            align-items: center;
-        }
-
-        .math-side {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 40px 32px;
-        }
-
-        .math-side-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: rgba(255,255,255,0.4);
-            margin-bottom: 8px;
-        }
-
-        .math-side-amount {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-        }
-
-        .math-side.before .math-side-amount {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .math-side.after .math-side-amount {
-            color: var(--green);
-        }
-
-        .math-side.after {
-            border-color: rgba(16,185,129,0.3);
-            background: rgba(16,185,129,0.05);
-        }
-
-        .math-codes {
-            margin-top: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .math-code-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .math-code-name {
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .math-code-value {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-        }
-
-        .math-side.before .math-code-value {
-            color: rgba(255,255,255,0.5);
-        }
-
-        .math-side.after .math-code-value {
-            color: var(--green);
-        }
-
-        .math-arrow {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .math-arrow svg {
-            width: 48px;
-            height: 48px;
-            stroke: var(--green);
-            fill: none;
-            stroke-width: 2;
-        }
-
-        .math-arrow-label {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--green);
-        }
-
-        .math-bottom {
-            margin-top: 56px;
-            text-align: center;
-            padding: 32px;
-            background: rgba(16,185,129,0.08);
-            border: 1px solid rgba(16,185,129,0.2);
-            border-radius: 16px;
-        }
-
-        .math-bottom-number {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--green);
-        }
-
-        .math-bottom-label {
-            font-size: 1rem;
-            color: rgba(255,255,255,0.6);
-            margin-top: 4px;
-        }
-
-        /* ===== THESIS SECTION ===== */
-        .thesis {
-            background: var(--gray-50);
-        }
-
-        .thesis-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 64px;
-            align-items: center;
-            margin-top: 56px;
-        }
-
-        .thesis-text h3 {
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            color: var(--gray-900);
-        }
-
-        .thesis-text p {
-            font-size: 1rem;
-            color: var(--gray-600);
-            line-height: 1.75;
-            margin-bottom: 16px;
-        }
-
-        .thesis-quote {
-            background: var(--white);
-            border-left: 4px solid var(--blue-accent);
-            padding: 24px;
-            border-radius: 0 12px 12px 0;
-            margin-top: 24px;
-        }
-
-        .thesis-quote p {
-            font-style: italic;
-            color: var(--gray-700);
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-        }
-
-        .thesis-quote cite {
-            font-size: 0.85rem;
-            color: var(--gray-400);
-            font-style: normal;
-        }
-
-        .thesis-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .thesis-card {
-            background: var(--white);
-            border: 1px solid var(--gray-200);
-            border-radius: 14px;
-            padding: 24px;
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-            transition: all 0.3s;
-        }
-
-        .thesis-card:hover {
-            border-color: var(--blue-accent);
-            box-shadow: 0 4px 20px rgba(37,99,235,0.08);
-        }
-
-        .thesis-card-icon {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .thesis-card-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--blue-accent);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .thesis-card h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: var(--gray-900);
-        }
-
-        .thesis-card p {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        /* ===== PRICING SECTION ===== */
-        .pricing {
-            background: var(--white);
-        }
-
-        .pricing-header {
-            text-align: center;
-            margin-bottom: 56px;
-        }
-
-        .pricing-header .section-subtitle {
-            margin: 0 auto;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        .pricing-card {
-            background: var(--white);
-            border: 2px solid var(--gray-200);
-            border-radius: 20px;
-            padding: 40px 32px;
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-        }
-
-        .pricing-card.featured {
-            border-color: var(--blue-accent);
-            box-shadow: 0 8px 32px rgba(37,99,235,0.12);
-        }
-
-        .pricing-popular {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--blue-accent);
-            color: var(--white);
-            padding: 4px 16px;
-            border-radius: 100px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .pricing-tier {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-        }
-
-        .pricing-price {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 2.5rem;
-            color: var(--gray-900);
-            margin-bottom: 4px;
-        }
-
-        .pricing-price span {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--gray-400);
-        }
-
-        .pricing-encounter {
-            font-size: 0.85rem;
-            color: var(--gray-400);
-            margin-bottom: 24px;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 32px;
-        }
-
-        .pricing-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            color: var(--gray-600);
-        }
-
-        .pricing-features li svg {
-            width: 18px;
-            height: 18px;
-            min-width: 18px;
-            stroke: var(--green);
-            fill: none;
-            stroke-width: 2.5;
-            margin-top: 2px;
-        }
-
-        .pricing-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.25s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .pricing-btn-outline {
-            background: var(--white);
-            color: var(--blue-accent);
-            border: 2px solid var(--blue-accent);
-        }
-
-        .pricing-btn-outline:hover {
-            background: #eff6ff;
-        }
-
-        .pricing-btn-solid {
-            background: var(--blue-accent);
-            color: var(--white);
-            box-shadow: 0 4px 16px rgba(37,99,235,0.3);
-        }
-
-        .pricing-btn-solid:hover {
-            background: var(--blue-deep);
-            transform: translateY(-1px);
-        }
-
-        /* ===== HOW IT WORKS ===== */
-        .how {
-            background: var(--gray-50);
-        }
-
-        .how-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-
-        .how-header .section-subtitle {
-            margin: 0 auto;
-        }
-
-        .how-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-            position: relative;
-        }
-
-        .how-steps::before {
-            content: '';
-            position: absolute;
-            top: 36px;
-            left: 12.5%;
-            right: 12.5%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--blue-accent), var(--green));
-            z-index: 0;
-        }
-
-        .how-step {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .how-step-number {
-            width: 72px;
-            height: 72px;
-            background: var(--white);
-            border: 3px solid var(--blue-accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 1.25rem;
-            color: var(--blue-accent);
-            box-shadow: 0 4px 16px rgba(37,99,235,0.1);
-        }
-
-        .how-step:last-child .how-step-number {
-            border-color: var(--green);
-            color: var(--green);
-        }
-
-        .how-step h3 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--gray-900);
-        }
-
-        .how-step p {
-            font-size: 0.85rem;
-            color: var(--gray-500);
-            line-height: 1.6;
-        }
-
-        /* ===== CREDIBILITY ===== */
-        .credibility {
-            background: var(--white);
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .credibility-inner {
-            text-align: center;
-        }
-
-        .credibility-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-            margin-top: 56px;
-        }
-
-        .cred-stat {
-            padding: 32px 16px;
-        }
-
-        .cred-stat-number {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 2.5rem;
-            color: var(--blue-hero);
-            margin-bottom: 8px;
-        }
-
-        .cred-stat-label {
-            font-size: 0.9rem;
-            color: var(--gray-500);
-            line-height: 1.5;
-        }
-
-        .credibility-tagline {
-            margin-top: 40px;
-            font-size: 1.1rem;
-            color: var(--gray-400);
-            font-style: italic;
-        }
-
-        /* ===== FINAL CTA ===== */
-        .final-cta {
-            background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-hero) 50%, #3b82f6 100%);
-            color: var(--white);
-            text-align: center;
-            padding: 100px 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .final-cta::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: 50%;
-            width: 800px;
-            height: 800px;
-            transform: translateX(-50%);
-            background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .final-cta-inner {
-            position: relative;
-            z-index: 1;
-        }
-
-        .final-cta h2 {
-            font-size: clamp(2rem, 4.5vw, 3.5rem);
-            color: var(--white);
-            margin-bottom: 16px;
-        }
-
-        .final-cta p {
-            font-size: 1.15rem;
-            color: rgba(255,255,255,0.7);
-            max-width: 560px;
-            margin: 0 auto 40px;
-            line-height: 1.7;
-        }
-
-        .final-cta .btn-primary {
-            font-size: 1.15rem;
-            padding: 18px 40px;
-        }
-
-        .final-cta-note {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.4);
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: var(--gray-900);
-            color: rgba(255,255,255,0.4);
-            padding: 48px 0;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-
-        footer a {
-            color: rgba(255,255,255,0.6);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            color: var(--white);
-        }
-
-        /* ===== ANIMATIONS ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(32px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-            }
-
-            .math-comparison {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .math-arrow {
-                transform: rotate(90deg);
-            }
-
-            .thesis-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            section { padding: 72px 0; }
-
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: block; }
-
-            .hero { padding: 120px 24px 80px; }
-            .hero-stats { grid-template-columns: 1fr; gap: 16px; }
-
-            .problem-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .agents-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .how-steps {
-                grid-template-columns: 1fr 1fr;
-                gap: 24px;
-            }
-
-            .how-steps::before { display: none; }
-
-            .credibility-stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .how-steps {
-                grid-template-columns: 1fr;
-            }
-
-            .hero-ctas {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .btn-primary, .btn-secondary {
-                justify-content: center;
-            }
-        }
-
-        /* ===== HERO SPLIT ===== */
-        @media (min-width: 960px) {
-            .hero-inner {
-                display: grid;
-                grid-template-columns: 1fr 480px;
-                gap: 72px;
-                align-items: center;
-            }
-        }
-        @media (max-width: 959px) {
-            .hero-visual { display: none; }
-        }
-        .hero-visual {
-            position: relative;
-        }
-        .hero-visual img {
-            width: 100%;
-            height: 580px;
-            object-fit: cover;
-            border-radius: 20px;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.55);
-            display: block;
-        }
-        .hero-visual-badge {
-            position: absolute;
-            bottom: -18px;
-            left: -18px;
-            background: white;
-            border-radius: 14px;
-            padding: 14px 18px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 200px;
-        }
-        .hero-visual-badge-icon {
-            width: 40px;
-            height: 40px;
-            background: #10b981;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* ===== SOCIAL PROOF PHOTO STRIP ===== */
-        .photo-strip {
-            padding: 80px 0;
-            position: relative;
-            overflow: hidden;
-            background: #0b1628;
-        }
-        .photo-strip-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=1600&auto=format&q=50');
-            background-size: cover;
-            background-position: center 30%;
-            opacity: 0.13;
-        }
-        .photo-strip-grid {
-            position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-        }
-        .photo-strip-item {
-            padding: 0 48px;
-            text-align: center;
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
-        .photo-strip-item:last-child { border-right: none; }
-        .photo-strip-label {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            font-size: 2.25rem;
-            color: #10b981;
-            line-height: 1;
-            margin-bottom: 10px;
-        }
-        .photo-strip-desc {
-            font-size: 0.88rem;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.6;
-        }
-        @media (max-width: 768px) {
-            .photo-strip-grid { grid-template-columns: 1fr; gap: 32px; }
-            .photo-strip-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0 0 32px; }
-            .photo-strip-item:last-child { border-bottom: none; padding-bottom: 0; }
-        }
-
-        /* ===== CLINICAL CONTEXT SECTION ===== */
-        .clinical-photo-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            min-height: 480px;
-        }
-        .clinical-photo-left {
-            position: relative;
-            overflow: hidden;
-        }
-        .clinical-photo-left img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .clinical-photo-right {
-            background: #0f172a;
-            padding: 72px 64px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        @media (max-width: 768px) {
-            .clinical-photo-section { grid-template-columns: 1fr; }
-            .clinical-photo-left { height: 280px; }
-            .clinical-photo-right { padding: 48px 24px; }
-        }
-    </style>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SurgeonValue — Recover $240,000 in Annual Revenue Leakage</title>
+<meta name="description" content="Your practice is leaving $240,000 on the table. 19 AI agents find the CPT codes you qualify for but don't bill. 96% first-pass rate. 373% ROI. $500 founding member, $100/mo. Pays for itself in 5 months.">
+<meta property="og:title" content="SurgeonValue — Stop Leaving Revenue on the Table">
+<meta property="og:description" content="19 AI agents recover $240K+ in annual revenue leakage. 96% first-pass rate. $500 founding member.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{
+  colors:{
+    "primary":"#00e1ab","primary-container":"#004e39","on-primary":"#003025",
+    "secondary":"#2d6a6a","on-secondary":"#ffffff",
+    "surface":"#131313","surface-container-low":"#1c1b1b","surface-container":"#1e1e1e",
+    "surface-container-high":"#2a2a2a","surface-container-highest":"#353535",
+    "surface-bright":"#3a3939","surface-container-lowest":"#0a0a0a",
+    "on-surface":"#e6e1dc","on-surface-variant":"#89938f",
+    "outline":"#3f4945","outline-variant":"#2d3230",
+  },
+  fontFamily:{headline:["Space Grotesk"],body:["Manrope"],label:["Inter"]}
+}}}
+</script>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+body{background:#131313;color:#e6e1dc;font-family:'Manrope',sans-serif}
+.glow-primary{text-shadow:0 0 15px rgba(0,225,171,0.4)}
+.data-grid{background-image:radial-gradient(#3f4945 0.5px,transparent 0.5px);background-size:24px 24px}
+</style>
 </head>
 <body>
 
-<!-- ===== NAV ===== -->
-<nav id="nav">
-    <div class="nav-inner">
-        <a href="#" class="nav-logo">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <rect width="28" height="28" rx="8" fill="#1a56db"/>
-                <path d="M8 14l4 4 8-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            SurgeonValue
-        </a>
-        <ul class="nav-links">
-            <li><a href="#agents">Agents</a></li>
-            <li><a href="#math">Revenue</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#how">How It Works</a></li>
-            <li><a href="#add-to-claude" class="nav-cta">Get Started Free</a></li>
-        </ul>
-        <button class="mobile-menu-btn" aria-label="Menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round">
-                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-            </svg>
-        </button>
-    </div>
-</nav>
+<!-- NAV -->
+<header class="bg-surface sticky top-0 z-50 shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+<div class="flex justify-between items-center px-6 md:px-12 py-4 max-w-7xl mx-auto">
+  <div class="flex items-center gap-3">
+    <span class="material-symbols-outlined text-primary text-2xl">terminal</span>
+    <span class="text-xl font-black tracking-[-0.02em] text-primary font-headline uppercase">SURGEON_VALUE</span>
+  </div>
+  <nav class="hidden md:flex gap-8 items-center font-label text-[11px] font-medium tracking-widest uppercase">
+    <a class="text-primary" href="#">Dashboard</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors" href="#agents">Agents</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors" href="#pricing">Pricing</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors" href="#connect">Connect</a>
+  </nav>
+  <a href="mailto:hello@surgeonvalue.com" class="bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-black uppercase tracking-tight px-6 py-2 text-sm hover:shadow-[0_0_20px_rgba(0,225,171,0.3)] transition-all">JOIN NOW</a>
+</div>
+</header>
 
-<!-- ===== HERO ===== -->
-<section class="hero" id="hero">
-    <div class="hero-inner">
-        <div class="hero-left">
-            <div class="hero-badge">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#10b981"/><circle cx="7" cy="7" r="6" stroke="#10b981" stroke-width="1.5" fill="none" opacity="0.4"/></svg>
-                Now accepting early-access practices
-            </div>
-            <h1>Your Practice is Leaving <span class="hero-money">$80,000</span> on the Table Every Year</h1>
-            <p>10 AI agents that scan your panel, find missed billing codes, and capture revenue you're currently walking past — without adding a single minute of documentation.</p>
-            <div class="hero-ctas">
-                <a href="#agents" class="btn-primary">
-                    See What You're Missing
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </a>
-                <a href="#math" class="btn-secondary">
-                    See the Math
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-number">$80K+</div>
-                    <div class="hero-stat-label">Average annual revenue recovered per surgeon</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">10</div>
-                    <div class="hero-stat-label">AI agents working your panel continuously</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-number">0 min</div>
-                    <div class="hero-stat-label">Additional documentation required from you</div>
-                </div>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <img
-                src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=600&h=620&fit=crop&crop=top&auto=format&q=82"
-                alt="Surgeon reviewing patient data"
-                loading="eager"
-            />
-            <div class="hero-visual-badge">
-                <div class="hero-visual-badge-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/></svg>
-                </div>
-                <div>
-                    <div style="font-size:0.78rem;font-weight:700;color:#0f172a;line-height:1.2;">$80K+ recovered</div>
-                    <div style="font-size:0.7rem;color:#64748b;margin-top:2px;">per surgeon, per year</div>
-                </div>
-            </div>
-        </div>
+<main>
+
+<!-- HERO -->
+<section class="relative min-h-[80vh] flex flex-col justify-center px-6 md:px-12 overflow-hidden data-grid">
+<div class="absolute inset-0 z-0 opacity-40"><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full"></div></div>
+<div class="absolute right-0 top-0 w-1/2 h-full z-0 opacity-15 pointer-events-none">
+  <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=900&h=900&fit=crop&auto=format&q=70" alt="Surgical precision environment">
+</div>
+<div class="relative z-10 max-w-7xl mx-auto">
+  <div class="inline-block px-4 py-1 border-l-2 border-primary mb-8 bg-surface-container-low">
+    <span class="font-label text-[10px] tracking-[0.2em] text-primary uppercase font-bold">Your practice is leaving money on the table</span>
+  </div>
+  <h1 class="font-headline text-5xl md:text-7xl lg:text-[8rem] leading-[0.85] font-black tracking-[-0.04em] uppercase mb-12 max-w-5xl">
+    Recover <span class="text-primary glow-primary">$240,000</span> In Annual Revenue Leakage
+  </h1>
+  <div class="flex flex-wrap gap-6 items-end">
+    <a href="#pricing" class="bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-black text-lg px-12 py-6 uppercase tracking-tight hover:shadow-[0_0_30px_rgba(0,225,171,0.4)] transition-all">
+      $500 Founding Member
+    </a>
+    <div class="flex flex-col gap-1 border-l border-outline-variant/30 pl-6">
+      <span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Then just</span>
+      <span class="font-headline text-3xl font-bold uppercase text-on-surface">$100/month</span>
+      <span class="font-label text-[10px] text-primary uppercase tracking-widest">Pays for itself in 5 months</span>
     </div>
+  </div>
+</div>
 </section>
 
-<!-- ===== PROBLEM ===== -->
-<section class="problem" id="problem">
-    <div class="container">
-        <div class="reveal">
-            <div class="section-label">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v6m0 4v.01M14 8A6 6 0 112 8a6 6 0 0112 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                The Problem
-            </div>
-            <h2 class="section-title">The Revenue You Can't See</h2>
-            <p class="section-subtitle">Medicare created dozens of billing codes for remote monitoring, care coordination, and chronic care management. Surgeons leave almost all of it uncaptured.</p>
-        </div>
-        <div class="problem-grid">
-            <div class="problem-card reveal reveal-delay-1">
-                <div class="problem-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="problem-stat">96%</div>
-                <h3>CCM-Eligible Patients Not Enrolled</h3>
-                <p>Chronic Care Management is a proven revenue stream. Almost no surgical practice captures it. The documentation burden makes it impossible without automation.</p>
-            </div>
-            <div class="problem-card reveal reveal-delay-2">
-                <div class="problem-icon">
-                    <svg viewBox="0 0 24 24"><path d="M13 7h8m-8 4h8m-8 4h8M6 7v.01M6 11v.01M6 15v.01"/></svg>
-                </div>
-                <div class="problem-stat">373%</div>
-                <h3>RTM Growth, Under 0.2% Penetration</h3>
-                <p>Remote Therapeutic Monitoring is the fastest-growing Medicare code category. Fewer than 1 in 500 eligible encounters are billed. Pure whitespace.</p>
-            </div>
-            <div class="problem-card reveal reveal-delay-3">
-                <div class="problem-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="problem-stat">23 min</div>
-                <h3>Average Documentation Per Code</h3>
-                <p>The barrier is not clinical knowledge. It's time. Every uncaptured code represents a documentation task your staff doesn't have bandwidth to complete.</p>
-            </div>
-        </div>
+
+<!-- STATS -->
+<section class="bg-surface-container-lowest py-24 md:py-32 border-y border-outline-variant/10">
+<div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+  <div class="group">
+    <div class="mb-4 flex items-center gap-3">
+      <span class="font-label text-xs font-bold tracking-[0.3em] text-primary uppercase">First-Pass Rate</span>
+      <span class="material-symbols-outlined text-primary text-sm">query_stats</span>
     </div>
+    <div class="font-headline text-[6rem] md:text-[10rem] font-black leading-none text-on-surface group-hover:text-primary transition-colors tracking-tighter">96%</div>
+    <p class="text-lg text-on-surface-variant max-w-md mt-6 leading-relaxed">Reduction in manual coding errors across 14,000 unique procedure codes.</p>
+  </div>
+  <div class="group">
+    <div class="mb-4 flex items-center gap-3">
+      <span class="font-label text-xs font-bold tracking-[0.3em] text-primary uppercase">Year-One ROI</span>
+      <span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+    </div>
+    <div class="font-headline text-[6rem] md:text-[10rem] font-black leading-none text-on-surface group-hover:text-primary transition-colors tracking-tighter">373%</div>
+    <p class="text-lg text-on-surface-variant max-w-md mt-6 leading-relaxed">Average return on investment. $500 in → $1,865 recovered in month one.</p>
+  </div>
+</div>
 </section>
 
-<!-- ===== AGENTS ===== -->
-<section class="agents" id="agents">
-    <div class="container">
-        <div class="agents-header reveal">
-            <div class="section-label">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
-                Your AI Workforce
-            </div>
-            <h2 class="section-title">10 Agents. One Mission: Your Revenue.</h2>
-            <p class="section-subtitle">Every agent is visible on the free tier. Upgrade to activate them across your entire patient panel.</p>
-        </div>
-        <div class="agents-grid">
-            <!-- Agent 1: Panel Scanner -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                </div>
-                <h3>Panel Scanner</h3>
-                <p>Scans your full patient panel for missed billing codes, unsubmitted charges, and overlooked eligibility.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    Identifies $200K+ in missed revenue
-                </div>
-            </div>
-            <!-- Agent 2: PROMIS Engine -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                </div>
-                <h3>PROMIS Engine</h3>
-                <p>Automated patient-reported outcomes scoring via voice and text. Zero clinician documentation burden.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    Unlocks RTM and outcomes-based billing
-                </div>
-            </div>
-            <!-- Agent 3: Revenue Optimizer -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/></svg>
-                </div>
-                <h3>Revenue Optimizer</h3>
-                <p>Code stacking intelligence. Finds compliant multi-code combinations that nearly double per-patient revenue.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    $962 to $1,820 per patient per year
-                </div>
-            </div>
-            <!-- Agent 4: Billing Validator -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                </div>
-                <h3>Billing Validator</h3>
-                <p>Pre-submission compliance check. Catches errors before they become denials or audit flags.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    Reduces denial rate by up to 40%
-                </div>
-            </div>
-            <!-- Agent 5: Care Gap Detector -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                </div>
-                <h3>Care Gap Detector</h3>
-                <p>14-day activity monitoring. Identifies patients falling off care plans before they become lost revenue.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    Recovers 15-20% of at-risk patients
-                </div>
-            </div>
-            <!-- Agent 6: TCM Window Tracker -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <h3>TCM Window Tracker</h3>
-                <p>Tracks Transitional Care Management windows post-discharge. Captures high-value follow-up billing automatically.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    $175-$300 per transition event
-                </div>
-            </div>
-            <!-- Agent 7: RPM Monitor -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                </div>
-                <h3>RPM Monitor</h3>
-                <p>Ensures device reading compliance thresholds are met for Remote Patient Monitoring reimbursement.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    $120-$180 per patient per month
-                </div>
-            </div>
-            <!-- Agent 8: Patient Communicator -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                </div>
-                <h3>Patient Communicator</h3>
-                <p>Engagement automation: appointment reminders, PROM collection, care plan adherence messaging.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    35% improvement in patient retention
-                </div>
-            </div>
-            <!-- Agent 9: Referral Intelligence -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                </div>
-                <h3>Referral Intelligence</h3>
-                <p>PCP coordination and referral tracking. Alerts referring physicians on CCM-eligible patients to strengthen referral networks.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    Builds referral value without AKS risk
-                </div>
-            </div>
-            <!-- Agent 10: Evidence Engine -->
-            <div class="agent-card reveal">
-                <div class="agent-card-icon">
-                    <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                </div>
-                <h3>Evidence Engine</h3>
-                <p>PubMed and OpenFDA clinical support. Surfaces evidence for treatment decisions and payer justifications.</p>
-                <div class="agent-impact">
-                    <svg viewBox="0 0 14 14"><path d="M7 11V3m0 0L3 7m4-4l4 4"/></svg>
-                    Reduces prior auth denials
-                </div>
-            </div>
-        </div>
+
+<!-- 19 AGENTS -->
+<section class="py-24 md:py-32 px-6 md:px-12" id="agents">
+<div class="max-w-7xl mx-auto">
+  <div class="mb-16">
+    <h2 class="font-headline text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">The Agent Cohort</h2>
+    <p class="font-label text-xs tracking-widest text-on-surface-variant uppercase">19 autonomous clinical intelligences deployed to your practice</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1">
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">shield_with_heart</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">Prior Auth Sentinel</h4><p class="text-sm text-on-surface-variant">Automated payer requirement verification + documentation submission.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · PRE_AUTH_01</span>
     </div>
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary/40 flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">analytics</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">CPT Optimizer</h4><p class="text-sm text-on-surface-variant">Identifies missed billing codes across every surgical encounter.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · CPT_OPT_02</span>
+    </div>
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary/40 flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">ecg_heart</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">PROM Tracker</h4><p class="text-sm text-on-surface-variant">Patient-reported outcome measures via Twilio SMS. KOOS, HOOS, DASH, ODI, VAS.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · PROM_03</span>
+    </div>
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary/40 flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">monitoring</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">Revenue Sentinel</h4><p class="text-sm text-on-surface-variant">Real-time revenue leakage detection across all claim submissions.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · REV_04</span>
+    </div>
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary/40 flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">smart_toy</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">Denial Fighter</h4><p class="text-sm text-on-surface-variant">Automated appeal generation for denied claims with clinical evidence packaging.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · DENY_05</span>
+    </div>
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary/40 flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">assignment</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">Documentation AI</h4><p class="text-sm text-on-surface-variant">Operative note enhancement ensuring maximum reimbursement qualification.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · DOC_06</span>
+    </div>
+    <div class="bg-surface-container-high p-8 border-t-2 border-primary/40 flex flex-col justify-between min-h-[280px] group hover:bg-surface-bright transition-all">
+      <div><span class="material-symbols-outlined text-primary text-3xl mb-6">assessment</span><h4 class="font-headline text-xl font-bold uppercase mb-3 group-hover:text-primary transition-colors">Benchmark Engine</h4><p class="text-sm text-on-surface-variant">Compare your billing patterns to national and specialty-specific benchmarks.</p></div>
+      <span class="font-label text-[9px] uppercase font-bold text-on-surface-variant mt-6">ACTIVE · BENCH_07</span>
+    </div>
+    <div class="bg-surface-container p-8 border-t-2 border-on-surface-variant/20 flex flex-col justify-center items-center min-h-[280px] text-center">
+      <div class="font-headline text-5xl font-black text-primary mb-4">+12</div>
+      <p class="text-sm text-on-surface-variant">More agents covering CCM enrollment, RTM monitoring, patient triage, exercise Rx, scheduling, and outcomes reporting.</p>
+    </div>
+  </div>
+</div>
 </section>
 
-<!-- ===== MATH ===== -->
-<section class="math" id="math">
-    <div class="container math-inner">
-        <div class="reveal" style="text-align: center;">
-            <div class="section-label">The Math</div>
-            <h2 class="section-title">$962 &rarr; $1,820 Per Patient Per Year</h2>
-            <p class="section-subtitle" style="margin: 0 auto;">This is what changes when AI handles the documentation, compliance, and code stacking that your staff can't get to.</p>
-        </div>
 
-        <div class="math-comparison reveal">
-            <div class="math-side before">
-                <div class="math-side-label">Without SurgeonValue</div>
-                <div class="math-side-amount">$962</div>
-                <div class="math-codes">
-                    <div class="math-code-row">
-                        <span class="math-code-name">Office Visits (E/M)</span>
-                        <span class="math-code-value">$640</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">Basic Follow-Up</span>
-                        <span class="math-code-value">$322</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">CCM Billing</span>
-                        <span class="math-code-value">$0</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">RTM Billing</span>
-                        <span class="math-code-value">$0</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">TCM Capture</span>
-                        <span class="math-code-value">$0</span>
-                    </div>
-                    <div class="math-code-row" style="border: none;">
-                        <span class="math-code-name">ACP / PCM</span>
-                        <span class="math-code-value">$0</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="math-arrow">
-                <svg viewBox="0 0 48 48"><path d="M16 24h16m0 0l-6-6m6 6l-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <div class="math-arrow-label">+89%</div>
-            </div>
-
-            <div class="math-side after">
-                <div class="math-side-label">With SurgeonValue</div>
-                <div class="math-side-amount">$1,820</div>
-                <div class="math-codes">
-                    <div class="math-code-row">
-                        <span class="math-code-name">Office Visits (E/M)</span>
-                        <span class="math-code-value">$640</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">Optimized Follow-Up</span>
-                        <span class="math-code-value">$322</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">CCM Billing</span>
-                        <span class="math-code-value">$420</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">RTM Billing</span>
-                        <span class="math-code-value">$216</span>
-                    </div>
-                    <div class="math-code-row">
-                        <span class="math-code-name">TCM Capture</span>
-                        <span class="math-code-value">$147</span>
-                    </div>
-                    <div class="math-code-row" style="border: none;">
-                        <span class="math-code-name">ACP / PCM</span>
-                        <span class="math-code-value">$75</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="math-bottom reveal">
-            <div class="math-bottom-number">$80,000+ per year</div>
-            <div class="math-bottom-label">Additional captured revenue across a typical 100-patient surgical panel</div>
-        </div>
+<!-- PRICING -->
+<section class="py-24 md:py-32 px-6 md:px-12 bg-surface-container-lowest border-y border-outline-variant/10" id="pricing">
+<div class="max-w-4xl mx-auto text-center">
+  <h2 class="font-headline text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">Simple Pricing</h2>
+  <p class="font-label text-xs tracking-widest text-on-surface-variant uppercase mb-16">50 founding members · $500 one-time · then $100/mo</p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
+    <div class="bg-surface-container-high p-8 flex flex-col justify-between min-h-[320px]">
+      <div>
+        <span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Explore</span>
+        <div class="font-headline text-4xl font-black mt-2 mb-4">$0</div>
+        <p class="text-sm text-on-surface-variant">Access the demo. See your missed codes. No commitment.</p>
+      </div>
+      <a href="mailto:hello@surgeonvalue.com" class="w-full py-3 bg-surface-bright text-primary font-headline font-bold uppercase tracking-tight text-center text-sm mt-8 block hover:bg-surface-container-highest transition-colors">Request Demo</a>
     </div>
+    <div class="bg-surface-container-high p-8 flex flex-col justify-between min-h-[320px] border-t-2 border-primary relative">
+      <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary text-[10px] font-label font-bold px-3 py-1 uppercase tracking-widest">Founding</div>
+      <div>
+        <span class="font-label text-[10px] tracking-widest text-primary uppercase">50 Spots</span>
+        <div class="font-headline text-4xl font-black mt-2 mb-1 text-primary">$500</div>
+        <div class="text-sm text-on-surface-variant mb-4">one-time · then $100/mo</div>
+        <p class="text-sm text-on-surface-variant">Full agent deployment. Priority onboarding. Founding member pricing locked forever.</p>
+      </div>
+      <a href="mailto:hello@surgeonvalue.com" class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold uppercase tracking-tight text-center text-sm mt-8 block hover:shadow-[0_0_20px_rgba(0,225,171,0.3)] transition-all">Claim Your Spot</a>
+    </div>
+    <div class="bg-surface-container-high p-8 flex flex-col justify-between min-h-[320px]">
+      <div>
+        <span class="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Enterprise</span>
+        <div class="font-headline text-4xl font-black mt-2 mb-4">Custom</div>
+        <p class="text-sm text-on-surface-variant">Multi-surgeon groups. Dedicated support. Custom integrations. SLA-backed.</p>
+      </div>
+      <a href="mailto:hello@surgeonvalue.com" class="w-full py-3 bg-surface-bright text-primary font-headline font-bold uppercase tracking-tight text-center text-sm mt-8 block hover:bg-surface-container-highest transition-colors">Contact Sales</a>
+    </div>
+  </div>
+  <p class="mt-8 text-sm text-primary font-bold">$500 now. Saves $100/mo. Pays for itself in 5 months.</p>
+</div>
 </section>
 
-<!-- ===== THESIS ===== -->
-<section class="thesis" id="thesis">
-    <div class="container">
-        <div class="reveal">
-            <div class="section-label">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M2 4h12M2 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                Why This Works
-            </div>
-            <h2 class="section-title">Tech-Enabled Services Win</h2>
-        </div>
-        <div class="thesis-content">
-            <div class="thesis-text reveal">
-                <h3>Workflow tools sell features. We deliver revenue.</h3>
-                <p>The 7wire Ventures thesis is clear: the next generation of healthcare companies won't sell software licenses. They'll embed technology into service delivery and own the outcome.</p>
-                <p>NOCD saved therapists 2-12 hours per week. Our surgeons capture $80,000+ in new annual revenue. The technology disappears. The results don't.</p>
-                <div class="thesis-quote">
-                    <p>"Tech-enabled services companies that control the full stack from workflow to outcome deliver 3-5x the value retention of pure software plays."</p>
-                    <cite>Alyssa Jaffee, 7wire Ventures</cite>
-                </div>
-            </div>
-            <div class="thesis-cards reveal reveal-delay-1">
-                <div class="thesis-card">
-                    <div class="thesis-card-icon">
-                        <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                    <div>
-                        <h4>You bill under your own NPI</h4>
-                        <p>You keep clinical authority. We handle the documentation and compliance. Clean AKS structure with flat per-encounter fees.</p>
-                    </div>
-                </div>
-                <div class="thesis-card">
-                    <div class="thesis-card-icon">
-                        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    </div>
-                    <div>
-                        <h4>Compliance-first architecture</h4>
-                        <p>Every code validated before submission. FMV-defensible $15 flat encounter fee. Below median. No percentage-based models.</p>
-                    </div>
-                </div>
-                <div class="thesis-card">
-                    <div class="thesis-card-icon">
-                        <svg viewBox="0 0 24 24"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                    </div>
-                    <div>
-                        <h4>EMR integration, not replacement</h4>
-                        <p>Connects to Epic, Cerner, athena, eCW, ModMed, DrChrono. AI scans your existing data. No workflow disruption.</p>
-                    </div>
-                </div>
-                <div class="thesis-card">
-                    <div class="thesis-card-icon">
-                        <svg viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    </div>
-                    <div>
-                        <h4>Transparent analytics</h4>
-                        <p>Real-time dashboard showing captured revenue, pending claims, denial rates, and panel health across all code categories.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+<!-- CONNECT YOUR AI -->
+<section class="py-24 px-6 md:px-12" id="connect">
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-12">
+    <h2 class="font-headline text-3xl font-black uppercase tracking-tighter mb-4">Connect Your AI</h2>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-1">
+    <div class="bg-surface-container-high p-8">
+      <h3 class="font-headline font-bold uppercase text-lg mb-3">MCP Connector</h3>
+      <p class="text-on-surface-variant text-sm mb-4">Settings &rarr; Connectors &rarr; URL:</p>
+      <div class="bg-surface-container-lowest p-3 font-mono text-xs text-on-surface-variant break-all mb-4">solvinghealth-mcp-production.up.railway.app/mcp</div>
+      <p class="text-on-surface-variant text-xs">223 tools · SurgeonValue: encounter logging, CPT optimization, revenue dashboards.</p>
     </div>
+    <div class="bg-surface-container-high p-8">
+      <h3 class="font-headline font-bold uppercase text-lg mb-3">Day 1 Product</h3>
+      <p class="text-on-surface-variant text-sm mb-4">PROMs via Twilio SMS:</p>
+      <div class="space-y-2 text-xs text-on-surface-variant">
+        <div class="flex items-center gap-2"><span class="text-primary">●</span> KOOS (Knee)</div>
+        <div class="flex items-center gap-2"><span class="text-primary">●</span> HOOS (Hip)</div>
+        <div class="flex items-center gap-2"><span class="text-primary">●</span> DASH (Upper Extremity)</div>
+        <div class="flex items-center gap-2"><span class="text-primary">●</span> ODI (Spine)</div>
+        <div class="flex items-center gap-2"><span class="text-primary">●</span> VAS / PHQ-2 / PROMIS-10</div>
+      </div>
+    </div>
+    <div class="bg-gradient-to-br from-[#1a237e] to-[#283593] text-white p-8">
+      <h3 class="font-headline font-bold uppercase text-lg mb-3 flex items-center gap-2"><span>✦</span> Ask Any AI</h3>
+      <p class="text-white/70 text-sm mb-4">Paste into Gemini, ChatGPT, or any AI:</p>
+      <div class="bg-white/8 border border-white/12 p-3 font-mono text-[0.6rem] leading-relaxed text-white/85 max-h-[120px] overflow-y-auto">You are a revenue recovery advisor for SurgeonValue. Surgeons leave $240K+/year on the table in missed CPT codes, denied prior auths, and undocumented procedures. SurgeonValue deploys 19 AI agents: Prior Auth Sentinel, CPT Optimizer, PROM Tracker, Revenue Sentinel, Denial Fighter, Documentation AI, Benchmark Engine, and 12 more. 96% first-pass rate, 373% ROI. Founding member: $500 one-time + $100/mo. Help the surgeon understand their revenue leakage and how SurgeonValue recovers it.</div>
+      <p class="text-white/40 text-[0.6rem] mt-3">Copy → paste → start</p>
+    </div>
+  </div>
+</div>
 </section>
 
-<!-- ===== SOCIAL PROOF PHOTO STRIP ===== -->
-<section class="photo-strip">
-    <div class="photo-strip-bg"></div>
-    <div class="container">
-        <div class="photo-strip-grid">
-            <div class="photo-strip-item">
-                <div class="photo-strip-label">NOCD</div>
-                <div class="photo-strip-desc">Saved therapists 2–12 hours per week with tech-enabled care delivery — same model, applied to surgical revenue capture</div>
-            </div>
-            <div class="photo-strip-item">
-                <div class="photo-strip-label">7wire</div>
-                <div class="photo-strip-desc">"Tech-enabled services companies deliver 3–5x the value retention of pure software plays" — Alyssa Jaffee</div>
-            </div>
-            <div class="photo-strip-item">
-                <div class="photo-strip-label">373%</div>
-                <div class="photo-strip-desc">RTM code growth since 2022. Less than 0.2% of eligible encounters billed. The whitespace is real and quantified.</div>
-            </div>
-        </div>
-    </div>
+
+<!-- CTA -->
+<section class="py-16 px-6 md:px-12">
+<div class="max-w-4xl mx-auto bg-surface-container-high p-12 md:p-16 text-center relative overflow-hidden">
+  <div class="absolute inset-0 data-grid opacity-30"></div>
+  <div class="relative z-10">
+    <h2 class="font-headline text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">Stop the <span class="text-primary glow-primary">Bleeding</span></h2>
+    <p class="text-on-surface-variant text-lg mb-10 max-w-xl mx-auto">50 founding spots. $500 locks your rate forever. 19 agents deployed within 48 hours.</p>
+    <a href="mailto:hello@surgeonvalue.com" class="bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-black text-xl px-16 py-6 uppercase tracking-tight inline-block hover:shadow-[0_0_40px_rgba(0,225,171,0.4)] transition-all">Claim Your Spot</a>
+  </div>
+</div>
 </section>
 
-<!-- ===== CLINICAL PHOTO SECTION ===== -->
-<section style="padding:0;overflow:hidden;">
-    <div class="clinical-photo-section">
-        <div class="clinical-photo-left">
-            <img
-                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=560&fit=crop&crop=center&auto=format&q=80"
-                alt="Surgical operating room environment"
-                loading="lazy"
-            />
-        </div>
-        <div class="clinical-photo-right">
-            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#10b981;margin-bottom:16px;">Built for the OR, designed for your practice</div>
-            <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;color:white;line-height:1.2;margin-bottom:20px;">Your clinical workflow doesn't change. Your revenue does.</h2>
-            <p style="color:rgba(255,255,255,0.65);font-size:1rem;line-height:1.75;margin-bottom:28px;">SurgeonValue connects to your existing EMR. AI scans your panel. You bill under your own NPI. The documentation happens automatically — in the background, between encounters, while you operate.</p>
-            <div style="display:flex;flex-direction:column;gap:14px;">
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Zero additional documentation from you</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">You retain full clinical authority — bill under your NPI</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Compliance pre-validated before every submission</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Live in under 10 minutes — no IT project required</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+</main>
 
-<!-- ===== PRICING ===== -->
-<section class="pricing" id="pricing">
-    <div class="container">
-        <div class="pricing-header reveal">
-            <div class="section-label">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M4.5 4h7a2.5 2.5 0 010 5h-7m0 0h6a2.5 2.5 0 010 5H4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                Simple Pricing
-            </div>
-            <h2 class="section-title">Start Free. Scale When Ready.</h2>
-            <p class="section-subtitle">Every tier includes a full panel scan so you can see exactly what you're leaving on the table before you pay a dollar.</p>
-        </div>
-        <div class="pricing-grid">
-            <!-- Free -->
-            <div class="pricing-card reveal">
-                <div class="pricing-tier">Free</div>
-                <div class="pricing-price">$0</div>
-                <div class="pricing-encounter">No encounter fees</div>
-                <ul class="pricing-features">
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Full panel scan and revenue report
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        See all 10 agents and their findings
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Connect your EMR (read-only)
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Revenue opportunity dashboard
-                    </li>
-                </ul>
-                <a href="#add-to-claude" class="pricing-btn pricing-btn-outline">Scan My Panel Free</a>
-            </div>
-            <!-- Core -->
-            <div class="pricing-card featured reveal reveal-delay-1">
-                <div class="pricing-popular">Most Popular</div>
-                <div class="pricing-tier">Core</div>
-                <div class="pricing-price">$199<span>/mo</span></div>
-                <div class="pricing-encounter">+ $15 per encounter</div>
-                <ul class="pricing-features">
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        All 10 AI agents fully active
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Automated code stacking and submission
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Compliance validation pre-submission
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        EMR read + write integration
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Revenue analytics dashboard
-                    </li>
-                </ul>
-                <a href="#add-to-claude" class="pricing-btn pricing-btn-solid">Start Capturing Revenue</a>
-            </div>
-            <!-- Pro -->
-            <div class="pricing-card reveal reveal-delay-2">
-                <div class="pricing-tier">Pro</div>
-                <div class="pricing-price">$299<span>/mo</span></div>
-                <div class="pricing-encounter">+ $15 per encounter</div>
-                <ul class="pricing-features">
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Everything in Core
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Priority support and onboarding
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Advanced analytics and benchmarking
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Custom agent configurations
-                    </li>
-                    <li>
-                        <svg viewBox="0 0 18 18"><path d="M4 9l3.5 3.5L14 5"/></svg>
-                        Multi-provider practice support
-                    </li>
-                </ul>
-                <a href="#add-to-claude" class="pricing-btn pricing-btn-outline">Upgrade to Pro</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ===== HOW IT WORKS ===== -->
-<section class="how" id="how">
-    <div class="container">
-        <div class="how-header reveal">
-            <div class="section-label">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M8 1v14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                How It Works
-            </div>
-            <h2 class="section-title">Live in Under 10 Minutes</h2>
-            <p class="section-subtitle">No implementation project. No training. No IT ticket. Connect your EMR and start seeing results.</p>
-        </div>
-        <div class="how-steps">
-            <div class="how-step reveal">
-                <div class="how-step-number">1</div>
-                <h3>Sign Up Free</h3>
-                <p>Create your account in 30 seconds. No credit card required. No commitment.</p>
-            </div>
-            <div class="how-step reveal reveal-delay-1">
-                <div class="how-step-number">2</div>
-                <h3>Connect Your EMR</h3>
-                <p>Secure, read-only connection to Epic, Cerner, athena, or any major system.</p>
-            </div>
-            <div class="how-step reveal reveal-delay-2">
-                <div class="how-step-number">3</div>
-                <h3>AI Scans Your Panel</h3>
-                <p>All 10 agents analyze your full patient panel and surface missed revenue immediately.</p>
-            </div>
-            <div class="how-step reveal reveal-delay-3">
-                <div class="how-step-number">4</div>
-                <h3>Start Capturing</h3>
-                <p>Activate agents to begin documentation, compliance checks, and revenue capture automatically.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Credibility removed from landing page. Available in Architecture Canvas and investor materials. -->
-
-<!-- ===== FINAL CTA ===== -->
-<section class="final-cta" id="cta">
-    <div class="container final-cta-inner">
-        <h2 class="reveal">Stop Leaving Money<br>on the Table</h2>
-        <p class="reveal reveal-delay-1">Your free panel scan takes 10 minutes and shows you exactly how much revenue your practice is walking past. No credit card. No commitment. Just the math.</p>
-        <a href="#add-to-claude" class="btn-primary reveal reveal-delay-2">
-            Get Your Free Panel Scan
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <p class="final-cta-note reveal reveal-delay-3">Free tier available indefinitely. Upgrade only when the math makes sense for you.</p>
-    </div>
-</section>
-
-<!-- ===== ADD TO CLAUDE ===== -->
-<section style="padding: 80px 0; background: var(--gray-50); border-top: 1px solid var(--gray-200);">
-    <div class="container" style="max-width: 800px; text-align: center;">
-        <h2 style="font-size: 2rem; margin-bottom: 12px; color: var(--gray-900);">Two ways to start</h2>
-        <p style="color: var(--gray-500); margin-bottom: 48px; font-size: 1.05rem;">Use SurgeonValue on the web, or add it directly to your Claude AI assistant.</p>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: left;">
-            <!-- Option 1: Web -->
-            <div style="background: white; border: 1px solid var(--gray-200); border-radius: 16px; padding: 32px;">
-                <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--gray-900);">Try it on surgeonvalue.com</div>
-                <p style="color: var(--gray-500); font-size: 0.9rem; margin-bottom: 20px;">Free. Enter your NPI. See what you're missing.</p>
-                <a href="#hero" style="display: inline-block; padding: 12px 24px; background: var(--blue-hero); color: white; border-radius: 10px; font-weight: 600; text-decoration: none;">Start now</a>
-            </div>
-
-            <!-- Option 2: Claude Connector -->
-            <div style="background: var(--gray-900); border-radius: 16px; padding: 32px; color: white;">
-                <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px;">Add to Claude</div>
-                <p style="color: var(--gray-400); font-size: 0.9rem; margin-bottom: 16px;">Settings &rarr; Connectors &rarr; Add Custom &rarr; URL:</p>
-                <div style="background: var(--gray-800); border: 1px solid var(--gray-700); border-radius: 8px; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--gray-300); word-break: break-all; margin-bottom: 16px;">surgeonvalue-mcp-production.up.railway.app/mcp</div>
-                <p style="color: var(--gray-500); font-size: 0.8rem;">Your Claude becomes a surgeon practice intelligence system. 18 tools: revenue capture, billing codes, PROM collection, prior auth, panel analysis.</p>
-            </div>
-        </div>
-
-        <div style="margin-top: 32px; padding: 20px; background: white; border: 1px solid var(--gray-200); border-radius: 12px;">
-            <p style="font-size: 0.85rem; color: var(--gray-500); margin: 0;"><strong style="color: var(--gray-700);">What is a Claude Connector?</strong> It gives your Claude AI assistant direct access to SurgeonValue's physician-supervised tools. Ask Claude to look up billing codes, generate prior auth letters, or analyze your patient panel — all from one conversation.</p>
-        </div>
-    </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer>
-    <div class="container">
-        <p>SurgeonValue &middot; AI-powered revenue capture for surgical practices</p>
-        <p style="margin-top: 8px;">Powered by <a href="https://solvinghealth.com">SolvingHealth</a></p>
-        <p style="margin-top: 12px; font-size: 0.75rem;">
-            <a href="https://solvinghealth.com">SolvingHealth</a> &middot;
-            <a href="https://clinicalswipe.com">ClinicalSwipe</a> &middot;
-            <a href="https://co-op.care">co-op.care</a> &middot;
-            <a href="https://caregoals.com">CareGoals</a> &middot;
-            <a href="https://comfortcard.org">ComfortCard</a>
-        </p>
-        <p style="margin-top: 8px;"><a href="#add-to-claude">Add to Claude</a></p>
-    </div>
+<!-- FOOTER -->
+<footer class="border-t border-outline-variant/10 py-8 px-6 md:px-12">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+  <div class="flex items-center gap-2">
+    <span class="material-symbols-outlined text-primary">terminal</span>
+    <span class="font-headline font-black text-primary uppercase tracking-tight">Surgeon_Value</span>
+  </div>
+  <div class="flex flex-wrap gap-6 text-xs text-on-surface-variant font-label uppercase tracking-widest">
+    <a class="hover:text-primary transition-colors" href="https://solvinghealth.com">SolvingHealth</a>
+    <a class="hover:text-primary transition-colors" href="https://altru.care">Altru.care</a>
+    <a class="hover:text-primary transition-colors" href="https://clinicalswipe.com">ClinicalSwipe</a>
+    <a class="hover:text-primary transition-colors" href="https://comfortcard.org">ComfortCard</a>
+  </div>
+  <p class="text-[10px] text-on-surface-variant font-label uppercase tracking-widest">A SolvingHealth Product</p>
+</div>
 </footer>
 
-<script>
-    // Nav scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-        nav.classList.toggle('scrolled', window.scrollY > 20);
-    });
-
-    // Intersection Observer for reveal animations
-    const revealElements = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px'
-    });
-
-    revealElements.forEach(el => observer.observe(el));
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-</script>
-
-<script src="https://solvinghealth.com/chat-widget.js" data-channel="surgeonvalue" data-color="#1a56db"></script>
-<script src="https://solvinghealth.com/voice-embed.js" data-site="surgeonvalue" defer></script>
-</body>
-</html>
+</body></html>
