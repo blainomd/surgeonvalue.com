@@ -1171,6 +1171,130 @@
                 justify-content: center;
             }
         }
+
+        /* ===== HERO SPLIT ===== */
+        @media (min-width: 960px) {
+            .hero-inner {
+                display: grid;
+                grid-template-columns: 1fr 480px;
+                gap: 72px;
+                align-items: center;
+            }
+        }
+        @media (max-width: 959px) {
+            .hero-visual { display: none; }
+        }
+        .hero-visual {
+            position: relative;
+        }
+        .hero-visual img {
+            width: 100%;
+            height: 580px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+            display: block;
+        }
+        .hero-visual-badge {
+            position: absolute;
+            bottom: -18px;
+            left: -18px;
+            background: white;
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+        .hero-visual-badge-icon {
+            width: 40px;
+            height: 40px;
+            background: #10b981;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* ===== SOCIAL PROOF PHOTO STRIP ===== */
+        .photo-strip {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+            background: #0b1628;
+        }
+        .photo-strip-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1551601651-2a8555f1a136?w=1600&auto=format&q=50');
+            background-size: cover;
+            background-position: center 30%;
+            opacity: 0.13;
+        }
+        .photo-strip-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        .photo-strip-item {
+            padding: 0 48px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        .photo-strip-item:last-child { border-right: none; }
+        .photo-strip-label {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 2.25rem;
+            color: #10b981;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .photo-strip-desc {
+            font-size: 0.88rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+        }
+        @media (max-width: 768px) {
+            .photo-strip-grid { grid-template-columns: 1fr; gap: 32px; }
+            .photo-strip-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0 0 32px; }
+            .photo-strip-item:last-child { border-bottom: none; padding-bottom: 0; }
+        }
+
+        /* ===== CLINICAL CONTEXT SECTION ===== */
+        .clinical-photo-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 480px;
+        }
+        .clinical-photo-left {
+            position: relative;
+            overflow: hidden;
+        }
+        .clinical-photo-left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .clinical-photo-right {
+            background: #0f172a;
+            padding: 72px 64px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .clinical-photo-section { grid-template-columns: 1fr; }
+            .clinical-photo-left { height: 280px; }
+            .clinical-photo-right { padding: 48px 24px; }
+        }
     </style>
 </head>
 <body>
@@ -1203,34 +1327,52 @@
 <!-- ===== HERO ===== -->
 <section class="hero" id="hero">
     <div class="hero-inner">
-        <div class="hero-badge">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#10b981"/><circle cx="7" cy="7" r="6" stroke="#10b981" stroke-width="1.5" fill="none" opacity="0.4"/></svg>
-            Now accepting early-access practices
-        </div>
-        <h1>Your Practice is Leaving <span class="hero-money">$80,000</span> on the Table Every Year</h1>
-        <p>10 AI agents that scan your panel, find missed billing codes, and capture revenue you're currently walking past — without adding a single minute of documentation.</p>
-        <div class="hero-ctas">
-            <a href="#agents" class="btn-primary">
-                See What You're Missing
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#math" class="btn-secondary">
-                See the Math
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-        </div>
-        <div class="hero-stats">
-            <div class="hero-stat">
-                <div class="hero-stat-number">$80K+</div>
-                <div class="hero-stat-label">Average annual revenue recovered per surgeon</div>
+        <div class="hero-left">
+            <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#10b981"/><circle cx="7" cy="7" r="6" stroke="#10b981" stroke-width="1.5" fill="none" opacity="0.4"/></svg>
+                Now accepting early-access practices
             </div>
-            <div class="hero-stat">
-                <div class="hero-stat-number">10</div>
-                <div class="hero-stat-label">AI agents working your panel continuously</div>
+            <h1>Your Practice is Leaving <span class="hero-money">$80,000</span> on the Table Every Year</h1>
+            <p>10 AI agents that scan your panel, find missed billing codes, and capture revenue you're currently walking past — without adding a single minute of documentation.</p>
+            <div class="hero-ctas">
+                <a href="#agents" class="btn-primary">
+                    See What You're Missing
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#math" class="btn-secondary">
+                    See the Math
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
             </div>
-            <div class="hero-stat">
-                <div class="hero-stat-number">0 min</div>
-                <div class="hero-stat-label">Additional documentation required from you</div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">$80K+</div>
+                    <div class="hero-stat-label">Average annual revenue recovered per surgeon</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">10</div>
+                    <div class="hero-stat-label">AI agents working your panel continuously</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">0 min</div>
+                    <div class="hero-stat-label">Additional documentation required from you</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img
+                src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=600&h=620&fit=crop&crop=top&auto=format&q=82"
+                alt="Surgeon reviewing patient data"
+                loading="eager"
+            />
+            <div class="hero-visual-badge">
+                <div class="hero-visual-badge-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/></svg>
+                </div>
+                <div>
+                    <div style="font-size:0.78rem;font-weight:700;color:#0f172a;line-height:1.2;">$80K+ recovered</div>
+                    <div style="font-size:0.7rem;color:#64748b;margin-top:2px;">per surgeon, per year</div>
+                </div>
             </div>
         </div>
     </div>
@@ -1553,6 +1695,63 @@
                         <h4>Transparent analytics</h4>
                         <p>Real-time dashboard showing captured revenue, pending claims, denial rates, and panel health across all code categories.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SOCIAL PROOF PHOTO STRIP ===== -->
+<section class="photo-strip">
+    <div class="photo-strip-bg"></div>
+    <div class="container">
+        <div class="photo-strip-grid">
+            <div class="photo-strip-item">
+                <div class="photo-strip-label">NOCD</div>
+                <div class="photo-strip-desc">Saved therapists 2–12 hours per week with tech-enabled care delivery — same model, applied to surgical revenue capture</div>
+            </div>
+            <div class="photo-strip-item">
+                <div class="photo-strip-label">7wire</div>
+                <div class="photo-strip-desc">"Tech-enabled services companies deliver 3–5x the value retention of pure software plays" — Alyssa Jaffee</div>
+            </div>
+            <div class="photo-strip-item">
+                <div class="photo-strip-label">373%</div>
+                <div class="photo-strip-desc">RTM code growth since 2022. Less than 0.2% of eligible encounters billed. The whitespace is real and quantified.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CLINICAL PHOTO SECTION ===== -->
+<section style="padding:0;overflow:hidden;">
+    <div class="clinical-photo-section">
+        <div class="clinical-photo-left">
+            <img
+                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=560&fit=crop&crop=center&auto=format&q=80"
+                alt="Surgical operating room environment"
+                loading="lazy"
+            />
+        </div>
+        <div class="clinical-photo-right">
+            <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#10b981;margin-bottom:16px;">Built for the OR, designed for your practice</div>
+            <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;color:white;line-height:1.2;margin-bottom:20px;">Your clinical workflow doesn't change. Your revenue does.</h2>
+            <p style="color:rgba(255,255,255,0.65);font-size:1rem;line-height:1.75;margin-bottom:28px;">SurgeonValue connects to your existing EMR. AI scans your panel. You bill under your own NPI. The documentation happens automatically — in the background, between encounters, while you operate.</p>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Zero additional documentation from you</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">You retain full clinical authority — bill under your NPI</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Compliance pre-validated before every submission</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9l3.5 3.5L14 5" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span style="color:rgba(255,255,255,0.8);font-size:0.9rem;">Live in under 10 minutes — no IT project required</span>
                 </div>
             </div>
         </div>
