@@ -250,4 +250,246 @@ body{background:#131313;color:#e6e1dc;font-family:'Manrope',sans-serif}
 </div>
 </footer>
 
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SAGE PERSISTENT BAR — unified voice + chat input
+     Voice and text share one panel; mic transcribes into the text field.
+═══════════════════════════════════════════════════════════════ -->
+<style>
+body { padding-bottom: 62px; }
+#sage-bar {
+  position:fixed;bottom:0;left:0;right:0;z-index:9998;
+  background:#0d0d0d;border-top:1px solid rgba(255,255,255,0.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+#sage-panel {
+  position:fixed;bottom:62px;left:0;right:0;z-index:9997;
+  background:#181818;border-top:2px solid #00e1ab;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.18);
+  transform:translateY(100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);
+  max-height:420px;display:flex;flex-direction:column;
+}
+#sage-panel.sp-open { transform:translateY(0); }
+#sage-msgs {
+  flex:1;overflow-y:auto;padding:16px 20px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.sp-row { display:flex; }
+.sp-bubble {
+  max-width:78%;padding:9px 13px;border-radius:10px;
+  font-size:13.5px;line-height:1.55;font-family:Inter,sans-serif;
+  color:#e8e8e8;
+}
+.sp-bubble.sage { background:#0d2e26; }
+.sp-bubble.user { background:#00e1ab;color:#fff;margin-left:auto; }
+#sage-inp-row {
+  border-top:1px solid #2a2a2a;padding:10px 14px;
+  display:flex;gap:8px;align-items:center;flex-shrink:0;
+}
+#sage-text {
+  flex:1;border:1px solid #2a2a2a;border-radius:22px;
+  padding:8px 15px;font-size:13.5px;font-family:Inter,sans-serif;
+  outline:none;background:#111111;color:#e8e8e8;
+}
+#sage-text:focus { border-color:#00e1ab; }
+#sp-send {
+  background:#00e1ab;color:#fff;border:none;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+#sp-mic {
+  background:none;border:1px solid #2a2a2a;border-radius:50%;
+  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:#e8e8e8;flex-shrink:0;transition:all .2s;
+}
+#sp-mic.listening {
+  background:#00e1ab;border-color:#00e1ab;color:#fff;
+  animation:sp-pulse 1s infinite;
+}
+@keyframes sp-pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+.sp-typing { display:flex;gap:4px;align-items:center;padding:9px 13px; }
+.sp-typing span {
+  width:6px;height:6px;background:#00e1ab;border-radius:50%;
+  animation:sp-bounce 1.2s infinite;
+}
+.sp-typing span:nth-child(2) { animation-delay:.2s }
+.sp-typing span:nth-child(3) { animation-delay:.4s }
+@keyframes sp-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+#sage-bar-fake-input {
+  flex:1;cursor:pointer;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);border-radius:26px;
+  padding:7px 14px;display:flex;align-items:center;gap:8px;max-width:480px;
+}
+</style>
+
+<!-- BAR -->
+<div id="sage-bar">
+  <div style="max-width:1180px;margin:0 auto;padding:0 16px;height:62px;display:flex;align-items:center;gap:10px;">
+    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
+      <div style="width:7px;height:7px;background:#00e1ab;border-radius:50%;box-shadow:0 0 6px #00e1ab66;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.08em;">SAGE</span>
+    </div>
+    <div id="sage-bar-fake-input" onclick="spOpen()">
+      <span style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.32);flex:1;">Ask anything about SurgeonValue…</span>
+      <button id="sp-bar-mic" onclick="event.stopPropagation();spVoice()" title="Voice" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+    </div>
+    <a href="https://surgeonvalue.com/demo" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:5px 11px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);white-space:nowrap;">Try demo →</a>
+  </div>
+</div>
+
+<!-- SLIDE-UP PANEL -->
+<div id="sage-panel">
+  <div style="padding:10px 16px;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div style="width:7px;height:7px;background:#00e1ab;border-radius:50%;"></div>
+      <span style="font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#e8e8e8;">Sage AI</span>
+      <span style="font-family:Inter,sans-serif;font-size:11px;color:#00e1ab;background:#0d2e26;padding:2px 8px;border-radius:10px;">SurgeonValue</span>
+    </div>
+    <button onclick="spClose()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#00e1ab;line-height:1;padding:2px 6px;">×</button>
+  </div>
+  <div id="sage-msgs">
+    <div class="sp-row"><div class="sp-bubble sage">Hi, I'm Sage. I can walk you through the 9 agents, explain the ACCESS Model, or help with billing optimization. Type or use the mic.</div></div>
+  </div>
+  <div id="sage-inp-row">
+    <button id="sp-mic" onclick="spVoice()" title="Voice input">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+    </button>
+    <input id="sage-text" type="text" placeholder="Type or speak…" onkeydown="if(event.key==='Enter')spSend()">
+    <button id="sp-send" onclick="spSend()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ── RESPONSES ─────────────────────────────────────────────── */
+  const R = {
+  'prior auth': 'The Prior Auth agent takes your clinical note and generates a payer-specific authorization letter in about 60 seconds. Paste the note — it handles the rest.',
+  'prior': 'The Prior Auth agent takes your clinical note and generates a payer-specific letter in about 60 seconds.',
+  'billing': 'The Wonder Bill agent scans your panel for documentable, unbilled codes — PCM for single-condition orthopedic patients, RTM for post-op cases. Most practices find $3–8K/month.',
+  'wonder': 'Wonder Bill scans your panel for codes you\'re documenting but not billing: PCM (99424/99426), RTM (98975–98981), and ACP (99497). Average find: $3–8K/month.',
+  'access': 'The ACCESS Model agent prepares CMS submissions for eligible patients. It flags qualifying patients automatically. The MSK track pays $180/beneficiary/year.',
+  'subscription': 'Plans start at $199/mo (Core) and $299/mo (Pro). Per-encounter coding is $20. Most practices recover the cost in the first month.',
+  'agent': 'SurgeonValue has 9 AI agents: Prior Auth, Wonder Bill, ACCESS Prep, Care Compass, PROM Collection, SOAP Note, Patient Education, Panel Analysis, and Virtual Front Door.',
+  'prom': 'The PROM agent sends automated outcome questionnaires and compiles results in your dashboard. Supports PROMIS-10, KOOS, HOOS, QuickDASH, and ODI.',
+  'demo': 'The demo environment has sample patient data. Try the Prior Auth agent first — paste any orthopedic note and see the letter.',
+  '_default': 'I can help with prior auth, billing optimization, the ACCESS Model, or getting started with SurgeonValue. What\'s your question?'
+};
+
+  /* ── STATE ─────────────────────────────────────────────────── */
+  let open = false, listening = false, rec = null;
+
+  /* ── PANEL ─────────────────────────────────────────────────── */
+  function spOpen() {
+    open = true;
+    document.getElementById('sage-panel').classList.add('sp-open');
+    document.getElementById('sage-text').focus();
+  }
+  window.spOpen = spOpen;
+
+  function spClose() {
+    open = false;
+    document.getElementById('sage-panel').classList.remove('sp-open');
+    stopRec();
+  }
+  window.spClose = spClose;
+
+  /* ── SEND ──────────────────────────────────────────────────── */
+  function spSend() {
+    const inp = document.getElementById('sage-text');
+    const txt = inp.value.trim();
+    if (!txt) return;
+    inp.value = '';
+    addBubble(txt, 'user');
+    addTyping();
+    setTimeout(() => {
+      removeTyping();
+      addBubble(getReply(txt), 'sage');
+    }, 900 + Math.random() * 700);
+  }
+  window.spSend = spSend;
+
+  function addBubble(text, who) {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.className = 'sp-row';
+    const b = document.createElement('div');
+    b.className = 'sp-bubble ' + who;
+    b.textContent = text;
+    if (who === 'user') row.style.justifyContent = 'flex-end';
+    row.appendChild(b);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addTyping() {
+    const msgs = document.getElementById('sage-msgs');
+    const row = document.createElement('div');
+    row.id = 'sp-typing';
+    row.className = 'sp-row';
+    row.innerHTML = '<div class="sp-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById('sp-typing');
+    if (t) t.remove();
+  }
+
+  function getReply(text) {
+    const t = text.toLowerCase();
+    for (const [k, v] of Object.entries(R)) {
+      if (k !== '_default' && t.includes(k)) return v;
+    }
+    return R._default || "I'm here to help — can you tell me more?";
+  }
+
+  /* ── VOICE ─────────────────────────────────────────────────── */
+  function initRec() {
+    if (rec) return true;
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) return false;
+    rec = new SR();
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.onresult = (e) => {
+      const t = Array.from(e.results).map(r => r[0].transcript).join('');
+      document.getElementById('sage-text').value = t;
+      if (e.results[e.results.length - 1].isFinal) {
+        stopRec();
+        if (!open) spOpen();
+        setTimeout(spSend, 80);
+      }
+    };
+    rec.onend = stopRec;
+    return true;
+  }
+
+  function spVoice() {
+    if (!initRec()) { alert('Voice input is not supported in this browser. Try Chrome.'); return; }
+    if (listening) { stopRec(); return; }
+    listening = true;
+    document.getElementById('sp-mic').classList.add('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', '#00e1ab');
+    if (!open) spOpen();
+    try { rec.start(); } catch(e) {}
+  }
+  window.spVoice = spVoice;
+
+  function stopRec() {
+    listening = false;
+    if (rec) try { rec.stop(); } catch(e) {}
+    document.getElementById('sp-mic').classList.remove('listening');
+    const bm = document.getElementById('sp-bar-mic');
+    if (bm) bm.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,.38)');
+  }
+})();
+</script>
+<!-- ═══════════════════════════════════════════════════════════════ -->
+
 </body></html>
