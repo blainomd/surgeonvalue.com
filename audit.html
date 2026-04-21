@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wonder Bill — Audit Your Op-Note | SurgeonValue</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#1B2A4A;--teal:#0D7377;--teal-light:#14a8ad;--surface:#f5f8fc;--border:#e2e6f0;--text:#1a2233;--muted:#64748b}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--text);min-height:100vh}
+nav{background:var(--navy);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;color:#fff;text-decoration:none}
+.nav-brand span{color:var(--teal-light)}
+.nav-back{font-size:13px;color:rgba(255,255,255,0.5);text-decoration:none}
+.nav-back:hover{color:var(--teal-light)}
+
+.shell{max-width:780px;margin:0 auto;padding:40px 24px 80px}
+
+/* STEP INDICATOR */
+.steps{display:flex;align-items:center;gap:0;margin-bottom:40px}
+.step{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--muted)}
+.step.active{color:var(--navy)}
+.step.done{color:var(--teal)}
+.step-num{width:24px;height:24px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.step.active .step-num{background:var(--navy);color:#fff;border-color:var(--navy)}
+.step.done .step-num{background:var(--teal);color:#fff;border-color:var(--teal)}
+.step-line{flex:1;height:1.5px;background:var(--border);margin:0 8px}
+.step-line.done{background:var(--teal)}
+
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+
+/* PASTE PANEL */
+.panel-title{font-family:'Manrope',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.panel-sub{font-size:15px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+
+.note-box{background:#fff;border:2px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color 0.2s}
+.note-box:focus-within{border-color:var(--teal)}
+.note-toolbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.note-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)}
+.note-demo{font-size:12px;color:var(--teal);cursor:pointer;font-weight:600}
+.note-demo:hover{text-decoration:underline}
+textarea{width:100%;min-height:220px;padding:20px;border:none;font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;color:var(--text);resize:vertical;outline:none;background:#fff}
+.note-footer{padding:12px 16px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.char-count{font-size:12px;color:var(--muted)}
+.hipaa-tag{font-size:11px;color:var(--teal);font-weight:600;display:flex;align-items:center;gap:4px}
+
+.btn-analyze{display:block;width:100%;margin-top:20px;background:var(--teal);color:#fff;font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;padding:16px;border-radius:12px;border:none;cursor:pointer;transition:background 0.2s}
+.btn-analyze:hover{background:#0a5f63}
+.btn-analyze:disabled{background:#94a3b8;cursor:not-allowed}
+
+.privacy-note{text-align:center;font-size:12px;color:var(--muted);margin-top:12px}
+
+/* PROCESSING */
+#panel-processing{text-align:center;padding:60px 0}
+.spinner-ring{width:64px;height:64px;border:4px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 24px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.processing-title{font-family:'Manrope',sans-serif;font-size:20px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.processing-steps{list-style:none;text-align:left;max-width:320px;margin:24px auto 0}
+.processing-steps li{font-size:13px;color:var(--muted);padding:6px 0;padding-left:20px;position:relative}
+.processing-steps li::before{content:'';position:absolute;left:0;top:12px;width:8px;height:8px;border-radius:50%;background:var(--border)}
+.processing-steps li.done-step::before{background:var(--teal)}
+.processing-steps li.active-step{color:var(--navy);font-weight:600}
+.processing-steps li.active-step::before{background:var(--teal);box-shadow:0 0 0 3px rgba(13,115,119,0.2)}
+
+/* RESULTS */
+.result-header{background:var(--navy);border-radius:16px;padding:28px 32px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.result-header-left .label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.45);margin-bottom:4px}
+.result-header-left .title{font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;color:#fff}
+.result-delta{text-align:right}
+.result-delta .amount{font-family:'Manrope',sans-serif;font-size:42px;font-weight:800;color:var(--teal-light);line-height:1}
+.result-delta .sublabel{font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px}
+
+.findings-list{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.finding{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;border-left:4px solid var(--teal)}
+.finding.locked{border-left-color:#94a3b8;position:relative;overflow:hidden}
+.finding-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.finding-code{font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;color:var(--navy)}
+.finding-value{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--teal)}
+.finding.locked .finding-value{color:#94a3b8}
+.finding-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.finding-rationale{font-size:12px;background:var(--surface);border-radius:6px;padding:10px 12px;color:var(--text);line-height:1.5}
+.finding-rationale strong{color:var(--navy)}
+.lock-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.85);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:600;color:#64748b}
+
+/* PAYWALL */
+.paywall{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.paywall h3{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.paywall p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+
+.cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:500px;margin:0 auto}
+.cta-opt{border-radius:12px;padding:20px 16px;text-align:center;cursor:pointer;border:none;width:100%;transition:all 0.2s}
+.cta-opt.single{background:var(--surface);border:2px solid var(--border)}
+.cta-opt.single:hover{border-color:var(--teal)}
+.cta-opt.sub{background:var(--teal);color:#fff}
+.cta-opt.sub:hover{background:#0a5f63}
+.cta-opt .opt-price{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;display:block;margin-bottom:2px}
+.cta-opt.single .opt-price{color:var(--navy)}
+.cta-opt.sub .opt-price{color:#fff}
+.cta-opt .opt-desc{font-size:12px;opacity:0.7;display:block;margin-bottom:10px}
+.cta-opt .opt-label{font-size:13px;font-weight:700;display:block}
+.cta-opt.single .opt-label{color:var(--navy)}
+.cta-opt.sub .opt-label{color:#fff}
+
+.already-member{text-align:center;font-size:13px;color:var(--muted);margin-top:12px}
+.already-member a{color:var(--teal);text-decoration:none;font-weight:600}
+</style>
+<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<script src="https://harnesshealth.ai/footer.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Surgeon<span>Value</span></a>
+  <a href="/" class="nav-back">← Back to dashboard</a>
+</nav>
+
+<div class="shell">
+
+  <!-- STEP INDICATOR -->
+  <div class="steps" id="stepIndicator">
+    <div class="step active" id="s1"><div class="step-num">1</div> Paste Note</div>
+    <div class="step-line" id="l1"></div>
+    <div class="step" id="s2"><div class="step-num">2</div> Analysis</div>
+    <div class="step-line" id="l2"></div>
+    <div class="step" id="s3"><div class="step-num">3</div> Results</div>
+  </div>
+
+  <!-- PANEL 1: PASTE -->
+  <div class="panel active" id="panel-paste">
+    <div class="panel-title">Audit your operative note</div>
+    <div class="panel-sub">Paste any op-note. SurgeonValue identifies billing codes you've already earned but may not be capturing — and shows exactly what documentation supports each one.</div>
+
+    <div class="note-box">
+      <div class="note-toolbar">
+        <span class="note-label">Operative Note</span>
+      </div>
+      <textarea id="noteInput" placeholder="Paste your operative note here. PHI is not stored — use a de-identified copy or click 'Try it on a sample revision THA note' below." oninput="updateCount()"></textarea>
+      <div class="note-footer">
+        <span class="char-count" id="charCount">0 characters</span>
+        <span class="hipaa-tag">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          HIPAA-secure · not stored
+        </span>
+      </div>
+    </div>
+
+    <!-- Promoted: no op-note on hand? Try the sample. Removes bounce. -->
+    <button type="button" class="btn-try-sample" onclick="loadDemo()">
+      <span class="bts-inner">
+        <span class="bts-label">Try it on a sample revision THA note</span>
+        <span class="bts-sub">See ~$1,900 in missed codes identified in ~12 seconds</span>
+      </span>
+      <span class="bts-arrow">→</span>
+    </button>
+    <style>
+      .btn-try-sample{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;margin:16px 0 20px;padding:16px 22px;background:linear-gradient(135deg,var(--teal-50),var(--teal-100));border:1.5px solid rgba(13,115,119,0.35);border-radius:14px;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;text-align:left;font-family:inherit;}
+      .btn-try-sample:hover{transform:translateY(-1px);border-color:var(--teal);box-shadow:0 6px 18px rgba(13,115,119,0.2);}
+      .bts-inner{display:flex;flex-direction:column;gap:3px;}
+      .bts-label{font-size:15px;font-weight:700;color:var(--navy);letter-spacing:-0.01em;}
+      .bts-sub{font-size:12px;color:var(--text-muted);font-weight:500;}
+      .bts-arrow{font-size:22px;color:var(--teal);font-weight:700;transition:transform .2s;}
+      .btn-try-sample:hover .bts-arrow{transform:translateX(4px);}
+    </style>
+
+    <button class="btn-analyze" id="analyzeBtn" onclick="startAnalysis()" disabled>
+      Analyze note for missed revenue →
+    </button>
+    <p class="privacy-note">De-identify your note before pasting. PHI is never stored or transmitted.</p>
+  </div>
+
+  <!-- PANEL 2: PROCESSING -->
+  <div class="panel" id="panel-processing">
+    <div class="spinner-ring"></div>
+    <div class="processing-title">Analyzing your note…</div>
+    <p style="font-size:14px;color:var(--muted)">Cross-referencing CPT documentation requirements</p>
+    <ul class="processing-steps" id="processingSteps">
+      <li id="ps1">Parsing operative note structure</li>
+      <li id="ps2">Identifying billable procedures</li>
+      <li id="ps3">Checking modifier eligibility (Mod 22, 51, 59…)</li>
+      <li id="ps4">Mapping clinical complexity indicators</li>
+      <li id="ps5">Generating audit-defensible documentation</li>
+    </ul>
+  </div>
+
+  <!-- PANEL 3: RESULTS -->
+  <div class="panel" id="panel-results">
+    <div class="result-header">
+      <div class="result-header-left">
+        <div class="label">Wonder Bill Analysis</div>
+        <div class="title">Missed revenue identified</div>
+      </div>
+      <div class="result-delta">
+        <div class="amount">$1,900</div>
+        <div class="sublabel">in this case alone</div>
+      </div>
+    </div>
+
+    <div class="findings-list">
+      <!-- FINDING 1 — unlocked preview -->
+      <div class="finding">
+        <div class="finding-top">
+          <div>
+            <div class="finding-code">Modifier 22 — Increased Procedural Services</div>
+          </div>
+          <div class="finding-value">+$1,400</div>
+        </div>
+        <div class="finding-desc">Operative time exceeded typical by 85+ minutes. Dense adhesions from prior ORIF documented. Clinical complexity indicators present for Modifier 22 application.</div>
+        <div class="finding-rationale">
+          <strong>Documentation required:</strong> "Operative time was [X] minutes, exceeding the typical [Y] minutes for this procedure. Increased complexity was due to [dense scar tissue / adhesions / abnormal anatomy]. This required [specific additional work]."
+        </div>
+      </div>
+
+      <!-- FINDING 2 — unlocked preview -->
+      <div class="finding">
+        <div class="finding-top">
+          <div>
+            <div class="finding-code">20900 — Bone Graft, Minor (separate procedure)</div>
+          </div>
+          <div class="finding-value">+$500</div>
+        </div>
+        <div class="finding-desc">Autograft harvested and applied during procedure. Separately billable when documented as a distinct service, not included in the primary code.</div>
+        <div class="finding-rationale">
+          <strong>Documentation required:</strong> "Autologous bone graft was harvested from [donor site] and applied to [recipient site]. This was performed as a separate procedure distinct from [primary CPT code]."
+        </div>
+      </div>
+
+      <!-- FINDING 3 — locked -->
+      <div class="finding locked">
+        <div class="finding-top">
+          <div>
+            <div class="finding-code">Additional modifier opportunity</div>
+          </div>
+          <div class="finding-value">+$???</div>
+        </div>
+        <div class="finding-desc">Unlock to see full analysis</div>
+        <div class="lock-overlay">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          Unlock full report
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYWALL -->
+    <div class="paywall">
+      <h3>Unlock the full report + documentation language</h3>
+      <p>Get the complete audit, all supporting documentation language, and CPT codes formatted for your billing team — for this case, or every case going forward.</p>
+
+      <div class="cta-grid">
+        <button class="cta-opt single" onclick="checkout('encounter')">
+          <span class="opt-price">$20</span>
+          <span class="opt-desc">this case only</span>
+          <span class="opt-label">Unlock this report</span>
+        </button>
+        <button class="cta-opt sub" onclick="checkout('core')">
+          <span class="opt-price">$199<span style="font-size:14px;font-weight:500">/mo</span></span>
+          <span class="opt-desc">unlimited cases · all 9 agents</span>
+          <span class="opt-label">Start Core membership</span>
+        </button>
+      </div>
+      <p class="already-member">Already a member? <a href="/">Sign in →</a></p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const DEMO_NOTE = `OPERATIVE REPORT
+
+Patient: [De-identified]
+Procedure: Revision Total Hip Arthroplasty, Right
+Surgeon: [De-identified]
+Date: [De-identified]
+
+PREOPERATIVE DIAGNOSIS: Failed right total hip arthroplasty with aseptic loosening of femoral component.
+
+PROCEDURE IN DETAIL:
+The patient was brought to the operating room and placed in the lateral decubitus position. After identification of the prior posterior approach scar, dissection was carried down through dense scar tissue and adhesions from the prior ORIF of the greater trochanter performed approximately 8 years ago. This dissection required an additional 55 minutes beyond the typical exposure due to the extent of scar tissue formation.
+
+The total operative time was 4 hours 22 minutes, compared to the typical 95-120 minutes for a standard revision THA.
+
+The femoral component was extracted with significant difficulty due to extensive bony ingrowth. Autologous bone graft was harvested from the iliac crest and applied to the proximal femoral defect to augment fixation. A fully porous-coated revision femoral stem was implanted with satisfactory press-fit fixation.
+
+The acetabular component was found to be well-fixed and was retained. A new highly cross-linked polyethylene liner was placed.
+
+Estimated blood loss: 950 mL. Cell saver was used and 400 mL of autologous blood was re-transfused.
+
+The wound was irrigated and closed in layers. The patient tolerated the procedure well.`;
+
+function loadDemo() {
+  document.getElementById('noteInput').value = DEMO_NOTE;
+  updateCount();
+}
+
+function updateCount() {
+  const len = document.getElementById('noteInput').value.length;
+  document.getElementById('charCount').textContent = len.toLocaleString() + ' characters';
+  document.getElementById('analyzeBtn').disabled = len < 50;
+}
+
+function setStep(n) {
+  for (let i = 1; i <= 3; i++) {
+    const s = document.getElementById('s' + i);
+    s.className = 'step' + (i < n ? ' done' : i === n ? ' active' : '');
+    if (i < 3) {
+      document.getElementById('l' + i).className = 'step-line' + (i < n ? ' done' : '');
+    }
+  }
+}
+
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startAnalysis() {
+  setStep(2);
+  showPanel('panel-processing');
+
+  const steps = ['ps1','ps2','ps3','ps4','ps5'];
+  let i = 0;
+  function tick() {
+    if (i > 0) {
+      document.getElementById(steps[i-1]).className = 'done-step';
+    }
+    if (i < steps.length) {
+      document.getElementById(steps[i]).className = 'active-step';
+      i++;
+      setTimeout(tick, 600 + Math.random() * 400);
+    } else {
+      setTimeout(() => {
+        setStep(3);
+        showPanel('panel-results');
+      }, 500);
+    }
+  }
+  tick();
+}
+
+async function checkout(plan) {
+  const btn = event.target.closest('button');
+  const orig = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span style="opacity:0.7">Redirecting to checkout…</span>';
+
+  try {
+    const res = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Checkout error: ' + (data.error || 'Unknown error'));
+      btn.disabled = false;
+      btn.innerHTML = orig;
+    }
+  } catch (e) {
+    alert('Network error. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = orig;
+  }
+}
+</script>
+</body>
+</html>

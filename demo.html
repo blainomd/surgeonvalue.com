@@ -3,455 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SurgeonValue — See It Work</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>SurgeonValue — Stanford Orthopedics Pilot</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:#0f172a;color:#e2e8f0;font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow-x:hidden}
-
-.wrapper{max-width:720px;width:100%;padding:24px}
-
-.time-badge{text-align:center;margin-bottom:20px;opacity:0;transition:opacity 0.6s}
-.time-badge.visible{opacity:1}
-.time-badge span{font-family:'JetBrains Mono',monospace;font-size:13px;color:#3b82f6;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:6px 16px;border-radius:20px}
-
-.claude-window{background:#1e293b;border:1px solid #334155;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.4)}
-.claude-header{padding:12px 20px;background:#1a2332;display:flex;align-items:center;gap:8px;border-bottom:1px solid #334155}
-.dots{display:flex;gap:6px}
-.dot{width:10px;height:10px;border-radius:50%}
-.dot-r{background:#ef4444}.dot-y{background:#f59e0b}.dot-g{background:#22c55e}
-.claude-title{font-size:13px;color:#94a3b8;margin-left:8px;font-weight:500}
-.connector-badge{margin-left:auto;font-size:11px;color:#3b82f6;background:rgba(59,130,246,0.1);padding:3px 10px;border-radius:10px;font-family:'JetBrains Mono',monospace}
-
-.chat-area{padding:20px;min-height:360px;max-height:480px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
-
-.msg{max-width:88%;opacity:0;transform:translateY(12px);transition:opacity 0.4s,transform 0.4s;line-height:1.6}
-.msg.visible{opacity:1;transform:translateY(0)}
-.msg-user{align-self:flex-end;background:#3b82f6;color:#fff;padding:10px 16px;border-radius:16px 16px 4px 16px;font-size:14px}
-.msg-ai{align-self:flex-start;background:#293548;padding:14px 18px;border-radius:16px 16px 16px 4px;font-size:14px;color:#cbd5e1}
-.msg-ai strong{color:#f8fafc;font-weight:600}
-.msg-ai .warn{color:#f59e0b;font-weight:600}
-.msg-ai .safe{color:#22c55e;font-weight:600}
-.msg-ai .money{color:#3b82f6;font-weight:700;font-size:18px}
-.msg-ai code{font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(59,130,246,0.12);color:#93c5fd;padding:2px 6px;border-radius:4px}
-
-.agent-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;margin-top:8px;font-family:'JetBrains Mono',monospace}
-.agent-blue{background:rgba(59,130,246,0.15);color:#60a5fa}
-.agent-green{background:rgba(34,197,94,0.15);color:#4ade80}
-.agent-amber{background:rgba(245,158,11,0.15);color:#fbbf24}
-.agent-purple{background:rgba(139,92,246,0.15);color:#a78bfa}
-
-.typing{display:flex;gap:4px;padding:12px 16px;align-self:flex-start;opacity:0;transition:opacity 0.3s}
-.typing.visible{opacity:1}
-.typing span{width:6px;height:6px;background:#475569;border-radius:50%;animation:tbounce 1.4s infinite}
-.typing span:nth-child(2){animation-delay:0.2s}
-.typing span:nth-child(3){animation-delay:0.4s}
-@keyframes tbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-
-.endcard{text-align:center;margin-top:40px;opacity:0;transition:opacity 1s}
-.endcard.visible{opacity:1}
-.endcard h2{font-size:28px;font-weight:700;margin-bottom:8px}
-.endcard p{color:#94a3b8;font-size:15px;margin-bottom:20px}
-.endcard a{display:inline-block;padding:12px 28px;background:#3b82f6;color:#fff;border-radius:12px;font-weight:600;text-decoration:none;font-size:15px}
-.endcard .sub{font-size:12px;color:#475569;margin-top:12px}
-
-.restart{position:fixed;bottom:24px;right:24px;background:#334155;color:#94a3b8;border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:13px;font-family:inherit;opacity:0;transition:opacity 0.5s}
-.restart.visible{opacity:1}
-.restart:hover{background:#475569;color:#fff}
-
-@media(max-width:600px){
-  .wrapper{padding:12px}
-  .chat-area{min-height:300px;padding:14px}
-  .msg{font-size:13px}
+:root {
+  --navy: #1B2A4A;
+  --teal: #0D7377;
+  --teal-light: #14a8ad;
+  --stanford: #8C1515;
+  --slate: #475569;
+  --border: #e2e8f0;
+  --surface: #f8fafc;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: var(--navy); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.screen-shell { max-width: 900px; margin: 40px auto; padding: 0 24px 60px; }
+.screen-actions { display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 20px; }
+.btn-print { background: var(--navy); color: #fff; font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.btn-print:hover { background: #243558; }
+.btn-back { background: #fff; color: var(--navy); font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600; padding: 10px 20px; border-radius: 8px; border: 1.5px solid var(--border); cursor: pointer; text-decoration: none; }
+.page { width: 100%; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 40px rgba(27,42,74,0.10); }
+.page-header { background: var(--navy); padding: 32px 48px 28px; display: flex; justify-content: space-between; align-items: flex-end; }
+.brand h1 { font-family: 'Manrope', sans-serif; font-size: 30px; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 2px; }
+.brand .sub { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--teal-light); }
+.pilot-info { text-align: right; }
+.pilot-info .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.pilot-info .value { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 700; color: #fff; }
+.stanford-bar { height: 4px; background: linear-gradient(90deg, var(--stanford) 0%, #b91c1c 50%, var(--stanford) 100%); }
+.page-body { padding: 40px 48px 48px; }
+.objective { background: var(--surface); border-left: 4px solid var(--teal); border-radius: 0 8px 8px 0; padding: 18px 22px; margin-bottom: 36px; font-size: 14px; line-height: 1.65; color: #334155; }
+.objective strong { color: var(--navy); }
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; margin-top: 32px; }
+.section-head h2 { font-family: 'Manrope', sans-serif; font-size: 15px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+.section-rule { flex: 1; height: 1.5px; background: var(--border); }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 32px; }
+.col-card { background: var(--surface); border-radius: 10px; padding: 22px; border: 1px solid var(--border); }
+.col-card h3 { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+.col-card ul { list-style: none; padding: 0; }
+.col-card ul li { font-size: 13px; color: #475569; padding: 6px 0 6px 16px; position: relative; line-height: 1.5; border-bottom: 1px solid #f1f5f9; }
+.col-card ul li:last-child { border-bottom: none; }
+.col-card ul li::before { content: ''; position: absolute; left: 0; top: 13px; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+.col-card ul li strong { color: var(--navy); font-weight: 600; }
+.case-study { background: var(--navy); border-radius: 10px; padding: 24px 28px; margin-bottom: 28px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; }
+.cs-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal-light); margin-bottom: 6px; }
+.cs-title { font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; }
+.cs-body { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+.cs-body strong { color: rgba(255,255,255,0.9); }
+.delta-box { background: rgba(13,115,119,0.25); border: 1.5px solid var(--teal); border-radius: 10px; padding: 16px 22px; text-align: center; min-width: 130px; flex-shrink: 0; }
+.delta-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal-light); margin-bottom: 4px; }
+.delta-value { font-family: 'Manrope', sans-serif; font-size: 28px; font-weight: 800; color: #fff; line-height: 1; margin-bottom: 2px; }
+.delta-sub { font-size: 10px; color: rgba(255,255,255,0.4); }
+.stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+.stat-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+.stat-value { font-family: 'Manrope', sans-serif; font-size: 22px; font-weight: 800; color: var(--teal); display: block; margin-bottom: 3px; }
+.stat-label { font-size: 11px; color: var(--slate); line-height: 1.4; }
+.compliance { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 14px 18px; font-size: 12.5px; color: #92400e; line-height: 1.6; margin-bottom: 28px; }
+.compliance strong { color: #7c2d12; }
+.agents-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 8px; }
+.agent-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 9px 12px; font-size: 12px; color: var(--slate); display: flex; align-items: center; gap: 7px; }
+.agent-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+.page-footer { background: var(--surface); border-top: 1.5px solid var(--border); padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; }
+.page-footer .contact { font-size: 12.5px; color: var(--slate); }
+.page-footer .contact strong { color: var(--navy); }
+.page-footer .contact a { color: var(--teal); text-decoration: none; }
+.page-footer .cta-pill { background: var(--teal); color: #fff; font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; padding: 8px 18px; border-radius: 20px; text-decoration: none; }
+@media print {
+  body { background: #fff; }
+  .screen-shell { margin: 0; padding: 0; max-width: 100%; }
+  .screen-actions { display: none; }
+  .page { border-radius: 0; box-shadow: none; }
+  .page-header { padding: 28px 40px 24px; }
+  .page-body { padding: 32px 40px 40px; }
+  .page-footer { padding: 16px 40px; }
 }
 </style>
+<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<script src="https://harnesshealth.ai/footer.js" defer></script>
 </head>
 <body>
-
-<div class="wrapper">
-  <div class="time-badge" id="timeBadge"><span id="timeText">6:47 AM</span></div>
-
-  <div class="claude-window">
-    <div class="claude-header">
-      <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-      <span class="claude-title">Claude</span>
-      <span class="connector-badge">SurgeonValue connected</span>
-    </div>
-    <div class="chat-area" id="chat"></div>
-  </div>
-
-  <div class="endcard" id="endcard">
-    <h2>$4,200 captured. Zero added work.</h2>
-    <p>10 agents. One conversation. Add to Claude in 30 seconds.</p>
-    <a href="/">See how it works</a>
-    <div class="sub">surgeonvalue-mcp-production.up.railway.app/mcp</div>
-  </div>
-</div>
-
-<button class="restart" id="restartBtn" onclick="location.reload()">Watch again</button>
-
-<script>
-const chat = document.getElementById('chat');
-const timeBadge = document.getElementById('timeBadge');
-const timeText = document.getElementById('timeText');
-const endcard = document.getElementById('endcard');
-const restartBtn = document.getElementById('restartBtn');
-
-const SCRIPT = [
-  // Scene 1: Morning
-  { type:'time', text:'6:47 AM', delay:500 },
-  { type:'user', text:'What\'s my day look like?', delay:800 },
-  { type:'ai', text:'<strong>3 cases today:</strong><br>7:30 — Primary TKA, R knee (Johnson) — Zimmer Persona, size 5<br>10:00 — Revision THA, L hip (Martinez) — Smith & Nephew<br>1:30 — Partial knee, R (Chen) — Oxford<br><br>All implants confirmed. <span class="safe">No supply chain flags.</span>', agent:'Schedule Agent', agentClass:'agent-blue', delay:1800 },
-
-  // Scene 2: Prior auth
-  { type:'user', text:'Anything on my 9am revision?', delay:1200 },
-  { type:'ai', text:'<span class="warn">Martinez\'s insurance requires peer-to-peer call.</span> Prior auth letter drafted based on failed conservative care (14 months PT, 3 injections, BMI-adjusted HOOS: 31).<br><br>Want me to send to your office?', agent:'Prior Auth Agent', agentClass:'agent-amber', delay:1600 },
-  { type:'user', text:'Send it.', delay:600 },
-  { type:'ai', text:'<span class="safe">Sent.</span> Your coordinator will have it in 30 seconds.', delay:600 },
-
-  // Scene 3: Between cases — billing
-  { type:'time', text:'9:30 AM — Between Cases', delay:1500 },
-  { type:'user', text:'Codes from that TKA?', delay:800 },
-  { type:'ai', text:'<code>27447</code> Primary TKA — <strong>$1,420</strong><br><code>98976</code> + <code>98977</code> RTM enrollment — <strong>$112/mo x 4mo</strong><br><code>99424</code> PCM (single joint) — <strong>$135/mo</strong><br><br><span class="warn">NOTE: E/M during 90-day global period is NOT separately billable unless modifier-25 criteria met. Do NOT bill 99213 for post-op check.</span>', agent:'Revenue + Compliance', agentClass:'agent-green', delay:2200 },
-
-  // Scene 4: PROMs
-  { type:'user', text:'Send PROMs to this week\'s post-ops', delay:1000 },
-  { type:'ai', text:'KOOS-JR sent via SMS to 4 patients.<br>Average response time on your panel: <strong>6 minutes</strong>.<br>Completion rate: <strong>92%</strong> (vs 9% paper).', agent:'PROM Agent', agentClass:'agent-purple', delay:1200 },
-
-  // Scene 5: Voice note
-  { type:'time', text:'2:00 PM — Clinic', delay:1500 },
-  { type:'user', text:'🎤 "8-week post-op, right TKA, flexion 120, extension full, no effusion, phase 3 PT, return 6 weeks."', delay:1000 },
-  { type:'ai', text:'Visit documented. RTM data point logged <code>98977</code>.<br>KOOS-JR improvement: <strong>42 → 71 (+29 pts)</strong><br>Top quartile of your TKA outcomes.', agent:'Voice + Monitoring', agentClass:'agent-purple', delay:1600 },
-
-  // Scene 6: End of day
-  { type:'time', text:'4:30 PM', delay:1500 },
-  { type:'user', text:'How\'d we do?', delay:800 },
-  { type:'ai', text:'<strong>Today:</strong><br>3 cases completed<br>4 PROMs collected (92%)<br><span class="safe">Zero compliance flags</span><br><br><span class="money">$4,200 in new revenue captured</span><br><br>RTM enrollment x3, PCM x2, prior auth approved.<br>1 patient approaching global period end — reminder set.', agent:'All 10 Agents', agentClass:'agent-blue', delay:2000 },
-
-  // End
-  { type:'end', delay:2000 }
-];
-
-let i = 0;
-function next() {
-  if (i >= SCRIPT.length) return;
-  const step = SCRIPT[i];
-  i++;
-
-  if (step.type === 'time') {
-    timeText.textContent = step.text;
-    timeBadge.classList.add('visible');
-    setTimeout(next, step.delay);
-    return;
-  }
-
-  if (step.type === 'end') {
-    setTimeout(() => {
-      endcard.classList.add('visible');
-      restartBtn.classList.add('visible');
-    }, step.delay);
-    return;
-  }
-
-  // Show typing for AI
-  if (step.type === 'ai') {
-    const typing = document.createElement('div');
-    typing.className = 'typing';
-    typing.innerHTML = '<span></span><span></span><span></span>';
-    chat.appendChild(typing);
-    setTimeout(() => typing.classList.add('visible'), 50);
-    chat.scrollTop = chat.scrollHeight;
-
-    setTimeout(() => {
-      typing.remove();
-      addMessage(step);
-      setTimeout(next, step.delay);
-    }, 800 + Math.random() * 400);
-    return;
-  }
-
-  addMessage(step);
-  setTimeout(next, step.delay);
-}
-
-function addMessage(step) {
-  const msg = document.createElement('div');
-  msg.className = 'msg msg-' + step.type;
-  let html = step.text;
-  if (step.agent) {
-    html += '<div class="agent-tag ' + step.agentClass + '">' + step.agent + '</div>';
-  }
-  msg.innerHTML = html;
-  chat.appendChild(msg);
-  setTimeout(() => msg.classList.add('visible'), 50);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-// Start after a beat
-setTimeout(next, 1000);
-</script>
-
-<!-- ═══════════════════════════════════════════════════════════════
-     SAGE PERSISTENT BAR — unified voice + chat input
-     Voice and text share one panel; mic transcribes into the text field.
-═══════════════════════════════════════════════════════════════ -->
-<style>
-body { padding-bottom: 62px; }
-#sage-bar {
-  position:fixed;bottom:0;left:0;right:0;z-index:9998;
-  background:#0d0d0d;border-top:1px solid rgba(255,255,255,0.07);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-}
-#sage-panel {
-  position:fixed;bottom:62px;left:0;right:0;z-index:9997;
-  background:#181818;border-top:2px solid #00e1ab;
-  box-shadow:0 -8px 40px rgba(0,0,0,0.18);
-  transform:translateY(100%);transition:transform 0.3s cubic-bezier(.4,0,.2,1);
-  max-height:420px;display:flex;flex-direction:column;
-}
-#sage-panel.sp-open { transform:translateY(0); }
-#sage-msgs {
-  flex:1;overflow-y:auto;padding:16px 20px;
-  display:flex;flex-direction:column;gap:10px;
-}
-.sp-row { display:flex; }
-.sp-bubble {
-  max-width:78%;padding:9px 13px;border-radius:10px;
-  font-size:13.5px;line-height:1.55;font-family:Inter,sans-serif;
-  color:#e8e8e8;
-}
-.sp-bubble.sage { background:#0d2e26; }
-.sp-bubble.user { background:#00e1ab;color:#fff;margin-left:auto; }
-#sage-inp-row {
-  border-top:1px solid #2a2a2a;padding:10px 14px;
-  display:flex;gap:8px;align-items:center;flex-shrink:0;
-}
-#sage-text {
-  flex:1;border:1px solid #2a2a2a;border-radius:22px;
-  padding:8px 15px;font-size:13.5px;font-family:Inter,sans-serif;
-  outline:none;background:#111111;color:#e8e8e8;
-}
-#sage-text:focus { border-color:#00e1ab; }
-#sp-send {
-  background:#00e1ab;color:#fff;border:none;border-radius:50%;
-  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-#sp-mic {
-  background:none;border:1px solid #2a2a2a;border-radius:50%;
-  width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  color:#e8e8e8;flex-shrink:0;transition:all .2s;
-}
-#sp-mic.listening {
-  background:#00e1ab;border-color:#00e1ab;color:#fff;
-  animation:sp-pulse 1s infinite;
-}
-@keyframes sp-pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
-.sp-typing { display:flex;gap:4px;align-items:center;padding:9px 13px; }
-.sp-typing span {
-  width:6px;height:6px;background:#00e1ab;border-radius:50%;
-  animation:sp-bounce 1.2s infinite;
-}
-.sp-typing span:nth-child(2) { animation-delay:.2s }
-.sp-typing span:nth-child(3) { animation-delay:.4s }
-@keyframes sp-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-#sage-bar-fake-input {
-  flex:1;cursor:pointer;background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);border-radius:26px;
-  padding:7px 14px;display:flex;align-items:center;gap:8px;max-width:480px;
-}
-</style>
-
-<!-- BAR -->
-<div id="sage-bar">
-  <div style="max-width:1180px;margin:0 auto;padding:0 16px;height:62px;display:flex;align-items:center;gap:10px;">
-    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0;">
-      <div style="width:7px;height:7px;background:#00e1ab;border-radius:50%;box-shadow:0 0 6px #00e1ab66;"></div>
-      <span style="font-family:Inter,sans-serif;font-size:11px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:.08em;">SAGE</span>
-    </div>
-    <div id="sage-bar-fake-input" onclick="spOpen()">
-      <span style="font-family:Inter,sans-serif;font-size:13px;color:rgba(255,255,255,.32);flex:1;">Ask anything about SurgeonValue…</span>
-      <button id="sp-bar-mic" onclick="event.stopPropagation();spVoice()" title="Voice" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.38)" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-      </button>
-    </div>
-    <a href="https://surgeonvalue.com/demo" target="_blank" style="text-decoration:none;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:6px;padding:5px 11px;font-family:Inter,sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);white-space:nowrap;">Try demo →</a>
-  </div>
-</div>
-
-<!-- SLIDE-UP PANEL -->
-<div id="sage-panel">
-  <div style="padding:10px 16px;border-bottom:1px solid #2a2a2a;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-    <div style="display:flex;align-items:center;gap:8px;">
-      <div style="width:7px;height:7px;background:#00e1ab;border-radius:50%;"></div>
-      <span style="font-family:Inter,sans-serif;font-size:13px;font-weight:700;color:#e8e8e8;">Sage AI</span>
-      <span style="font-family:Inter,sans-serif;font-size:11px;color:#00e1ab;background:#0d2e26;padding:2px 8px;border-radius:10px;">SurgeonValue</span>
-    </div>
-    <button onclick="spClose()" style="background:none;border:none;cursor:pointer;font-size:20px;color:#00e1ab;line-height:1;padding:2px 6px;">×</button>
-  </div>
-  <div id="sage-msgs">
-    <div class="sp-row"><div class="sp-bubble sage">Hi, I'm Sage. I can walk you through the 9 agents, explain the ACCESS Model, or help with billing optimization. Type or use the mic.</div></div>
-  </div>
-  <div id="sage-inp-row">
-    <button id="sp-mic" onclick="spVoice()" title="Voice input">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-    </button>
-    <input id="sage-text" type="text" placeholder="Type or speak…" onkeydown="if(event.key==='Enter')spSend()">
-    <button id="sp-send" onclick="spSend()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9z"/></svg>
+<div class="screen-shell">
+  <div class="screen-actions">
+    <a href="/" class="btn-back">← Back to SurgeonValue</a>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+      Print / Save PDF
     </button>
   </div>
+  <div class="page">
+    <div class="page-header">
+      <div class="brand">
+        <h1>SurgeonValue</h1>
+        <div class="sub">AI Revenue Intelligence · Orthopedic Surgery</div>
+      </div>
+      <div class="pilot-info">
+        <div class="label">Pilot Program</div>
+        <div class="value">Stanford Orthopedics</div>
+        <div class="label" style="margin-top:4px">April 2026</div>
+      </div>
+    </div>
+    <div class="stanford-bar"></div>
+    <div class="page-body">
+      <div class="objective">
+        <strong>The objective:</strong> Every orthopedic surgeon on Epic is leaving 15–20% of earned revenue uncaptured — not from underbilling, but from the documentation gap between clinical complexity and CPT language. SurgeonValue closes that gap in under 30 seconds per case, with a full audit trail on every suggestion.
+      </div>
+      <div class="section-head"><h2>The Problem &amp; the Solution</h2><div class="section-rule"></div></div>
+      <div class="two-col">
+        <div class="col-card">
+          <h3>Where revenue disappears</h3>
+          <ul>
+            <li><strong>Conservative defaults:</strong> Institutional coders down-code to avoid denials, sacrificing $200–$2,000 per complex case</li>
+            <li><strong>Modifier blindspots:</strong> Modifier 22 is systematically under-applied on revision and complex primary cases</li>
+            <li><strong>Template friction:</strong> Standard Epic op-note templates don't prompt for the clinical language CPT auditors require</li>
+            <li><strong>Volume problem:</strong> Manual chart review for billing accuracy is impossible at 200+ cases per year</li>
+          </ul>
+        </div>
+        <div class="col-card">
+          <h3>Wonder Bill — how it works</h3>
+          <ul>
+            <li><strong>Paste any op-note</strong> into the HIPAA-secure interface — no EMR integration required to start</li>
+            <li><strong>4-second AI analysis</strong> cross-references clinical indicators against CPT documentation requirements</li>
+            <li><strong>Code suggestions with rationale</strong> — every flag includes the documentation language needed to be audit-defensible</li>
+            <li><strong>Epic integration</strong> available for practices ready to connect — reads notes, writes back to billing queue</li>
+          </ul>
+        </div>
+      </div>
+      <div class="section-head"><h2>Live Case Example</h2><div class="section-rule"></div></div>
+      <div class="case-study">
+        <div>
+          <div class="cs-label">Revision Total Hip Arthroplasty · Complex Primary</div>
+          <div class="cs-title">What Wonder Bill found in one note</div>
+          <div class="cs-body">Standard billing captured the primary THA code. Wonder Bill identified <strong>Modifier 22</strong> (operative time 90 min above average, dense scar tissue from prior ORIF documented in note) and a <strong>separate graft code</strong> that was performed but not itemized. Documentation language to support both flags was generated automatically.</div>
+        </div>
+        <div class="delta-box">
+          <div class="delta-label">Revenue recovered</div>
+          <div class="delta-value">$1,900</div>
+          <div class="delta-sub">single case · 4 seconds</div>
+        </div>
+      </div>
+      <div class="stat-strip">
+        <div class="stat-item"><span class="stat-value">$199</span><span class="stat-label">Core plan per month</span></div>
+        <div class="stat-item"><span class="stat-value">&lt;30s</span><span class="stat-label">Per case analysis</span></div>
+        <div class="stat-item"><span class="stat-value">1 case</span><span class="stat-label">Pays for the month</span></div>
+        <div class="stat-item"><span class="stat-value">100%</span><span class="stat-label">Audit trail on every flag</span></div>
+      </div>
+      <div class="compliance">
+        <strong>Compliance by design:</strong> SurgeonValue surfaces documentation gaps — it does not submit codes. Every output includes the specific clinical language required for audit defensibility. The surgeon and billing team retain full decision authority. Nothing reaches a payer without human review.
+      </div>
+      <div class="section-head"><h2>The Full Suite — 9 Agents</h2><div class="section-rule"></div></div>
+      <div class="agents-grid">
+        <div class="agent-pill"><span class="dot"></span>Wonder Bill — coding capture</div>
+        <div class="agent-pill"><span class="dot"></span>Prior Auth — 60-second letters</div>
+        <div class="agent-pill"><span class="dot"></span>Revenue Scanner — 90-day audit</div>
+        <div class="agent-pill"><span class="dot"></span>Episode Cost — CJR-X tracking</div>
+        <div class="agent-pill"><span class="dot"></span>PROM Collector — outcomes</div>
+        <div class="agent-pill"><span class="dot"></span>RTM/CCM Enrollment</div>
+        <div class="agent-pill"><span class="dot"></span>Panel Intelligence — referrals</div>
+        <div class="agent-pill"><span class="dot"></span>Documentation — note assist</div>
+        <div class="agent-pill"><span class="dot"></span>Coding Audit — denial prevention</div>
+      </div>
+    </div>
+    <div class="page-footer">
+      <div class="contact">
+        <strong>Blaine Warkentine, MD/MBA</strong> &nbsp;·&nbsp;
+        blaine@surgeonvalue.com &nbsp;·&nbsp;
+        <a href="https://surgeonvalue.com">surgeonvalue.com</a>
+      </div>
+      <a href="https://surgeonvalue.com" class="cta-pill">Start 14-day trial →</a>
+    </div>
+  </div>
 </div>
-
-<script>
-(function(){
-  /* ── RESPONSES ─────────────────────────────────────────────── */
-  const R = {
-  'prior auth': 'The Prior Auth agent takes your clinical note and generates a payer-specific authorization letter in about 60 seconds. Paste the note — it handles the rest.',
-  'prior': 'The Prior Auth agent takes your clinical note and generates a payer-specific letter in about 60 seconds.',
-  'billing': 'The Wonder Bill agent scans your panel for documentable, unbilled codes — PCM for single-condition orthopedic patients, RTM for post-op cases. Most practices find $3–8K/month.',
-  'wonder': 'Wonder Bill scans your panel for codes you\'re documenting but not billing: PCM (99424/99426), RTM (98975–98981), and ACP (99497). Average find: $3–8K/month.',
-  'access': 'The ACCESS Model agent prepares CMS submissions for eligible patients. It flags qualifying patients automatically. The MSK track pays $180/beneficiary/year.',
-  'subscription': 'Plans start at $199/mo (Core) and $299/mo (Pro). Per-encounter coding is $20. Most practices recover the cost in the first month.',
-  'agent': 'SurgeonValue has 9 AI agents: Prior Auth, Wonder Bill, ACCESS Prep, Care Compass, PROM Collection, SOAP Note, Patient Education, Panel Analysis, and Virtual Front Door.',
-  'prom': 'The PROM agent sends automated outcome questionnaires and compiles results in your dashboard. Supports PROMIS-10, KOOS, HOOS, QuickDASH, and ODI.',
-  'demo': 'The demo environment has sample patient data. Try the Prior Auth agent first — paste any orthopedic note and see the letter.',
-  '_default': 'I can help with prior auth, billing optimization, the ACCESS Model, or getting started with SurgeonValue. What\'s your question?'
-};
-
-  /* ── STATE ─────────────────────────────────────────────────── */
-  let open = false, listening = false, rec = null;
-
-  /* ── PANEL ─────────────────────────────────────────────────── */
-  function spOpen() {
-    open = true;
-    document.getElementById('sage-panel').classList.add('sp-open');
-    document.getElementById('sage-text').focus();
-  }
-  window.spOpen = spOpen;
-
-  function spClose() {
-    open = false;
-    document.getElementById('sage-panel').classList.remove('sp-open');
-    stopRec();
-  }
-  window.spClose = spClose;
-  const chatHistory = [];
-
-  async function spSend() {{
-    const inp = document.getElementById('sage-text');
-    const txt = inp.value.trim();
-    if (!txt) return;
-    inp.value = '';
-    addBubble(txt, 'user');
-    addTyping();
-    chatHistory.push({{ role: 'user', content: txt }});
-
-    try {{
-      const resp = await fetch('/api/sage', {{
-        method: 'POST',
-        headers: {{ 'Content-Type': 'application/json' }},
-        body: JSON.stringify({{
-          message: txt,
-          site: 'surgeonvalue',
-          history: chatHistory.slice(-8)
-        }})
-      }});
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const data = await resp.json();
-      removeTyping();
-      const reply = data.response || getReply(txt);
-      addBubble(reply, 'sage');
-      chatHistory.push({{ role: 'assistant', content: reply }});
-    }} catch(e) {{
-      removeTyping();
-      const fallback = getReply(txt);
-      addBubble(fallback, 'sage');
-      chatHistory.push({{ role: 'assistant', content: fallback }});
-    }}
-  }}, 900 + Math.random() * 700);
-  }
-  window.spSend = spSend;
-
-  function addBubble(text, who) {
-    const msgs = document.getElementById('sage-msgs');
-    const row = document.createElement('div');
-    row.className = 'sp-row';
-    const b = document.createElement('div');
-    b.className = 'sp-bubble ' + who;
-    b.textContent = text;
-    if (who === 'user') row.style.justifyContent = 'flex-end';
-    row.appendChild(b);
-    msgs.appendChild(row);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function addTyping() {
-    const msgs = document.getElementById('sage-msgs');
-    const row = document.createElement('div');
-    row.id = 'sp-typing';
-    row.className = 'sp-row';
-    row.innerHTML = '<div class="sp-typing"><span></span><span></span><span></span></div>';
-    msgs.appendChild(row);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function removeTyping() {
-    const t = document.getElementById('sp-typing');
-    if (t) t.remove();
-  }
-
-  function getReply(text) {
-    const t = text.toLowerCase();
-    for (const [k, v] of Object.entries(R)) {
-      if (k !== '_default' && t.includes(k)) return v;
-    }
-    return R._default || "I'm here to help — can you tell me more?";
-  }
-
-  /* ── VOICE ─────────────────────────────────────────────────── */
-  function initRec() {
-    if (rec) return true;
-    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) return false;
-    rec = new SR();
-    rec.continuous = false;
-    rec.interimResults = true;
-    rec.onresult = (e) => {
-      const t = Array.from(e.results).map(r => r[0].transcript).join('');
-      document.getElementById('sage-text').value = t;
-      if (e.results[e.results.length - 1].isFinal) {
-        stopRec();
-        if (!open) spOpen();
-        setTimeout(spSend, 80);
-      }
-    };
-    rec.onend = stopRec;
-    return true;
-  }
-
-  function spVoice() {
-    if (!initRec()) { alert('Voice input is not supported in this browser. Try Chrome.'); return; }
-    if (listening) { stopRec(); return; }
-    listening = true;
-    document.getElementById('sp-mic').classList.add('listening');
-    const bm = document.getElementById('sp-bar-mic');
-    if (bm) bm.querySelector('svg').setAttribute('stroke', '#00e1ab');
-    if (!open) spOpen();
-    try { rec.start(); } catch(e) {}
-  }
-  window.spVoice = spVoice;
-
-  function stopRec() {
-    listening = false;
-    if (rec) try { rec.stop(); } catch(e) {}
-    document.getElementById('sp-mic').classList.remove('listening');
-    const bm = document.getElementById('sp-bar-mic');
-    if (bm) bm.querySelector('svg').setAttribute('stroke', 'rgba(255,255,255,.38)');
-  }
-})();
-</script>
-<!-- ═══════════════════════════════════════════════════════════════ -->
-
 </body>
 </html>

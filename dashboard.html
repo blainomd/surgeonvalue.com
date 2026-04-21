@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SurgeonValue | Revenue Analytics Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#f6fafe",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#00204e",
+                    "inverse-on-surface": "#edf1f5",
+                    "secondary-fixed": "#afefdd",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-container": "#eaeef2",
+                    "surface-bright": "#f6fafe",
+                    "on-primary-fixed-variant": "#2e4675",
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#4d0004",
+                    "secondary": "#29695b",
+                    "on-surface": "#171c1f",
+                    "on-background": "#171c1f",
+                    "outline": "#747780",
+                    "on-secondary-fixed-variant": "#065043",
+                    "inverse-primary": "#aec6fe",
+                    "tertiary": "#220001",
+                    "outline-variant": "#c4c6d0",
+                    "on-secondary-fixed": "#00201a",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dfe3e7",
+                    "secondary-fixed-dim": "#94d3c1",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#d6dade",
+                    "on-tertiary-container": "#dd635a",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#acedda",
+                    "primary-fixed-dim": "#aec6fe",
+                    "on-primary-container": "#7189bc",
+                    "primary": "#000a23",
+                    "on-tertiary-fixed": "#410003",
+                    "surface-container-low": "#f0f4f8",
+                    "surface-container-high": "#e4e9ed",
+                    "inverse-surface": "#2c3134",
+                    "background": "#f6fafe",
+                    "surface-container-highest": "#dfe3e7",
+                    "tertiary-fixed": "#ffdad6",
+                    "on-secondary-container": "#2e6d5f",
+                    "on-surface-variant": "#44474f",
+                    "on-primary-fixed": "#001a42",
+                    "tertiary-fixed-dim": "#ffb4ac",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#465e8f",
+                    "on-tertiary-fixed-variant": "#85221f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(246, 250, 254, 0.7);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<script src="https://harnesshealth.ai/footer.js" defer></script>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Navigation Drawer (SideNav) -->
+<aside class="h-screen w-64 left-0 fixed bg-[#F0F4F8] flex flex-col py-8 gap-2 z-40">
+<div class="px-6 mb-8">
+<a href="/" style="text-decoration:none"><h1 class="font-headline font-bold text-[#00204E] text-2xl tracking-tight">Surgeon<span style="color:#0D7377">Value</span></h1></a>
+<span style="font-size:11px;color:#64748b;letter-spacing:0.04em;text-transform:uppercase">Revenue Dashboard</span>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 bg-[#FFFFFF] text-[#29695B] rounded-r-full shadow-sm font-label text-sm font-medium uppercase tracking-wider transition-all duration-200 ease-in-out" href="/dashboard">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center px-6 py-3 text-[#171C1F] opacity-80 hover:bg-white/50 font-label text-sm font-medium uppercase tracking-wider transition-all duration-200 ease-in-out" href="/audit">
+<span class="material-symbols-outlined mr-3">manage_search</span>
+                Revenue Audit
+            </a>
+<a class="flex items-center px-6 py-3 text-[#171C1F] opacity-80 hover:bg-white/50 font-label text-sm font-medium uppercase tracking-wider transition-all duration-200 ease-in-out" href="/feedback">
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+                Patient Claims
+            </a>
+<a class="flex items-center px-6 py-3 text-[#171C1F] opacity-80 hover:bg-white/50 font-label text-sm font-medium uppercase tracking-wider transition-all duration-200 ease-in-out" href="/connect">
+<span class="material-symbols-outlined mr-3">link</span>
+                Connect EMR
+            </a>
+<a class="flex items-center px-6 py-3 text-[#171C1F] opacity-80 hover:bg-white/50 font-label text-sm font-medium uppercase tracking-wider transition-all duration-200 ease-in-out" href="/support">
+<span class="material-symbols-outlined mr-3">settings</span>
+                Support
+            </a>
+</nav>
+<div class="px-6 pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold">SP</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-primary">Surgeon Profile</span>
+<span class="text-[10px] text-outline">Level 4 Access</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky glass-header flex justify-between items-center px-6 py-4 z-30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">clinical_notes</span>
+<h2 class="font-headline font-bold text-lg tracking-tight text-[#00204E]">Revenue Analytics</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-surface-container-highest px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">search</span>
+<input class="bg-transparent border-none text-xs focus:ring-0 w-48" placeholder="Search Claims..." type="text"/>
+</div>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-8 space-y-8">
+<!-- Section 1: Revenue Overview Bento -->
+<section>
+<div class="grid grid-cols-12 gap-6">
+<!-- High Priority Action Card (Asymmetric) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between border-l-4 border-secondary shadow-sm">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-[10px] font-bold tracking-[0.1em] text-outline uppercase mb-1">Current Period Cycle</p>
+<h3 class="text-3xl font-headline font-extrabold text-primary">Gross Revenue: $482,910.00</h3>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold tracking-[0.1em] text-secondary uppercase mb-1">Net Realized</p>
+<p class="text-2xl font-headline font-bold text-secondary">$391,240.50</p>
+</div>
+</div>
+<!-- Mini Data Viz Area -->
+<div class="flex items-end gap-2 h-24 mb-6">
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-secondary/20 rounded-t-sm h-[85%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-secondary rounded-t-sm h-[95%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-[55%]"></div>
+<div class="flex-1 bg-surface-container-highest rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-secondary/40 rounded-t-sm h-[80%]"></div>
+<div class="flex-1 bg-primary-container rounded-t-sm h-[100%]"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-6 border-t border-outline-variant/10">
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-xs text-on-surface-variant">Claims Reimbursed</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs text-on-surface-variant">Projected Yield</span>
+</div>
+</div>
+<button class="bg-primary-container text-white px-4 py-2 rounded-lg text-xs font-semibold hover:opacity-90 active:scale-95 transition-all">View Full Ledger</button>
+</div>
+</div>
+<!-- Levonti Tracker Module -->
+<div class="col-span-12 lg:col-span-4 bg-primary-container text-white rounded-xl p-8 relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-headline font-bold text-xl mb-2">Levonti Revenue Tracker</h4>
+<p class="text-xs text-on-primary-container mb-6 leading-relaxed">Active monitoring of specialized oncology billing cycles.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-end border-b border-white/10 pb-2">
+<span class="text-xs opacity-70">Active Batches</span>
+<span class="text-lg font-bold">14</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-2">
+<span class="text-xs opacity-70">Avg. Turnaround</span>
+<span class="text-lg font-bold">18 Days</span>
+</div>
+<div class="flex justify-between items-end border-b border-white/10 pb-2">
+<span class="text-xs opacity-70">Compliance Rate</span>
+<span class="text-lg font-bold text-secondary-fixed">99.2%</span>
+</div>
+</div>
+</div>
+<!-- Background graphic -->
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</section>
+<!-- Section 2: Claims & Stress Tokens -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stress Token Logic: Critical Billing Errors -->
+<div class="col-span-1 md:col-span-2 bg-surface-container-low rounded-xl p-6">
+<div class="flex items-center justify-between mb-6">
+<h4 class="font-headline font-bold text-primary">LMN Pending Actions</h4>
+<span class="px-2 py-1 bg-error-container text-on-error-container text-[10px] font-bold rounded-md uppercase">4 High Stress</span>
+</div>
+<div class="space-y-3">
+<!-- High Stress Item -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-1.5 h-10 bg-error rounded-full"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Patient #LX-4402 - Radical Prostatectomy</p>
+<p class="text-xs text-on-surface-variant italic">Missing Narrative: Clinical Justification for Robotic Assist</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-xs font-bold text-error">EXPIRES 48H</p>
+<p class="text-[10px] text-outline">Aging: 28 Days</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">edit_document</button>
+</div>
+</div>
+<!-- Mid Stress Item -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-1.5 h-10 bg-[#FFB4AC] rounded-full"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Patient #LX-5911 - Nephrectomy</p>
+<p class="text-xs text-on-surface-variant italic">Pending Signature: Post-Op Note Clarification</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface-variant">DUE 5D</p>
+<p class="text-[10px] text-outline">Aging: 12 Days</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">draw</button>
+</div>
+</div>
+<!-- Low Stress Item -->
+<div class="bg-surface-container-lowest p-4 rounded-lg flex items-center justify-between group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4">
+<div class="w-1.5 h-10 bg-secondary rounded-full"></div>
+<div>
+<p class="text-sm font-bold text-on-surface">Patient #LX-3288 - Cystoscopy</p>
+<p class="text-xs text-on-surface-variant italic">LMN Drafting: Routine coding verification</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<p class="text-xs font-bold text-secondary">READY</p>
+<p class="text-[10px] text-outline">Aging: 2 Days</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">send</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Claims Status Breakdown -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border-t-4 border-surface-variant">
+<h4 class="font-headline font-bold text-primary mb-6">Claims Status Distribution</h4>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">Reimbursed</span>
+<span class="text-secondary">72%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 72%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">Pending Review</span>
+<span class="text-on-primary-container">18%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full" style="width: 18%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">Denied/Appeal</span>
+<span class="text-error">10%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 10%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 p-4 bg-surface-container-low rounded-lg text-center">
+<p class="text-[10px] font-bold text-outline uppercase tracking-wider mb-1">Monthly Trend</p>
+<p class="text-lg font-bold text-secondary">+12.4% Recovery Rate</p>
+</div>
+</div>
+</section>
+<!-- Section 3: High Density Transaction Log -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="px-6 py-4 flex items-center justify-between border-b border-outline-variant/10">
+<h4 class="font-headline font-bold text-primary">Recent Revenue Cycle Events</h4>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-outline-variant rounded text-xs hover:bg-surface-container transition-colors">Export CSV</button>
+<button class="px-3 py-1.5 border border-outline-variant rounded text-xs hover:bg-surface-container transition-colors">Filter</button>
+</div>
+</div>
+<table class="w-full text-left text-xs">
+<thead>
+<tr class="bg-surface-container-low text-outline font-bold uppercase tracking-widest">
+<th class="px-6 py-3 font-medium">Claim ID</th>
+<th class="px-6 py-3 font-medium">Service Date</th>
+<th class="px-6 py-3 font-medium">Procedure Code</th>
+<th class="px-6 py-3 font-medium">Provider</th>
+<th class="px-6 py-3 font-medium">Billed Amt</th>
+<th class="px-6 py-3 font-medium">Expected</th>
+<th class="px-6 py-3 font-medium">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-mono font-bold">#CLM-9021</td>
+<td class="px-6 py-4 text-on-surface-variant">OCT 22, 2023</td>
+<td class="px-6 py-4"><span class="bg-surface-container-highest px-2 py-1 rounded">50541</span></td>
+<td class="px-6 py-4">Urology North</td>
+<td class="px-6 py-4">$12,400.00</td>
+<td class="px-6 py-4">$9,120.00</td>
+<td class="px-6 py-4"><span class="text-secondary font-bold">REIMBURSED</span></td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-mono font-bold">#CLM-9022</td>
+<td class="px-6 py-4 text-on-surface-variant">OCT 22, 2023</td>
+<td class="px-6 py-4"><span class="bg-surface-container-highest px-2 py-1 rounded">52234</span></td>
+<td class="px-6 py-4">Urology North</td>
+<td class="px-6 py-4">$4,150.00</td>
+<td class="px-6 py-4">$2,900.00</td>
+<td class="px-6 py-4"><span class="text-on-primary-container font-bold">PENDING</span></td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-mono font-bold">#CLM-9023</td>
+<td class="px-6 py-4 text-on-surface-variant">OCT 21, 2023</td>
+<td class="px-6 py-4"><span class="bg-surface-container-highest px-2 py-1 rounded">50548</span></td>
+<td class="px-6 py-4">Surgical Center A</td>
+<td class="px-6 py-4">$28,900.00</td>
+<td class="px-6 py-4">$22,000.00</td>
+<td class="px-6 py-4"><span class="text-error font-bold">DENIED - APPEALED</span></td>
+</tr>
+<tr class="hover:bg-surface-container transition-colors">
+<td class="px-6 py-4 font-mono font-bold">#CLM-9024</td>
+<td class="px-6 py-4 text-on-surface-variant">OCT 21, 2023</td>
+<td class="px-6 py-4"><span class="bg-surface-container-highest px-2 py-1 rounded">CPT-Q2</span></td>
+<td class="px-6 py-4">Urology North</td>
+<td class="px-6 py-4">$850.00</td>
+<td class="px-6 py-4">$850.00</td>
+<td class="px-6 py-4"><span class="text-secondary font-bold">REIMBURSED</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+</div>
+<!-- System Status Footer (Offstage Density) -->
+<footer class="mt-8 px-8 py-4 border-t border-outline-variant/10 flex justify-between items-center text-[10px] text-outline font-bold uppercase tracking-widest">
+<div class="flex gap-6">
+<span>Database: Connected (US-EAST-1)</span>
+<span>Latency: 44ms</span>
+<span>Last Sync: 2 Mins Ago</span>
+</div>
+<div class="flex gap-4 items-center">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> System Operational</span>
+<span>v4.2.1-clinical</span>
+</div>
+</footer>
+</main>
+<!-- Mobile Bottom Navigation (Hidden on Web) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 pb-6 pt-3 bg-white/70 backdrop-blur-xl shadow-[0_-4px_24px_rgba(23,28,31,0.06)] rounded-t-3xl">
+<a class="flex flex-col items-center justify-center bg-[#29695B]/10 text-[#29695B] rounded-2xl px-5 py-2 transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-inter text-xs font-semibold">Care</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#171C1F] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-inter text-xs font-semibold">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#171C1F] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">spa</span>
+<span class="font-inter text-xs font-semibold">Wellness</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#171C1F] transition-transform active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-inter text-xs font-semibold">Profile</span>
+</a>
+</nav>
+</body></html>

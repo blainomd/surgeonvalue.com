@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Legal Architecture — SurgeonValue</title>
+<meta name="description" content="How SurgeonValue is structured to stay AKS/Stark-compliant: flat per-encounter pricing, surgeons bill under their own NPIs, no compensation tied to referrals, no revenue share with downstream providers.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy: #1B2A4A;
+  --navy-mid: #243558;
+  --teal: #0D7377;
+  --teal-light: #14a8ad;
+  --teal-50: #e6f7f7;
+  --white: #FFFFFF;
+  --surface: #F8F9FC;
+  --surface-low: #F1F3F8;
+  --border: #E2E6F0;
+  --text: #1a2233;
+  --text-muted: #4a5568;
+  --text-faint: #718096;
+  --gold: #d4a017;
+  --green: #059669;
+  --green-50: #ecfdf5;
+  --green-100: #d1fae5;
+  --amber: #d97706;
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --red: #dc2626;
+  --red-50: #fef2f2;
+  --red-100: #fecaca;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', -apple-system, sans-serif; font-size: 16px; line-height: 1.6; color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; }
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.ms { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; font-size: 22px; line-height: 1; display: inline-block; vertical-align: middle; }
+
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); height: 68px; display: flex; align-items: center; }
+.nav-inner { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo-mark { width: 36px; height: 36px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--teal-light); }
+.nav-logo-mark .ms { font-size: 20px; font-variation-settings: 'FILL' 1; }
+.nav-logo-text { font-size: 18px; font-weight: 800; color: var(--navy); }
+.nav-logo-text span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+.nav-links a:hover { color: var(--navy); text-decoration: none; }
+.nav-links .active { color: var(--navy); font-weight: 700; }
+.nav-cta { background: var(--navy); color: var(--white) !important; padding: 9px 22px; border-radius: 8px; font-size: 14px; font-weight: 600 !important; }
+.nav-cta:hover { background: var(--navy-mid) !important; text-decoration: none !important; }
+
+.hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%); color: white; padding: 72px 32px 64px; text-align: center; }
+.hero-eyebrow { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 16px; }
+.hero h1 { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; max-width: 820px; margin: 0 auto 20px; }
+.hero h1 em { font-style: italic; color: var(--teal-light); font-weight: 600; }
+.hero p { font-size: 17px; color: rgba(255,255,255,0.85); max-width: 720px; margin: 0 auto; line-height: 1.6; }
+.hero-meta { margin-top: 24px; font-size: 12px; color: rgba(255,255,255,0.55); font-style: italic; }
+
+.container { max-width: 880px; margin: 0 auto; padding: 48px 32px 72px; }
+
+.section { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px 36px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(27,42,74,0.04); }
+.section-head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+.section-icon { flex-shrink: 0; width: 44px; height: 44px; background: var(--teal-50); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--teal); }
+.section-icon .ms { font-size: 24px; }
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
+.section-title { font-size: 22px; font-weight: 700; color: var(--navy); margin-top: 2px; letter-spacing: -0.01em; }
+.status-badge { margin-left: auto; flex-shrink: 0; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid; }
+.status-green { background: var(--green-50); color: #065f46; border-color: var(--green-100); }
+.status-yellow { background: var(--amber-50); color: #92400e; border-color: var(--amber-100); }
+
+.section-body { color: var(--text-muted); line-height: 1.7; font-size: 15px; }
+.section-body p + p { margin-top: 10px; }
+.section-body ul { margin: 10px 0 10px 20px; list-style: disc; }
+.section-body li { margin-bottom: 4px; }
+.section-body strong { color: var(--text); }
+.code { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: var(--surface-low); padding: 2px 6px; border-radius: 4px; color: var(--navy); }
+
+.callout-dark { background: var(--navy); color: white; border-radius: 16px; padding: 32px 36px; margin-bottom: 20px; }
+.callout-dark h2 { font-size: 22px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }
+.callout-dark p { color: rgba(255,255,255,0.85); line-height: 1.7; font-size: 15px; }
+.callout-dark p + p { margin-top: 10px; }
+.callout-dark strong { color: white; }
+
+.status-table { background: white; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin: 32px 0 24px; }
+.status-table table { width: 100%; border-collapse: collapse; }
+.status-table thead { background: var(--surface-low); }
+.status-table th { text-align: left; padding: 14px 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-faint); }
+.status-table td { padding: 14px 20px; font-size: 14px; color: var(--text-muted); border-top: 1px solid var(--border); }
+.status-table td.area { color: var(--text); }
+.mini-badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; border: 1px solid; }
+
+.refs { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; }
+.refs h2 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 14px; letter-spacing: -0.01em; }
+.refs ul { list-style: none; }
+.refs li { font-size: 14px; color: var(--text-muted); padding: 6px 0; border-bottom: 1px dashed var(--border); }
+.refs li:last-child { border-bottom: none; }
+.refs strong { color: var(--navy); }
+
+.contact { text-align: center; padding: 32px 0 16px; }
+.contact p { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+
+.footer { text-align: center; padding: 40px 32px 64px; color: var(--text-faint); font-size: 13px; border-top: 1px solid var(--border); margin-top: 48px; }
+.footer strong { color: var(--navy); }
+
+h2 { letter-spacing: -0.01em; }
+
+@media (max-width: 640px) {
+  .nav-links li:not(:last-child) { display: none; }
+  .hero h1 { font-size: 32px; }
+  .section { padding: 24px 22px; }
+  .callout-dark { padding: 24px 22px; }
+}
+</style>
+<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<script src="https://harnesshealth.ai/footer.js" defer></script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="nav-logo-mark"><span class="ms">local_hospital</span></span>
+      <span class="nav-logo-text">Surgeon<span>Value</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#wonder-bill">Wonder Bill</a></li>
+      <li><a href="/audit">Revenue Audit</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/legal" class="active">Legal</a></li>
+      <li><a href="/#onboarding" class="nav-cta">Get Started</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <span class="hero-eyebrow">Legal Architecture</span>
+  <h1>Flat fees. Your NPI. <em>No referral money.</em></h1>
+  <p>
+    SurgeonValue is software licensed to surgical practices at a flat, fair-market price. It never pays for or takes a cut of
+    referrals, downstream revenue, or payer contracts. This page is the accounting of how the product is structured to stay
+    AKS and Stark compliant by design.
+  </p>
+  <p class="hero-meta">Last updated April 17, 2026. Nothing here is legal advice.</p>
+</section>
+
+<main class="container">
+
+<!-- 1. PLATFORM, NOT MSO -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">hub</span></div>
+    <div>
+      <div class="section-label">1 &middot; What SurgeonValue is</div>
+      <h2 class="section-title">Software platform. Not an MSO. Not a provider.</h2>
+    </div>
+    <span class="status-badge status-green">Clear</span>
+  </div>
+  <div class="section-body">
+    <p>SurgeonValue is a software platform (SaaS) licensed to orthopedic surgical practices. It is not a Management Services
+    Organization, it is not a billing company, and it does not deliver clinical care. The surgeon owns the patient
+    relationship, the panel, the clinical decisions, and the billing entity.</p>
+    <p>Revenue captured through the platform flows directly to the surgeon&apos;s own billing entity under the surgeon&apos;s
+    own NPI. SurgeonValue never bills a payer on the surgeon&apos;s behalf and never holds funds that belong to the
+    surgeon.</p>
+  </div>
+</div>
+
+<!-- 2. PRICING MODEL -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">sell</span></div>
+    <div>
+      <div class="section-label">2 &middot; Pricing</div>
+      <h2 class="section-title">Flat per-encounter. Fair market value. No revenue share.</h2>
+    </div>
+    <span class="status-badge status-green">Clear</span>
+  </div>
+  <div class="section-body">
+    <p>Pricing is published on the home page: a monthly subscription at a fixed dollar amount per seat (Free, Core $199/mo,
+    Pro $299/mo) plus a flat $20 per encounter processed through the platform. The same fees apply to every surgeon on
+    the platform regardless of specialty mix, payer mix, referral volume, or downstream revenue.</p>
+    <p>The platform fee is <strong>not</strong> a percentage of collections, a percentage of denials recovered, a per-referral
+    fee, or a bounty tied to any downstream service. This structure is the same flat per-encounter framework the OIG has
+    recognized in Advisory Opinions (including <span class="code">OIG AO 25-03</span>) as consistent with the Anti-Kickback
+    Statute safe-harbor principles for personal services and management contracts under
+    <span class="code">42 CFR &sect; 1001.952(d)</span>.</p>
+    <p>Fair-market-value benchmarking is performed annually against third-party healthcare software pricing data. The FMV
+    analysis is maintained internally and is available to engaged counsel on request.</p>
+  </div>
+</div>
+
+<!-- 3. REFERRALS -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">alt_route</span></div>
+    <div>
+      <div class="section-label">3 &middot; Referrals &amp; downstream services</div>
+      <h2 class="section-title">We do not pay for referrals. We do not take a cut.</h2>
+    </div>
+    <span class="status-badge status-green">Clear</span>
+  </div>
+  <div class="section-body">
+    <p>SurgeonValue does not compensate any person or entity for referring a patient, ordering a service, or selecting a
+    device, implant, or facility. The platform&apos;s resource directory (used to help patients find ancillary services such
+    as home care, imaging, or second opinions) is a non-paid directory &mdash; listings are not sold, sponsored, or weighted
+    by payment.</p>
+    <p>Co-op.care, Altru.care, and ClinicalSwipe are separately branded sibling products within the SolvingHealth
+    ecosystem. A surgeon&apos;s patient may be presented with those options through the resource directory, but SurgeonValue
+    receives no compensation from those entities for any patient who selects them, and the surgeon receives no
+    compensation for presenting the options. Patient choice is preserved at every step.</p>
+  </div>
+</div>
+
+<!-- 4. SURGEON AUTONOMY -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">medical_information</span></div>
+    <div>
+      <div class="section-label">4 &middot; Surgeon autonomy</div>
+      <h2 class="section-title">The surgeon signs. SurgeonValue assists.</h2>
+    </div>
+    <span class="status-badge status-green">Clear</span>
+  </div>
+  <div class="section-body">
+    <p>Every billable code, prior authorization letter, clinical summary, or coding recommendation surfaced by the platform
+    is a <em>suggestion</em>. The surgeon retains final authority to accept, edit, or reject every suggestion before it is
+    submitted to a payer or entered into the EHR. No code is submitted from SurgeonValue to a clearinghouse or payer without
+    surgeon approval.</p>
+    <p>This is reinforced by the ClinicalSwipe attestation layer: every AI-generated artifact carries a physician review
+    signature before release. The architecture implements the AI-governance principle endorsed in AMA clinical AI guidance
+    and aligns with the physician-in-the-loop framing central to the
+    Lantos et al. JAMA 2026 editorial on clinical AI.</p>
+  </div>
+</div>
+
+<!-- 5. DATA & HIPAA -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">lock</span></div>
+    <div>
+      <div class="section-label">5 &middot; HIPAA &amp; data processing</div>
+      <h2 class="section-title">Business Associate. BAA with every practice.</h2>
+    </div>
+    <span class="status-badge status-green">Clear</span>
+  </div>
+  <div class="section-body">
+    <p>SurgeonValue is a HIPAA Business Associate to each surgical practice that licenses the platform. A BAA is executed
+    before any PHI is transmitted. Sub-processors (model vendors, cloud infrastructure, clearinghouses, EHR integrators) are
+    each covered by sub-BAAs with minimum-necessary data-flow restrictions.</p>
+    <p>Patient PHI is processed only for the permitted purposes under the BAA: supporting the surgeon&apos;s treatment,
+    payment, and healthcare-operations activities. PHI is never used to train foundation models and is never shared with
+    any entity outside the BAA chain. Model inference is routed exclusively to BAA-executed endpoints.</p>
+  </div>
+</div>
+
+<!-- 6. EHR / CLEARINGHOUSE -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">integration_instructions</span></div>
+    <div>
+      <div class="section-label">6 &middot; EHR &amp; clearinghouse integration</div>
+      <h2 class="section-title">Sanctioned APIs. No scraping. No backchannels.</h2>
+    </div>
+    <span class="status-badge status-green">Clear</span>
+  </div>
+  <div class="section-body">
+    <p>SurgeonValue integrates with practice EHRs (Epic, Cerner, athenahealth, eClinicalWorks, ModMed, NextGen, AdvancedMD
+    and others) exclusively through each EHR&apos;s sanctioned developer program &mdash; SMART on FHIR for API access,
+    formal integration agreements for read/write workflows, and in every case at the direction and authorization of the
+    practice that owns the patient data.</p>
+    <p>Claims submission, eligibility checks, and denials workflows flow through licensed clearinghouses (Waystar,
+    Availity, Change Healthcare, Office Ally) under executed connectivity agreements. SurgeonValue does not originate
+    claims &mdash; the surgeon&apos;s billing entity originates every claim under its own NPI and tax ID.</p>
+  </div>
+</div>
+
+<!-- 7. CJR-X / EPISODE-BASED -->
+<div class="section">
+  <div class="section-head">
+    <div class="section-icon"><span class="ms">hotel_class</span></div>
+    <div>
+      <div class="section-label">7 &middot; CJR-X episode-based care</div>
+      <h2 class="section-title">We help surgeons track episodes. We do not take a cut of shared savings.</h2>
+    </div>
+    <span class="status-badge status-yellow">Yellow</span>
+  </div>
+  <div class="section-body">
+    <p>SurgeonValue surfaces CJR-X (Comprehensive Joint Replacement - Expanded) episode analytics, cost-of-care benchmarks,
+    and outcome tracking. The platform&apos;s fee for these features remains a flat subscription &mdash; it is not a
+    percentage of any shared savings or gainsharing payment the practice may receive under the CJR-X model.</p>
+    <p><strong>Open item:</strong> If a practice that uses SurgeonValue also participates in a gainsharing arrangement with
+    a convening entity, that separate arrangement is governed by its own OIG gainsharing framework and is not a
+    SurgeonValue transaction. We are completing an advisory opinion request to confirm this separation remains clean
+    under the CJR-X final rule. Flagged YELLOW until on file.</p>
+  </div>
+</div>
+
+<!-- MSO-PC STRUCTURE -->
+<div class="callout-dark">
+  <div class="section-label" style="color: rgba(255,255,255,0.6); margin-bottom: 6px;">8 &middot; Entity separation</div>
+  <h2>SurgeonValue is software. The surgeon is the provider.</h2>
+  <p>SurgeonValue Inc. is a Delaware C corporation that licenses software. Every surgeon who uses the platform does so
+  through their own professional corporation, medical group, or employment arrangement. SurgeonValue has no ownership
+  interest in any clinical entity and no clinical entity has ownership in SurgeonValue beyond arm&apos;s-length equity
+  held by founders, employees, and investors.</p>
+  <p>The SolvingHealth ecosystem includes Altru.care (physician-owned DPC practice) and co-op.care (worker-owned care
+  cooperative). Those entities do not share ownership with SurgeonValue&apos;s clinical customers. Referral paths
+  between ecosystem entities follow the non-paid resource-directory model described in Section 3.</p>
+</div>
+
+<!-- STATUS TABLE -->
+<div style="margin-top: 32px;">
+  <h2 style="font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 4px;">Compliance status</h2>
+  <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Living document. Updated whenever a structural change clears counsel.</p>
+  <div class="status-table">
+    <table>
+      <thead>
+        <tr><th>Area</th><th>Status</th><th>Owner</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="area">Platform vs MSO scope (surgeon owns billing)</td><td><span class="mini-badge status-green">Clear</span></td><td>Counsel</td></tr>
+        <tr><td class="area">Flat per-encounter pricing (no revenue share)</td><td><span class="mini-badge status-green">Clear</span></td><td>Counsel</td></tr>
+        <tr><td class="area">Non-paid resource directory (no referral fees)</td><td><span class="mini-badge status-green">Clear</span></td><td>Product</td></tr>
+        <tr><td class="area">Physician-signed AI artifacts (ClinicalSwipe)</td><td><span class="mini-badge status-green">Clear</span></td><td>Engineering</td></tr>
+        <tr><td class="area">HIPAA Business Associate &amp; sub-BAAs</td><td><span class="mini-badge status-green">Clear</span></td><td>Security</td></tr>
+        <tr><td class="area">Sanctioned EHR integration (SMART on FHIR)</td><td><span class="mini-badge status-green">Clear</span></td><td>Engineering</td></tr>
+        <tr><td class="area">Annual FMV benchmark for platform fee</td><td><span class="mini-badge status-yellow">Yellow</span></td><td>Counsel</td></tr>
+        <tr><td class="area">CJR-X gainsharing separation opinion</td><td><span class="mini-badge status-yellow">Yellow</span></td><td>Counsel</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size: 12px; color: var(--text-faint); margin-top: 8px;">Six GREEN, two YELLOW, zero RED as of April 17, 2026.</p>
+</div>
+
+<!-- REFERENCES -->
+<div class="refs" style="margin-top: 32px;">
+  <h2>Primary sources</h2>
+  <ul>
+    <li><strong>42 USC &sect; 1320a-7b(b)</strong> &mdash; Anti-Kickback Statute.</li>
+    <li><strong>42 CFR &sect; 1001.952(d)</strong> &mdash; AKS safe harbor for personal services and management contracts.</li>
+    <li><strong>42 USC &sect; 1395nn</strong> &mdash; Physician Self-Referral Law (Stark).</li>
+    <li><strong>OIG Advisory Opinion 25-03</strong> &mdash; Flat per-service compensation frameworks.</li>
+    <li><strong>OIG General Guidance on Gainsharing</strong> &mdash; Structural separation from platform fees.</li>
+    <li><strong>CMS CJR-X Proposed Rule (2026)</strong> &mdash; Mandatory episode-based payment, major joint replacement.</li>
+    <li><strong>45 CFR Parts 160 &amp; 164</strong> &mdash; HIPAA Privacy and Security Rules.</li>
+    <li><strong>CMS 855I</strong> &mdash; Medicare provider enrollment (surgeon&apos;s individual enrollment, not SurgeonValue&apos;s).</li>
+  </ul>
+</div>
+
+<!-- CONTACT -->
+<div class="contact">
+  <p>Questions about how the platform is structured?</p>
+  <a href="mailto:legal@surgeonvalue.com">legal@surgeonvalue.com</a>
+</div>
+
+</main>
+
+<div class="footer">
+  <p><strong>SurgeonValue Inc.</strong></p>
+  <p>Software for the surgeons who sign every claim.</p>
+  <p style="margin-top: 12px; color: var(--text-faint);">Nothing on this page is legal advice.</p>
+</div>
+
+</body>
+</html>

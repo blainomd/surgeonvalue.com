@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pocket — SurgeonValue on your phone</title>
+<meta name="description" content="Pocket is the surgeon app that doesn't need EMR integration. Dictate → drafts in seconds. Patient replies, social posts, prior auth, bad-review responses, referral letters. $49/mo. Install in 30 seconds.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<script src="https://harnesshealth.ai/footer.js" defer></script>
+
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy: #1B2A4A;
+  --navy-mid: #243558;
+  --navy-soft: #33456d;
+  --teal: #0D7377;
+  --teal-light: #14a8ad;
+  --teal-50: #e6f7f7;
+  --teal-100: #c8f0f1;
+  --white: #fff;
+  --surface: #F8F9FC;
+  --surface-low: #F1F3F8;
+  --border: #E2E6F0;
+  --text: #1a2233;
+  --text-muted: #4a5568;
+  --text-faint: #718096;
+  --gold: #d4a017;
+  --green: #059669;
+  --amber: #d97706;
+  --red: #dc2626;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 72px;
+}
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.ms {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal; font-style: normal;
+  line-height: 1; white-space: nowrap;
+  display: inline-block;
+  font-feature-settings: 'liga';
+}
+
+/* ── TOP RIBBON ── */
+.ribbon {
+  background: linear-gradient(90deg, var(--navy) 0%, var(--teal) 100%);
+  color: #fff;
+  padding: 10px 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.ribbon b { font-weight: 800; }
+
+/* ── NAV ── */
+nav.top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 50;
+}
+nav.top .brand { font-weight: 900; font-size: 18px; color: var(--navy); }
+nav.top .brand span { color: var(--teal); }
+nav.top .right {
+  display: flex; align-items: center; gap: 20px;
+  font-size: 14px;
+}
+nav.top .cta {
+  background: var(--navy); color: #fff;
+  padding: 10px 18px; border-radius: 8px;
+  font-weight: 700; font-size: 13px;
+}
+nav.top .cta:hover { background: var(--navy-mid); text-decoration: none; color: #fff; }
+
+/* ── HERO ── */
+.hero {
+  max-width: 1080px; margin: 0 auto;
+  padding: 64px 32px 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+@media (min-width: 900px) { .hero { grid-template-columns: 1.1fr 1fr; align-items: center; } }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--teal-50); color: var(--teal);
+  padding: 6px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+h1.hero-title {
+  font-size: clamp(36px, 5.5vw, 56px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--navy);
+  margin-bottom: 18px;
+}
+h1.hero-title em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--teal) 0%, var(--teal-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 19px;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin-bottom: 28px;
+}
+
+.hero-cta-row {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-bottom: 24px;
+}
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  font-size: 15px; font-weight: 700;
+  transition: all 0.15s;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+.btn-primary { background: var(--navy); color: #fff; }
+.btn-primary:hover { background: var(--navy-mid); text-decoration: none; color: #fff; }
+.btn-secondary { background: var(--white); color: var(--navy); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--navy); text-decoration: none; }
+
+.install-steps-card {
+  background: var(--navy);
+  border-radius: 20px;
+  padding: 32px;
+  color: #fff;
+  box-shadow: 0 30px 60px -20px rgba(27,42,74,0.5);
+}
+.install-steps-card h3 {
+  font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--teal-light);
+  margin-bottom: 20px;
+}
+.install-steps-card ol {
+  list-style: none; counter-reset: step;
+  display: grid; gap: 14px;
+}
+.install-steps-card li {
+  counter-increment: step;
+  display: grid; grid-template-columns: 28px 1fr; gap: 14px;
+  align-items: baseline;
+  font-size: 14px;
+  color: rgba(255,255,255,0.92);
+}
+.install-steps-card li::before {
+  content: counter(step);
+  background: var(--teal);
+  color: #fff;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800;
+  padding-top: 1px;
+}
+.install-steps-card li b { color: #fff; font-weight: 700; }
+.install-steps-card li code {
+  display: block;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  background: rgba(255,255,255,0.08);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 4px;
+  word-break: break-all;
+  color: var(--teal-light);
+}
+.install-steps-card .footer-note {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: 12px; color: rgba(255,255,255,0.6);
+}
+
+/* ── TEN THINGS ── */
+section.ten {
+  background: var(--surface-low);
+  padding: 64px 24px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.ten-inner { max-width: 1080px; margin: 0 auto; }
+.ten-head { text-align: center; margin-bottom: 44px; }
+.ten-head h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+.ten-head p {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.things {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 720px) { .things { grid-template-columns: 1fr 1fr; } }
+
+.thing {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.thing:hover {
+  box-shadow: 0 12px 28px -10px rgba(27,42,74,0.15);
+  transform: translateY(-2px);
+}
+.thing-num {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.thing h3 {
+  font-size: 17px; font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.thing .tag {
+  display: inline-block;
+  background: var(--teal-50); color: var(--teal);
+  font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+  padding: 3px 8px; border-radius: 4px; text-transform: uppercase;
+  margin-left: 6px; vertical-align: middle;
+}
+.thing .tag.pro { background: #fef3c7; color: #92400e; }
+.thing .desc {
+  font-size: 14.5px; color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.thing .try-this {
+  background: var(--navy);
+  color: rgba(255,255,255,0.96);
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 38px 14px 12px;
+  border-radius: 8px;
+  position: relative;
+}
+.thing .try-this::before {
+  content: "TRY THIS →";
+  position: absolute;
+  top: 12px; left: 14px;
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px; font-weight: 800; letter-spacing: 0.15em;
+  color: var(--teal-light);
+}
+.thing .try-this .prompt-text {
+  display: block;
+}
+.thing .try-this .copy-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: rgba(255,255,255,0.08);
+  color: var(--teal-light);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.thing .try-this .copy-btn:hover {
+  background: var(--teal);
+  color: #fff;
+  border-color: var(--teal);
+}
+.thing .try-this .copy-btn.copied {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+
+/* ── WHY NOVEL ── */
+.why {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 64px 32px;
+}
+.why h2 {
+  font-size: clamp(26px, 3.5vw, 36px);
+  font-weight: 900;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.why-grid {
+  display: grid; grid-template-columns: 1fr; gap: 20px;
+}
+@media (min-width: 720px) { .why-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.why-item {
+  background: #fff;
+  border-top: 3px solid var(--teal);
+  padding: 24px;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px -4px rgba(0,0,0,0.05);
+}
+.why-item .ms { font-size: 32px; color: var(--teal); display: block; margin-bottom: 12px; font-variation-settings: 'FILL' 1; }
+.why-item h4 { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+.why-item p { font-size: 14px; color: var(--text-muted); }
+
+/* ── CLOSING ── */
+section.closing {
+  background: var(--navy);
+  color: #fff;
+  padding: 72px 32px;
+  text-align: center;
+}
+section.closing h2 {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+  max-width: 720px; margin-left: auto; margin-right: auto;
+}
+section.closing p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 28px;
+  max-width: 580px; margin-left: auto; margin-right: auto;
+}
+section.closing .cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--teal);
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 10px;
+  font-size: 16px; font-weight: 800;
+}
+section.closing .cta:hover { background: var(--teal-light); text-decoration: none; color: #fff; }
+section.closing .small {
+  font-size: 13px; color: rgba(255,255,255,0.45);
+  margin-top: 20px;
+}
+section.closing .small a { color: rgba(255,255,255,0.8); }
+
+/* ── Levonti note ── */
+.levonti-note {
+  max-width: 760px;
+  margin: 40px auto 0;
+  padding: 22px 28px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.levonti-note b { color: var(--navy); font-weight: 700; }
+
+/* ── mobile ── */
+@media (max-width: 540px) {
+  nav.top { padding: 14px 18px; }
+  nav.top .right { gap: 12px; }
+  .hero { padding: 40px 20px 32px; gap: 32px; }
+  .install-steps-card { padding: 24px; }
+  section.ten { padding: 48px 18px; }
+  .thing { padding: 18px 20px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ── RIBBON ── -->
+<div class="ribbon">
+  <b>Preview access</b> · Built for Levonti and his surgeon network · <a href="mailto:orthoblaino@gmail.com" style="color:#fff;text-decoration:underline">text Blaine feedback</a>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="top">
+  <a href="/" class="brand" style="text-decoration:none">Surgeon<span>Value</span></a>
+  <div class="right">
+    <a href="/#demo">Live demo</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="#install" class="cta">Install Pocket</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section>
+<div class="hero">
+  <div>
+    <div class="eyebrow">
+      <span class="ms" style="font-size:14px;font-variation-settings:'FILL' 1">bolt</span>
+      For surgeons who want hours back, not another login
+    </div>
+    <h1 class="hero-title">Dictate. Draft. <em>Done.</em></h1>
+    <p class="hero-sub">Pocket is the surgeon app that works without EMR integration. Dictate between cases — get patient replies, social posts, prior-auth letters, referral drafts, and bad-review responses in seconds. Runs on your phone. Installs in 30 seconds. $49/month.</p>
+
+    <div class="hero-cta-row">
+      <a href="#install" class="btn-primary">
+        <span class="ms" style="font-size:18px;font-variation-settings:'FILL' 1">download</span>
+        Install Pocket
+      </a>
+      <a href="#ten" class="btn-secondary">
+        <span class="ms" style="font-size:18px">arrow_downward</span>
+        10 things to try
+      </a>
+    </div>
+
+    <div style="font-size:13px;color:var(--text-faint);display:flex;gap:18px;flex-wrap:wrap">
+      <span><span class="ms" style="font-size:14px;color:var(--teal);vertical-align:middle">check_circle</span> No EMR login</span>
+      <span><span class="ms" style="font-size:14px;color:var(--teal);vertical-align:middle">check_circle</span> No hospital IT ticket</span>
+      <span><span class="ms" style="font-size:14px;color:var(--teal);vertical-align:middle">check_circle</span> HIPAA-aware drafts</span>
+      <span><span class="ms" style="font-size:14px;color:var(--teal);vertical-align:middle">check_circle</span> You review before sending</span>
+    </div>
+  </div>
+
+  <div class="install-steps-card" id="install">
+    <h3>Install Pocket — today, 3 minutes</h3>
+    <ol>
+      <li>
+        <div>
+          <b>Download Claude Desktop</b> from <a href="https://claude.ai/download" target="_blank" rel="noopener" style="color:var(--teal-light)">claude.ai/download</a> (free for Claude Pro / Team).
+        </div>
+      </li>
+      <li>
+        <div>
+          Open Claude → <b>Settings</b> → <b>Connectors</b> → <b>Add custom connector</b>.
+          <code>https://solvinghealth-mcp-production.up.railway.app/mcp</code>
+        </div>
+      </li>
+      <li>
+        <div>
+          <b>Restart Claude Desktop.</b> You now have 246 SurgeonValue tools available. Talk to Claude in plain English — it figures out which tool to call.
+        </div>
+      </li>
+      <li>
+        <div>
+          <b>Try the 10 prompts below.</b> Each one demos a different thing Pocket does. Copy, paste, hit send.
+        </div>
+      </li>
+    </ol>
+    <div class="footer-note">
+      A native iPhone PWA is shipping this week. Today, the engine runs inside Claude Desktop — same tools, different front door.
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ── TEN THINGS ── -->
+<section class="ten" id="ten">
+<div class="ten-inner">
+  <div class="ten-head">
+    <h2>10 things a joint replacement surgeon can try in 60 seconds each</h2>
+    <p>Every prompt below is tuned for a TKA/THA practice — revision cases, primary joint, robotic-assist, recovery, referrals, reviews. Hit copy, paste into Claude Desktop, watch what happens.</p>
+  </div>
+
+  <div class="things">
+
+    <div class="thing">
+      <div class="thing-num">01 · PATIENT COMMS</div>
+      <h3>Reply to a patient's MyChart-style question</h3>
+      <p class="desc">You don't need access to the EMR. Paste the question — Pocket drafts a professional reassuring reply with red-flag checkpoints at the bottom.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Draft a patient reply to this message, in my voice as an joint replacement surgeon: "Hi Dr. — my knee is still clicking three weeks after the TKA and I'm nervous. Is this normal?"</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">02 · REPUTATION</div>
+      <h3>Respond to a bad Yelp or Google review</h3>
+      <p class="desc">HIPAA-safe templated response. Acknowledges without confirming a patient relationship. Offers to resolve privately. Zero identifying detail.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Draft a HIPAA-compliant response to this 1-star Google review of my orthopedic clinic: "Waited 90 minutes for my post-op knee recheck. Dr. barely looked at the x-ray. Will not return for my other knee."</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">03 · SOCIAL</div>
+      <h3>Turn a case into a LinkedIn post in your voice</h3>
+      <p class="desc">Dictate a case, get a polished post. Surgeon-branded, educational, no PHI, hashtags included. This is your social media empire automated.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Write a LinkedIn post for my orthopedic practice about a 68-year-old patient who walked without a cane for the first time in four years at her 12-week post-op TKA appointment. Educational tone. No PHI. #MedEd hashtags.</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">04 · PRIOR AUTH</div>
+      <h3>Prior auth letter from one-sentence dictation</h3>
+      <p class="desc">Voice memo in, letter out. Cites AAOS CPG, conservative-care timeline, and payer-specific medical necessity language. 58 seconds.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Write a prior auth letter to Aetna HMO for a 67-year-old female. Right knee revision TKA. Two failed primary TKAs. Current x-rays show aseptic loosening. She has completed 12 weeks PT, exhausted conservative care. Include AAOS CPG citations.</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">05 · REFERRALS</div>
+      <h3>Two letters from one dictation — clinical + patient</h3>
+      <p class="desc">Dictate the referral once. Get two letters: a clinical letter to the receiving provider, and a readable version for the patient. Both in your voice.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Refer Mrs. Chen to Dr. Martinez for pain management. Persistent anterior thigh pain 14 months post right THA. Well-fixed components on x-ray, no signs of infection. Failed PT and intra-articular injection. Draft two versions — one clinical letter to Dr. Martinez, one patient-facing letter explaining what to expect.</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">06 · CONTENT</div>
+      <h3>Quarterly content calendar in 30 seconds</h3>
+      <p class="desc">Pick a theme. Get 12 weeks of LinkedIn post drafts. Rotating formats: case story, explainer, CME note, myth-bust, patient empowerment.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Give me 12 LinkedIn posts for Q2, one per week, for my joint-replacement practice. Rotate between: primary TKA case stories, myth-busters on recovery timelines, Mako / robotic-assist explainers, partial knee vs total knee decision-making, revision TKA cases, same-day discharge success stories. Keep my surgeon voice — direct, no marketing fluff.</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">07 · ACADEMICS</div>
+      <h3>Grand rounds prep with real citations</h3>
+      <p class="desc">Give it a topic. Get a 10-minute talk outline, five PubMed citations with DOIs, and three teaching points. Ready for the trainees in 3 minutes.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Prep me a 10-minute grand rounds on peri-prosthetic femur fractures after THA. Include five recent PubMed citations with DOIs, the current Vancouver classification with surgical decision points, three key teaching points for a senior resident audience, and a clinical case to open with.</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">08 · DM TRIAGE</div>
+      <h3>Respond to surgeon-DMs asking for medical advice</h3>
+      <p class="desc">You get 20+ of these a week as a surgeon with a following. Pocket drafts a compliant redirect with a disclaimer, a link to your clinic, and preserves your voice.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Someone DM'd me on Instagram: "Hi Dr. — my mom has bone-on-bone arthritis. Should she get a partial or total knee? She's 64." Draft a compliant redirect that acknowledges, disclaims specific medical advice, and points her to my clinic website.</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">09 · WONDER BILL <span class="tag pro">Pocket Pro</span></h3>
+      <h3>Op-note audit: find every billable you forgot</h3>
+      <p class="desc">Paste any op note. Pocket returns PCM, RTM, CCM, G2211 codes you documented but didn't bill — plus a biller-ready 3-line summary.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Scan this TKA op note for unbilled codes — PCM, RTM, CCM, G2211, TCM, 20611 ultrasound-guided injection, modifier 22 if applicable. Return a biller-ready 3-line summary. [paste your TKA or THA op note here]</span></div>
+    </div>
+
+    <div class="thing">
+      <div class="thing-num">10 · WEEKLY CHECK-IN</div>
+      <h3>"Pocket, what did I miss this week?"</h3>
+      <p class="desc">Monday morning, ask one question. Pocket scans your reviews, pulls flagged DMs, drafts replies for the three messages that actually need one. Four hours saved before you drink your coffee.</p>
+      <div class="try-this"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><span class="prompt-text">Pocket, give me a Monday summary for my joint-replacement practice: any new Google or Yelp reviews I should respond to, any patient DMs on my Instagram about knee or hip surgery, next week's prior auth workload flagged by likely-denial risk, and one social post suggestion for this week tied to the most common question I got. Prioritize what's actually urgent.</span></div>
+    </div>
+
+  </div>
+
+  <div class="levonti-note">
+    <b>Note for Levonti:</b> Blaine built these ten prompts specifically for the surgeon use case you've been demoing. Each one is a standalone 30-second demo you can run in front of a surgeon — pull up Claude Desktop on your laptop, paste the prompt, show the output. Try them yourself first, pick the three that land best, and lead with those in your next surgeon demo. Any that break or underwhelm — text Blaine, he'll tune them tonight.
+  </div>
+</div>
+</section>
+
+<!-- ── WHY NOVEL ── -->
+<section class="why">
+  <h2>Why this is different from the 50 AI apps in your inbox</h2>
+  <div class="why-grid">
+    <div class="why-item">
+      <span class="ms">shield_person</span>
+      <h4>No EMR. No hospital IT.</h4>
+      <p>Every other AI product asks for a six-month hospital IT integration. Pocket installs on your personal iPhone in 30 seconds. You own the install. Hospital can't turn it off.</p>
+    </div>
+    <div class="why-item">
+      <span class="ms">mic</span>
+      <h4>Voice-first. Surgeon-paced.</h4>
+      <p>Dictation between cases. In the OR hallway. Waiting for anesthesia. Pocket is designed for the 90 seconds you have, not the 10 minutes you don't.</p>
+    </div>
+    <div class="why-item">
+      <span class="ms">hub</span>
+      <h4>246 tools. One conversation.</h4>
+      <p>You don't pick features from a menu. You talk to Pocket. It picks the right tool from a 246-tool stack automatically. Progressive-discovery agent architecture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section class="closing">
+  <h2>Ship this, not another pitch deck.</h2>
+  <p>Install Pocket in 3 minutes. Try the 10 prompts. Keep the three that work in your day. Delete the rest. Pocket gets better the more you use it.</p>
+  <a href="#install" class="cta">
+    <span class="ms" style="font-size:22px;font-variation-settings:'FILL' 1">phone_iphone</span>
+    Install Pocket — $49/mo
+  </a>
+  <div class="small">
+    Questions? Text <a href="mailto:orthoblaino@gmail.com">Blaine</a>. Feedback goes straight into tomorrow's release.
+  </div>
+</section>
+
+<script>
+  function copyPrompt(btn) {
+    var span = btn.parentElement.querySelector('.prompt-text');
+    if (!span) return;
+    var text = span.innerText;
+    (navigator.clipboard && navigator.clipboard.writeText
+      ? navigator.clipboard.writeText(text)
+      : Promise.resolve()
+    ).then(function () {
+      var orig = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btn.textContent = orig || 'Copy';
+        btn.classList.remove('copied');
+      }, 1800);
+    }).catch(function () {
+      // Fallback: select text for manual copy
+      var range = document.createRange();
+      range.selectNode(span);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      btn.textContent = 'Selected';
+      setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SurgeonValue — Outreach Assets</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#1B2A4A;--teal:#0D7377;--teal-light:#14a8ad;--surface:#f5f8fc;--border:#e2e6f0;--muted:#64748b}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--navy)}
+nav{background:var(--navy);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-family:'Manrope',sans-serif;font-size:17px;font-weight:800;color:#fff;text-decoration:none}
+.nav-brand span{color:var(--teal-light)}
+.shell{max-width:900px;margin:0 auto;padding:48px 24px 80px}
+h1{font-family:'Manrope',sans-serif;font-size:26px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:40px}
+
+/* TABS */
+.tab-bar{display:flex;gap:4px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:32px;width:fit-content}
+.tab-btn{font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;background:transparent;color:var(--muted);transition:all 0.15s}
+.tab-btn.active{background:var(--navy);color:#fff}
+
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* COPY CARD */
+.copy-card{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:20px;overflow:hidden}
+.copy-card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.copy-card-header h3{font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;color:var(--navy)}
+.copy-card-header .badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;text-transform:uppercase;letter-spacing:0.06em}
+.badge-a{background:#dbeafe;color:#1e40af}
+.badge-b{background:#dcfce7;color:#15803d}
+.badge-c{background:#fef3c7;color:#b45309}
+.copy-card-body{padding:20px}
+.email-field{margin-bottom:14px}
+.email-field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:4px}
+.email-field .val{font-size:14px;color:var(--navy);line-height:1.6;background:var(--surface);border-radius:6px;padding:10px 14px;position:relative}
+.email-field .val.subject{font-weight:600}
+.copy-btn{float:right;font-size:11px;font-weight:700;color:var(--teal);background:none;border:none;cursor:pointer;padding:2px 6px}
+.copy-btn:hover{text-decoration:underline}
+
+/* TARGETS TABLE */
+.targets-table{width:100%;border-collapse:collapse;font-size:13px}
+.targets-table th{background:var(--surface);font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:2px solid var(--border)}
+.targets-table td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+.targets-table tr:last-child td{border-bottom:none}
+.targets-table tr:hover td{background:var(--surface)}
+.inst{font-weight:600;color:var(--navy)}
+.role{color:var(--muted);font-size:12px}
+.channel-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;margin:1px}
+.ch-doximity{background:#dbeafe;color:#1e40af}
+.ch-linkedin{background:#e0f2fe;color:#0369a1}
+.ch-email{background:#dcfce7;color:#15803d}
+
+/* COMMUNITY CARD */
+.community-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.community-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px}
+.community-item .platform{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:4px}
+.community-item .name{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.community-item .meta{font-size:12px;color:var(--muted)}
+.community-item .action{margin-top:8px;font-size:12px;color:var(--teal);font-weight:600;cursor:pointer}
+
+/* KEYWORDS */
+.kw-table{width:100%;border-collapse:collapse;font-size:13px}
+.kw-table th{background:var(--surface);font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:2px solid var(--border)}
+.kw-table td{padding:10px 12px;border-bottom:1px solid var(--border)}
+.kw-table tr:hover td{background:var(--surface)}
+.vol-bar{height:6px;background:var(--border);border-radius:3px;margin-top:4px;overflow:hidden}
+.vol-fill{height:100%;background:var(--teal);border-radius:3px}
+.comp-dot{display:inline-block;width:8px;height:8px;border-radius:50%}
+.comp-low{background:#22c55e}
+.comp-med{background:#f59e0b}
+.comp-high{background:#ef4444}
+
+/* FB OUTREACH */
+.fb-card{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.fb-card-header{background:#1877f2;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.fb-card-header span{color:#fff;font-size:13px;font-weight:700}
+.fb-card-header .members{color:rgba(255,255,255,0.7);font-size:12px;margin-left:auto}
+.fb-card-body{padding:20px}
+.fb-card-body label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px}
+.fb-msg{font-size:13px;color:var(--navy);line-height:1.7;background:var(--surface);border-radius:8px;padding:14px;margin-bottom:10px}
+.fb-note{font-size:11px;color:var(--muted);font-style:italic}
+
+.copy-all-btn{background:var(--teal);color:#fff;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;float:right;margin-bottom:12px}
+.copy-all-btn:hover{background:#0a5f63}
+</style>
+<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<script src="https://harnesshealth.ai/footer.js" defer></script>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-brand">Surgeon<span>Value</span></a>
+</nav>
+
+<div class="shell">
+  <h1>GTM Outreach Assets</h1>
+  <p class="page-sub">Last updated Apr 11, 2026 · SurgeonValue + co-op.care · Gemini-researched, Claude-formatted</p>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('sv-emails')">SurgeonValue Emails</button>
+    <button class="tab-btn" onclick="showTab('sv-targets')">Target List</button>
+    <button class="tab-btn" onclick="showTab('sv-channels')">Channels</button>
+    <button class="tab-btn" onclick="showTab('coop-fb')">co-op.care FB</button>
+    <button class="tab-btn" onclick="showTab('coop-keywords')">Keywords</button>
+    <button class="tab-btn" onclick="showTab('coop-benefits')">Benefits Platforms</button>
+  </div>
+
+  <!-- SV EMAILS -->
+  <div class="tab-panel active" id="sv-emails">
+
+    <div class="copy-card">
+      <div class="copy-card-header">
+        <h3>Cold Email — Practice Administrator / VP Clinical Ops</h3>
+        <span class="badge badge-a">Variant A — Revenue hook</span>
+      </div>
+      <div class="copy-card-body">
+        <div class="email-field">
+          <label>Subject</label>
+          <div class="val subject">$1,900 missed in one op-note — we found it in 4 seconds
+            <button class="copy-btn" onclick="copyText(this, '$1,900 missed in one op-note — we found it in 4 seconds')">Copy</button>
+          </div>
+        </div>
+        <div class="email-field">
+          <label>Body</label>
+          <div class="val" id="email-a">Hi [First Name],
+
+Your orthopedic surgeons are likely leaving 15–20% of earned revenue uncaptured — not from underbilling, but from the documentation gap between surgical complexity and CPT language.
+
+We built Wonder Bill: paste an operative note, and AI identifies the codes already earned but not being captured. One recent revision THA: Modifier 22 + a separately billable graft code = $1,900 found in 4 seconds. Every suggestion includes the documentation language needed for audit defense — nothing gets flagged without a paper trail.
+
+We're running a pilot at Stanford Orthopedics now. I'd like to show you what it finds on one of your surgeons' actual notes in a 10-minute screen share.
+
+Would Tuesday or Wednesday this week work?
+
+Blaine Warkentine, MD/MBA
+Founder, SurgeonValue
+blaine@surgeonvalue.com</div>
+          <button class="copy-btn" onclick="copyField('email-a')">Copy body</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-card">
+      <div class="copy-card-header">
+        <h3>Cold Email — Coding Liaison / Revenue Cycle Manager</h3>
+        <span class="badge badge-b">Variant B — Compliance hook</span>
+      </div>
+      <div class="copy-card-body">
+        <div class="email-field">
+          <label>Subject</label>
+          <div class="val subject">Modifier 22: are your surgeons documenting it defensibly?
+            <button class="copy-btn" onclick="copyText(this, 'Modifier 22: are your surgeons documenting it defensibly?')">Copy</button>
+          </div>
+        </div>
+        <div class="email-field">
+          <label>Body</label>
+          <div class="val" id="email-b">Hi [First Name],
+
+Most orthopedic coding teams default to conservative Modifier 22 application — not because the clinical complexity isn't there, but because the documentation in op-notes doesn't give you enough to defend it under audit.
+
+SurgeonValue's Wonder Bill tool reads operative notes and identifies where Modifier 22 (and other complexity modifiers) are clinically supported but underdocumented. It then generates the exact audit-trail language your billing team needs: EBL thresholds, time comparisons, specific anatomical findings.
+
+Average lift on revision THA cases: $1,400 in recoverable Modifier 22 alone. 4-second analysis per note.
+
+Could I send you a sample audit on a de-identified note from your specialty?
+
+Blaine Warkentine, MD/MBA
+Founder, SurgeonValue
+blaine@surgeonvalue.com</div>
+          <button class="copy-btn" onclick="copyField('email-b')">Copy body</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-card">
+      <div class="copy-card-header">
+        <h3>Doximity / LinkedIn DM — Surgeon Direct</h3>
+        <span class="badge badge-c">Variant C — Peer hook</span>
+      </div>
+      <div class="copy-card-body">
+        <div class="email-field">
+          <label>Message (140 chars or less for Doximity preview)</label>
+          <div class="val" id="email-c">Fellow ortho surgeon here — built an AI that reads op-notes and finds the Modifier 22 revenue you've already earned. Ran it on one revision THA and found $1,900. Worth a look?</div>
+          <button class="copy-btn" onclick="copyField('email-c')">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="copy-card">
+      <div class="copy-card-header">
+        <h3>Conference Follow-up (Post-AAOS or AAHKS)</h3>
+        <span class="badge badge-a">Variant D</span>
+      </div>
+      <div class="copy-card-body">
+        <div class="email-field">
+          <label>Subject</label>
+          <div class="val subject">Good meeting you at [Conference] — the Wonder Bill demo
+            <button class="copy-btn" onclick="copyText(this, 'Good meeting you at [Conference] — the Wonder Bill demo')">Copy</button>
+          </div>
+        </div>
+        <div class="email-field">
+          <label>Body</label>
+          <div class="val" id="email-d">Hi [First Name],
+
+Great to connect at [Conference]. As promised — here's the Wonder Bill link: surgeonvalue.com/audit
+
+Paste any de-identified op-note and you'll see what I mean. Takes 30 seconds.
+
+If the results are interesting, I'd love to run a full 90-day revenue scan on your panel. No Epic access needed to start — just notes.
+
+Blaine</div>
+          <button class="copy-btn" onclick="copyField('email-d')">Copy body</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SV TARGETS -->
+  <div class="tab-panel" id="sv-targets">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Gemini correction applied: targeting <strong>VP Clinical Ops / Practice Administrators / Coding Liaisons</strong> — not Department Chairs.</p>
+
+    <table class="targets-table">
+      <thead>
+        <tr>
+          <th>Institution</th>
+          <th>Target Role</th>
+          <th>Known Name (if available)</th>
+          <th>Channels</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="inst">Stanford Ortho<br><span class="role">Palo Alto, CA</span></td><td>VP Clinical Ops / Practice Admin</td><td>TBD via LinkedIn</td><td><span class="channel-tag ch-doximity">Doximity</span><span class="channel-tag ch-linkedin">LinkedIn</span></td><td>🔴 Active pilot</td></tr>
+        <tr><td class="inst">HSS (NY)<br><span class="role">New York, NY</span></td><td>Revenue Cycle Director</td><td>TBD</td><td><span class="channel-tag ch-linkedin">LinkedIn</span><span class="channel-tag ch-email">Email</span></td><td>🔴 Top 3</td></tr>
+        <tr><td class="inst">Mayo Clinic Ortho<br><span class="role">Rochester, MN</span></td><td>Coding Liaison / Practice Admin</td><td>TBD</td><td><span class="channel-tag ch-linkedin">LinkedIn</span></td><td>🔴 Top 3</td></tr>
+        <tr><td class="inst">AAHKS Members<br><span class="role">Hip/Knee Surgeons</span></td><td>High-volume private practice surgeons</td><td>Doximity search: "hip knee replacement"</td><td><span class="channel-tag ch-doximity">Doximity</span></td><td>🟡 Batch outreach</td></tr>
+        <tr><td class="inst">Rush Univ Medical<br><span class="role">Chicago, IL</span></td><td>Revenue Cycle Manager</td><td>TBD</td><td><span class="channel-tag ch-linkedin">LinkedIn</span><span class="channel-tag ch-email">Email</span></td><td>🟡 Mid</td></tr>
+        <tr><td class="inst">UCSF Ortho<br><span class="role">San Francisco, CA</span></td><td>Practice Administrator</td><td>TBD</td><td><span class="channel-tag ch-linkedin">LinkedIn</span></td><td>🟡 Mid</td></tr>
+        <tr><td class="inst">NYU Langone Ortho<br><span class="role">New York, NY</span></td><td>VP Clinical Operations</td><td>TBD</td><td><span class="channel-tag ch-linkedin">LinkedIn</span><span class="channel-tag ch-email">Email</span></td><td>🟡 Mid</td></tr>
+        <tr><td class="inst">Emory Ortho<br><span class="role">Atlanta, GA</span></td><td>Coding Liaison</td><td>TBD</td><td><span class="channel-tag ch-doximity">Doximity</span></td><td>🟢 Batch</td></tr>
+        <tr><td class="inst">Vanderbilt Ortho<br><span class="role">Nashville, TN</span></td><td>Revenue Cycle</td><td>TBD</td><td><span class="channel-tag ch-email">Email</span></td><td>🟢 Batch</td></tr>
+        <tr><td class="inst">Orthobullets Community<br><span class="role">100K members</span></td><td>Residents + Attendings (future surgeons)</td><td>Community post</td><td><span class="channel-tag ch-doximity">Forum</span></td><td>🟢 Content play</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SV CHANNELS -->
+  <div class="tab-panel" id="sv-channels">
+    <div class="community-grid">
+      <div class="community-item">
+        <div class="platform">Doximity · 40K ortho</div>
+        <div class="name">Orthopedic Surgery Feed</div>
+        <div class="meta">Triple-verified MDs only. Direct message + News post. Best surgeon-direct channel.</div>
+        <div class="action" onclick="copyText(this, 'Doximity DM — use Variant C email')">Copy DM template →</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">Reddit · 22K members</div>
+        <div class="name">r/orthopaedics</div>
+        <div class="meta">Active daily case discussions. Post as Blaine (MD background = instant credibility). No spam.</div>
+        <div class="action">Post: "Built an AI that finds Modifier 22 in op-notes — AMA"</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">LinkedIn · 68K members</div>
+        <div class="name">AAOS Members Group</div>
+        <div class="meta">Target VPs and Practice Admins via search. Connection request + 24hr wait + Variant A.</div>
+        <div class="action">LinkedIn search: "practice administrator orthopedic"</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">VuMedi · 300K</div>
+        <div class="name">Orthopedic Surgery Channel</div>
+        <div class="meta">Upload a 3-min Wonder Bill screen recording. Video reaches verified surgeons passively.</div>
+        <div class="action">Upload: "Found $1,900 in one revision THA note"</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">Podcast</div>
+        <div class="name">AAOS Now / Bone Beat</div>
+        <div class="meta">Contact: bonebeat@aaos.org — pitch as "the billing gap no one talks about"</div>
+        <div class="action" onclick="copyText(this, 'bonebeat@aaos.org')">Copy email →</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">Podcast</div>
+        <div class="name">Ortho Show (Scott Sigman MD)</div>
+        <div class="meta">MD host = peer credibility. Pitch: "What I found after analyzing 500 op-notes with AI"</div>
+        <div class="action">theorthoshow.com/contact</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">CME Newsletter</div>
+        <div class="name">AAOS Now · 30K members</div>
+        <div class="meta">Ad contact: aaosnow@aaos.org. Sponsored content preferred over display ads.</div>
+        <div class="action" onclick="copyText(this, 'aaosnow@aaos.org')">Copy email →</div>
+      </div>
+      <div class="community-item">
+        <div class="platform">Conference 2026</div>
+        <div class="name">AAHKS Dallas · Nov 5-8</div>
+        <div class="meta">Hip/Knee = highest Modifier 22 density. Booth ~$4K. Best ROI of the 5 conferences.</div>
+        <div class="action">Priority 1 conference</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COOP FB -->
+  <div class="tab-panel" id="coop-fb">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Target: group <strong>admins</strong>, not general posts. DM admins first — ask to share as a resource, not an ad.</p>
+
+    <div class="fb-card">
+      <div class="fb-card-header">
+        <span>Colorado Sandwich Generation Moms</span>
+        <span class="members">2,100 members · High activity</span>
+      </div>
+      <div class="fb-card-body">
+        <label>Admin DM — Resource pitch</label>
+        <div class="fb-msg">Hi [Admin name] — I'm a Boulder-based health tech founder. I noticed your group is full of people managing care for aging parents while raising their own kids — exactly the "sandwich generation."
+
+I wanted to share something that might genuinely help members: most people paying for home care don't know they can use their HSA or FSA for it. A $199 physician-signed letter (called an LMN) makes it eligible. Average family saves $936/year in taxes.
+
+We just launched co-op.care and I was wondering if I could share a quick explainer post for members — not an ad, just useful info. Happy to offer a discount code for group members if that feels right.
+
+Would that be okay?</div>
+        <div class="fb-note">Best sent Monday or Tuesday morning. Don't post without admin approval.</div>
+        <button class="copy-btn" style="float:none" onclick="copyField(this.previousElementSibling.previousElementSibling)">Copy message</button>
+      </div>
+    </div>
+
+    <div class="fb-card">
+      <div class="fb-card-header">
+        <span>Denver Area Caregivers</span>
+        <span class="members">1,500 members</span>
+      </div>
+      <div class="fb-card-body">
+        <label>Admin DM — Value post offer</label>
+        <div class="fb-msg">Hey [Name] — quick question. I run co-op.care, a Boulder-based home care service (physician-supervised, worker-owned). We help families use HSA/FSA funds for care they're already paying for.
+
+Would you be open to me posting a helpful resource for members? Something like: "5 home care expenses your FSA will cover (if you have this letter)." No sales pitch — just genuinely useful for people in the group.
+
+If it's not a fit, totally understand!</div>
+        <button class="copy-btn" style="float:none" onclick="copyField(this.previousElementSibling)">Copy message</button>
+      </div>
+    </div>
+
+    <div class="fb-card">
+      <div class="fb-card-header">
+        <span>HSA/FSA Hacks for Caregivers</span>
+        <span class="members">3,000 members · National, high CO density</span>
+      </div>
+      <div class="fb-card-body">
+        <label>Group Post (this group allows it — topic-relevant)</label>
+        <div class="fb-msg">Did you know home care qualifies for HSA/FSA — but only with a physician-signed Letter of Medical Necessity?
+
+Most people paying out of pocket for a parent's home aide, companion care, or adaptive equipment don't realize they could be using pre-tax money. The IRS allows it under Section 213(d), but your HSA/FSA administrator needs a signed LMN to approve it.
+
+We just launched a $199 flat-fee service at co-op.care/lmn where a licensed physician reviews your situation and signs the letter within 1–2 business days. Free 5-min assessment first — you only pay if you qualify.
+
+Happy to answer questions in the comments.</div>
+        <button class="copy-btn" style="float:none" onclick="copyField(this.previousElementSibling)">Copy post</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KEYWORDS -->
+  <div class="tab-panel" id="coop-keywords">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Prioritize <strong>Low competition + intent keywords</strong> for organic SEO first. Run paid on "is home care tax deductible" (4,200/mo) only after organic is ranked.</p>
+    <table class="kw-table">
+      <thead><tr><th>Keyword</th><th>Volume/mo</th><th>Competition</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td><strong>is home care tax deductible</strong></td><td>4,200<div class="vol-bar"><div class="vol-fill" style="width:100%"></div></div></td><td><span class="comp-dot comp-med"></span> Med</td><td>🔴 Blog post + landing page</td></tr>
+        <tr><td><strong>letter of medical necessity home care</strong></td><td>900<div class="vol-bar"><div class="vol-fill" style="width:21%"></div></div></td><td><span class="comp-dot comp-low"></span> Low</td><td>🔴 Own this — we ARE the answer</td></tr>
+        <tr><td><strong>use HSA for elderly parent</strong></td><td>1,100<div class="vol-bar"><div class="vol-fill" style="width:26%"></div></div></td><td><span class="comp-dot comp-med"></span> Med</td><td>🔴 FAQ page</td></tr>
+        <tr><td><strong>home care LMN template</strong></td><td>400<div class="vol-bar"><div class="vol-fill" style="width:9%"></div></div></td><td><span class="comp-dot comp-low"></span> Low</td><td>🟡 Intercept with our service</td></tr>
+        <tr><td><strong>IRS medical necessity home care</strong></td><td>300<div class="vol-bar"><div class="vol-fill" style="width:7%"></div></div></td><td><span class="comp-dot comp-low"></span> Low</td><td>🟡 Blog post</td></tr>
+        <tr><td><strong>FSA reimbursement home care</strong></td><td>600<div class="vol-bar"><div class="vol-fill" style="width:14%"></div></div></td><td><span class="comp-dot comp-med"></span> Med</td><td>🟡 FAQ</td></tr>
+        <tr><td><strong>home care HSA FSA</strong></td><td>1,800<div class="vol-bar"><div class="vol-fill" style="width:43%"></div></div></td><td><span class="comp-dot comp-high"></span> High</td><td>🟢 Paid only — after organic</td></tr>
+        <tr><td><strong>HSA eligible home health care</strong></td><td>700<div class="vol-bar"><div class="vol-fill" style="width:17%"></div></div></td><td><span class="comp-dot comp-high"></span> High</td><td>🟢 Paid only</td></tr>
+        <tr><td><strong>paying for home care with FSA</strong></td><td>550<div class="vol-bar"><div class="vol-fill" style="width:13%"></div></div></td><td><span class="comp-dot comp-med"></span> Med</td><td>🟡 FAQ</td></tr>
+        <tr><td><strong>HSA for aging parents CO</strong></td><td>150<div class="vol-bar"><div class="vol-fill" style="width:4%"></div></div></td><td><span class="comp-dot comp-low"></span> Low</td><td>🟡 Colorado-specific page</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BENEFITS PLATFORMS -->
+  <div class="tab-panel" id="coop-benefits">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">These platforms process FSA/HSA spending. Getting co-op.care listed as an eligible provider or partner = inbound lead flow. Lead with Forma and Benepass — both have public partnership emails.</p>
+    <table class="targets-table">
+      <thead><tr><th>Platform</th><th>Contact</th><th>Pitch angle</th><th>Priority</th></tr></thead>
+      <tbody>
+        <tr><td class="inst">Forma<br><span class="role">joinforma.com</span></td><td>partnerships@joinforma.com</td><td>"Add co-op.care as an eligible LMN provider — $199 one-time, physician-signed, drives member utilization"</td><td>🔴 First outreach</td></tr>
+        <tr><td class="inst">Benepass<br><span class="role">getbenepass.com</span></td><td>partnerships@getbenepass.com</td><td>"Dependent care + elder care = growing spend category. We make home care FSA-eligible with a physician LMN."</td><td>🔴 First outreach</td></tr>
+        <tr><td class="inst">HealthEquity<br><span class="role">healthequity.com</span></td><td>Partner portal (no direct email)</td><td>Largest HSA admin — getting listed in their eligible expense directory is the long game</td><td>🟡 Mid-term</td></tr>
+        <tr><td class="inst">Optum Financial<br><span class="role">of.optum.com</span></td><td>of-service@of.optum.com</td><td>Same angle — eligible provider directory for home care LMN</td><td>🟡 Mid-term</td></tr>
+        <tr><td class="inst">Vail Resorts Benefits<br><span class="role">Broomfield, CO · 50K employees</span></td><td>HR/Benefits — LinkedIn search "Vail Resorts benefits director"</td><td>"Offer co-op.care LMN as an add-on benefit for employees managing aging parents — $199 covered by company FSA contribution"</td><td>🔴 CO-specific, fast</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:24px">
+      <div class="copy-card">
+        <div class="copy-card-header">
+          <h3>Benefits Platform Outreach Email</h3>
+          <span class="badge badge-a">Forma / Benepass</span>
+        </div>
+        <div class="copy-card-body">
+          <div class="email-field">
+            <label>Subject</label>
+            <div class="val subject">Partnership: add physician-signed LMNs for home care to your platform
+              <button class="copy-btn" onclick="copyText(this, 'Partnership: add physician-signed LMNs for home care to your platform')">Copy</button>
+            </div>
+          </div>
+          <div class="email-field">
+            <label>Body</label>
+            <div class="val" id="benefits-email">Hi [Name],
+
+I'm reaching out because I think co-op.care fills a gap in what your members can do with their FSA/HSA balances.
+
+Home care is eligible under IRS Section 213(d), but it requires a physician-signed Letter of Medical Necessity — and most families have no idea how to get one. We provide it: $199 flat, physician-reviewed within 48 hours, ICD-10 coded, payer-ready PDF.
+
+For your platform, this means: members with aging parents can unlock a new spending category (home care, companion care, adaptive equipment) using funds they already have. Average family saves $936/year in taxes.
+
+I'd love to explore listing co-op.care as an eligible provider or building a co-branded LMN flow for your members. Would a 20-minute call next week work?
+
+Blaine Warkentine, MD/MBA
+co-op.care · Boulder, CO
+blaine@co-op.care</div>
+            <button class="copy-btn" onclick="copyField('benefits-email')">Copy body</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function copyField(idOrEl) {
+  let text;
+  if (typeof idOrEl === 'string') {
+    text = document.getElementById(idOrEl).innerText;
+  } else {
+    text = idOrEl.innerText;
+  }
+  navigator.clipboard.writeText(text.trim()).then(() => {
+    const btn = typeof idOrEl === 'string'
+      ? document.querySelector(`[onclick="copyField('${idOrEl}')"]`)
+      : idOrEl;
+    if (btn) { const o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = o, 1500); }
+  });
+}
+
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const o = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = o, 1500);
+  });
+}
+</script>
+</body>
+</html>
