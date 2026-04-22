@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, 'Inter', sans-serif;
+  background: #f4f6f9;
+  color: #1B2A4A;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* Header */
+.header {
+  background: #fff;
+  border-bottom: 1px solid #e8ecf2;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo {
+  width: 32px;
+  height: 32px;
+  background: #1B2A4A;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-logo svg { width: 18px; height: 18px; }
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1B2A4A;
+  letter-spacing: -0.3px;
+}
+.header-nav {
+  display: flex;
+  gap: 28px;
+}
+.header-nav a {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7a99;
+  text-decoration: none;
+}
+.header-nav a.active { color: #0D7377; font-weight: 600; }
+
+/* Page */
+.page { padding: 28px 24px; max-width: 900px; margin: 0 auto; }
+
+/* Page header */
+.page-header {
+  margin-bottom: 24px;
+}
+.page-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1B2A4A;
+  letter-spacing: -0.4px;
+}
+.page-header p {
+  font-size: 14px;
+  color: #6b7a99;
+  margin-top: 4px;
+}
+
+/* Stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid #e8ecf2;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7a99;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1B2A4A;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.stat-unit {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7a99;
+  margin-top: 4px;
+}
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0D7377;
+  background: #e6f7f7;
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-top: 6px;
+}
+
+/* Section header */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1B2A4A;
+}
+
+/* Agent grid */
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.agent-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #e8ecf2;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.agent-card:hover {
+  border-color: #0D7377;
+  box-shadow: 0 4px 16px rgba(13,115,119,0.08);
+}
+.agent-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.agent-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.agent-icon svg { width: 20px; height: 20px; }
+.icon-teal { background: #e6f7f7; color: #0D7377; }
+.icon-navy { background: #e8ecf2; color: #1B2A4A; }
+.icon-amber { background: #fef3e2; color: #c77c00; }
+.icon-green { background: #e8f8ee; color: #1a7a42; }
+.icon-purple { background: #f0eeff; color: #5b3fc4; }
+.icon-rose { background: #fff0f3; color: #c42f52; }
+
+.agent-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #1a7a42;
+}
+.agent-status .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #1a7a42;
+}
+.agent-status.idle .dot { background: #6b7a99; }
+.agent-status.idle { color: #6b7a99; }
+
+.agent-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1B2A4A;
+}
+.agent-desc {
+  font-size: 12px;
+  color: #6b7a99;
+  line-height: 1.5;
+  flex: 1;
+}
+.agent-metric {
+  padding-top: 10px;
+  border-top: 1px solid #f0f2f7;
+  font-size: 12px;
+  color: #1B2A4A;
+  font-weight: 600;
+}
+.agent-metric span {
+  color: #6b7a99;
+  font-weight: 400;
+}
+
+/* Add agent card */
+.agent-add {
+  border: 2px dashed #d4dae8;
+  background: transparent;
+}
+.agent-add:hover {
+  border-color: #0D7377;
+  background: #f9fefe;
+}
+.agent-add-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 140px;
+  gap: 8px;
+  text-align: center;
+}
+.add-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #f0f2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.add-icon svg { width: 18px; height: 18px; color: #6b7a99; }
+.agent-add-inner h4 { font-size: 13px; font-weight: 600; color: #1B2A4A; }
+.agent-add-inner p { font-size: 11px; color: #6b7a99; max-width: 140px; line-height: 1.4; }
+
+/* Insight banner */
+.insight-banner {
+  background: #1B2A4A;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.insight-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.insight-icon {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.insight-icon svg { width: 18px; height: 18px; color: #6bd8cb; }
+.insight-text h5 { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+.insight-text p { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.4; }
+.insight-btn {
+  background: #0D7377;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Bottom nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid #e8ecf2;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 14px;
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #6b7a99;
+  cursor: pointer;
+  padding: 4px 16px;
+  border-radius: 12px;
+}
+.nav-item.active { color: #0D7377; background: #e6f7f7; }
+.nav-item svg { width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-brand">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6L12 2z" fill="#0D7377"/>
+      </svg>
+    </div>
+    <span class="header-title">SurgeonValue</span>
+  </div>
+  <nav class="header-nav">
+    <a href="#">Dashboard</a>
+    <a href="#">Revenue</a>
+    <a href="#" class="active">AI Team</a>
+    <a href="#">Practice</a>
+  </nav>
+</header>
+
+<div class="page">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <h1>Your AI Team</h1>
+    <p>9 agents working in the background — capturing revenue, handling paperwork, tracking outcomes.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Recovered This Month</div>
+      <div class="stat-value">$14,280</div>
+      <div class="stat-badge">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+        +22% vs last month
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Auth Approvals</div>
+      <div class="stat-value">34</div>
+      <div class="stat-unit">this week</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg. Auth Time</div>
+      <div class="stat-value">58s</div>
+      <div class="stat-unit">was 4.2 days</div>
+    </div>
+  </div>
+
+  <!-- Agents -->
+  <div class="section-header">
+    <span class="section-title">Active Agents</span>
+  </div>
+
+  <div class="agent-grid">
+
+    <!-- Wonder Bill -->
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-icon icon-teal">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="agent-status">
+          <div class="dot"></div>
+          Active
+        </div>
+      </div>
+      <div class="agent-name">Wonder Bill</div>
+      <div class="agent-desc">Paste a clinical note — surfaces every billable code you might be missing in under 10 seconds.</div>
+      <div class="agent-metric">7 codes flagged today <span>· $3,240 potential</span></div>
+    </div>
+
+    <!-- Prior Auth -->
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-icon icon-amber">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="agent-status">
+          <div class="dot"></div>
+          Active
+        </div>
+      </div>
+      <div class="agent-name">Prior Auth</div>
+      <div class="agent-desc">Generates complete auth letters in 60 seconds. Paste a note, pick the payer, send.</div>
+      <div class="agent-metric">14 approvals secured <span>· 2 pending</span></div>
+    </div>
+
+    <!-- Clinical Scribe -->
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-icon icon-green">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 1a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" stroke="currentColor" stroke-width="2"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v4M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="agent-status">
+          <div class="dot"></div>
+          Active
+        </div>
+      </div>
+      <div class="agent-name">Clinical Scribe</div>
+      <div class="agent-desc">Voice-to-structured-note. Dictate post-op findings, get a clean note ready for EHR in seconds.</div>
+      <div class="agent-metric">6 notes ready <span>· awaiting review</span></div>
+    </div>
+
+    <!-- PROM Coach -->
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-icon icon-navy">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h4l3-9 4 18 3-9h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="agent-status">
+          <div class="dot"></div>
+          Active
+        </div>
+      </div>
+      <div class="agent-name">PROM Coach</div>
+      <div class="agent-desc">Sends outcome surveys automatically, tracks scores over time, flags patients who need follow-up.</div>
+      <div class="agent-metric">92% response rate <span>· 3 alerts</span></div>
+    </div>
+
+    <!-- Lost Revenue -->
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-icon icon-rose">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="agent-status">
+          <div class="dot"></div>
+          Active
+        </div>
+      </div>
+      <div class="agent-name">Lost Revenue</div>
+      <div class="agent-desc">Scans your last 90 days of encounters to find codes that were underbilled, missed, or denied.</div>
+      <div class="agent-metric">$8,400 identified <span>· last 30 days</span></div>
+    </div>
+
+    <!-- CJR-X Navigator -->
+    <div class="agent-card">
+      <div class="agent-card-top">
+        <div class="agent-icon icon-purple">
+          <svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 22,20 2,20" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 9v4M12 16v1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="agent-status idle">
+          <div class="dot"></div>
+          Monitoring
+        </div>
+      </div>
+      <div class="agent-name">CJR-X Navigator</div>
+      <div class="agent-desc">Tracks mandatory bundled payment episodes. Alerts you when a case approaches the cost threshold.</div>
+      <div class="agent-metric">4 episodes active <span>· all within target</span></div>
+    </div>
+
+    <!-- Add more -->
+    <div class="agent-card agent-add">
+      <div class="agent-add-inner">
+        <div class="add-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h4>Add an Agent</h4>
+        <p>Panel analysis, patient education, benchmark reports, and more.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Insight banner -->
+  <div class="insight-banner">
+    <div class="insight-content">
+      <div class="insight-icon">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="insight-text">
+        <h5>Prior Auth pattern detected</h5>
+        <p>Aetna HMO denied 3 TKA cases this week for missing PT documentation. Auth template updated.</p>
+      </div>
+    </div>
+    <button class="insight-btn">Review change</button>
+  </div>
+
+</div>
+
+<!-- Bottom nav -->
+<nav class="bottom-nav">
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+    Dashboard
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h4l3-9 4 18 3-9h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    Revenue
+  </div>
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="3" stroke="currentColor" stroke-width="2"/><circle cx="15" cy="7" r="3" stroke="currentColor" stroke-width="2"/><path d="M3 20c0-4 2.7-6 6-6h6c3.3 0 6 2 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    AI Team
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 0 1 7 7c0 4-3 7-7 12C9 16 5 13 5 9a7 7 0 0 1 7-7z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="2"/></svg>
+    Practice
+  </div>
+</nav>
+
+</body>
+</html>

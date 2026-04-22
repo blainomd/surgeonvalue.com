@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tactical Command | AI Surgical Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#0c0e12",
+                    "on-error": "#490006",
+                    "outline": "#74757a",
+                    "surface-bright": "#292c33",
+                    "error-container": "#9f0519",
+                    "primary-dim": "#00e9bc",
+                    "primary-fixed-dim": "#00e9bc",
+                    "on-surface": "#f6f6fc",
+                    "secondary-fixed-dim": "#a8c4ff",
+                    "surface-container": "#171a1f",
+                    "on-primary-container": "#005643",
+                    "on-background": "#f6f6fc",
+                    "error-dim": "#d7383b",
+                    "surface-dim": "#0c0e12",
+                    "surface-container-lowest": "#000000",
+                    "surface-container-low": "#111318",
+                    "secondary-container": "#005bc0",
+                    "on-tertiary": "#290067",
+                    "tertiary-fixed": "#bda1ff",
+                    "on-secondary-fixed": "#00326f",
+                    "on-error-container": "#ffa8a3",
+                    "secondary-dim": "#0070ea",
+                    "error": "#ff716c",
+                    "on-tertiary-fixed": "#1f0052",
+                    "on-surface-variant": "#aaabb0",
+                    "surface": "#0c0e12",
+                    "inverse-primary": "#006c56",
+                    "primary": "#5bffd3",
+                    "primary-fixed": "#20f9c9",
+                    "secondary-fixed": "#bed2ff",
+                    "tertiary-fixed-dim": "#b190ff",
+                    "on-primary": "#005f4b",
+                    "tertiary": "#ac89ff",
+                    "outline-variant": "#46484d",
+                    "surface-tint": "#5bffd3",
+                    "inverse-surface": "#f9f9ff",
+                    "on-primary-fixed-variant": "#00644f",
+                    "on-secondary": "#001f49",
+                    "surface-container-high": "#1d2025",
+                    "primary-container": "#05f3c4",
+                    "on-tertiary-fixed-variant": "#4700a7",
+                    "tertiary-container": "#7000ff",
+                    "secondary": "#669dff",
+                    "on-secondary-fixed-variant": "#004ea5",
+                    "inverse-on-surface": "#53555a",
+                    "surface-variant": "#23262c",
+                    "tertiary-dim": "#874cff",
+                    "surface-container-highest": "#23262c",
+                    "on-tertiary-container": "#f8f1ff",
+                    "on-primary-fixed": "#004535",
+                    "on-secondary-container": "#f7f7ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Inter"],
+                    "label": ["Space Grotesk"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(35, 38, 44, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(70, 72, 77, 0.15);
+        }
+        .scanning-line {
+            background: linear-gradient(to right, transparent, #5bffd3, transparent);
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0c0e12; }
+        ::-webkit-scrollbar-thumb { background: #23262c; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e12] flex justify-between items-center px-6 h-20 w-full shadow-[0_4px_20px_rgba(0,242,195,0.05)] bg-gradient-to-b from-[#111318] to-transparent">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#00F2C3] text-3xl">clinical_notes</span>
+<h1 class="text-2xl font-bold tracking-tighter text-[#00F2C3] font-['Space_Grotesk'] uppercase">TACTICAL COMMAND</h1>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<nav class="flex gap-6 h-full items-center">
+<a class="font-['Space_Grotesk'] tracking-tighter uppercase text-slate-500 hover:text-[#5bffd3] transition-colors" href="#">NEURAL_FEED</a>
+<a class="font-['Space_Grotesk'] tracking-tighter uppercase text-slate-500 hover:text-[#5bffd3] transition-colors" href="#">OR_SITUATIONAL</a>
+<a class="font-['Space_Grotesk'] tracking-tighter uppercase text-[#00F2C3] border-b-2 border-[#00F2C3] py-2" href="#">AI_PULSE</a>
+</nav>
+<div class="w-10 h-10 rounded-full border border-primary/30 overflow-hidden">
+<img alt="Surgeon Profile Avatar" class="w-full h-full object-cover" data-alt="Close-up professional portrait of a surgeon in blue scrubs with a focused expression, clinical lighting, sterile environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9LnKCauzGV_IxErO0tbMmJQvCcDjs3Y9DppPQivdhweITAD9Bjmvl4ruyKfiNsbHKyoVS0iasvO-vW-w1QPWq_Eniyw3SSW7plg9VVI1uc3kJGMssR0hB9jvBsLgZxx3xDGlHo0J8dcFD2baYpPmnd3SPXldZaMEeAqTzvEKlGEM4oZg4BmXq78otwdMwU0LvnvbQkcW1sNmt8Xs2Qd6Z7AWQsVRxpPmNvwHVdecNYoOfqUSFuO393rqBED15-D2ZvtuhrR76XQAR"/>
+</div>
+</div>
+</header>
+<!-- Side Navigation (NavigationDrawer) -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-5rem)] w-72 border-r border-[#ffffff]/10 bg-[#111318]/40 backdrop-blur-xl hidden lg:flex flex-col py-8 gap-4 shadow-2xl">
+<div class="px-6 mb-4">
+<span class="font-['Space_Grotesk'] text-xs font-bold tracking-widest uppercase text-slate-400 opacity-60">MISSION_CONTROL</span>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-4 px-6 py-4 text-slate-400 opacity-60 hover:bg-[#1d2025] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-['Space_Grotesk'] text-xs font-bold tracking-widest uppercase">NEURAL_FEED</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-400 opacity-60 hover:bg-[#1d2025] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">emergency</span>
+<span class="font-['Space_Grotesk'] text-xs font-bold tracking-widest uppercase">OR_SITUATIONAL</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-400 opacity-60 hover:bg-[#1d2025] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-['Space_Grotesk'] text-xs font-bold tracking-widest uppercase">SURGICAL_LOGS</span>
+</a>
+<a class="flex items-center gap-4 px-6 py-4 text-slate-400 opacity-60 hover:bg-[#1d2025] hover:opacity-100 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-['Space_Grotesk'] text-xs font-bold tracking-widest uppercase">SYSTEM_INTEGRITY</span>
+</a>
+<a class="bg-[#23262c] text-[#00F2C3] border-l-4 border-[#00F2C3] flex items-center gap-4 px-6 py-4 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-['Space_Grotesk'] text-xs font-bold tracking-widest uppercase">AI_PULSE</span>
+</a>
+</nav>
+<div class="mt-auto px-6 pt-6 border-t border-white/5">
+<div class="glass-panel p-4 rounded-lg">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] text-primary uppercase font-bold tracking-tighter">AI_LOAD</span>
+<span class="text-[10px] font-mono">42%</span>
+</div>
+<div class="w-full bg-surface h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[42%] shadow-[0_0_8px_#5bffd3]"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="lg:ml-72 pt-28 px-6 pb-24 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Hero Grid: AI Pulse & Quick Stats -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- AI Pulse Visualizer -->
+<div class="md:col-span-8 glass-panel rounded-lg p-6 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 scanning-line opacity-30"></div>
+<div class="flex justify-between items-start mb-8">
+<div>
+<h2 class="font-headline text-3xl font-bold tracking-tighter uppercase text-on-surface">AI_PULSE</h2>
+<p class="text-primary-dim text-xs font-mono uppercase tracking-widest">Active Monitoring // Node_774</p>
+</div>
+<div class="flex gap-2">
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] text-primary uppercase font-bold">Real-time Stream</span>
+</div>
+</div>
+<div class="h-48 flex items-end gap-1 px-2">
+<!-- Mock Waveform -->
+<div class="flex-1 bg-primary/20 h-[30%]" style="height: 40%"></div>
+<div class="flex-1 bg-primary/30 h-[50%]" style="height: 60%"></div>
+<div class="flex-1 bg-primary/40 h-[70%]" style="height: 45%"></div>
+<div class="flex-1 bg-primary/50 h-[90%]" style="height: 80%"></div>
+<div class="flex-1 bg-primary/60 h-[40%]" style="height: 55%"></div>
+<div class="flex-1 bg-primary/40 h-[60%]" style="height: 70%"></div>
+<div class="flex-1 bg-primary/20 h-[80%]" style="height: 90%"></div>
+<div class="flex-1 bg-primary/50 h-[30%]" style="height: 35%"></div>
+<div class="flex-1 bg-primary/30 h-[50%]" style="height: 65%"></div>
+<div class="flex-1 bg-primary/20 h-[70%]" style="height: 50%"></div>
+<div class="flex-1 bg-primary/60 h-[90%]" style="height: 85%"></div>
+<div class="flex-1 bg-primary/40 h-[40%]" style="height: 40%"></div>
+</div>
+<div class="mt-6 grid grid-cols-3 border-t border-outline-variant/20 pt-6">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Inference Latency</p>
+<p class="font-mono text-xl text-primary-fixed-dim">12ms</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Confidence Score</p>
+<p class="font-mono text-xl text-primary-fixed-dim">99.8%</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Data Streams</p>
+<p class="font-mono text-xl text-primary-fixed-dim">14/14</p>
+</div>
+</div>
+</div>
+<!-- Critical Metrics Column -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-high p-5 rounded-lg border-l-4 border-error shadow-lg">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-error">warning</span>
+<span class="font-headline text-sm font-bold uppercase tracking-widest">Anomaly Detected</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-4">Post-op telemetry for Case #492 shows 12% deviation in baseline vitals.</p>
+<button class="w-full py-2 bg-error/10 hover:bg-error/20 text-error text-[10px] font-bold uppercase tracking-widest transition-all">Execute Review</button>
+</div>
+<div class="bg-surface-container-low p-5 rounded-lg border-l-4 border-secondary">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<span class="font-headline text-sm font-bold uppercase tracking-widest">Pre-Op Ready</span>
+</div>
+<p class="text-on-surface-variant text-sm">Cardiac Bypass #91 - Patient data verified. AI model loaded with 2024 protocols.</p>
+</div>
+</div>
+</div>
+<!-- Tactical Brief Section -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<div class="md:col-span-7 space-y-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<h3 class="font-headline text-xl font-bold uppercase tracking-tight">TACTICAL_BRIEFING</h3>
+</div>
+<div class="space-y-4">
+<!-- AI Message -->
+<div class="glass-panel p-6 rounded-xl rounded-tl-none border-l-2 border-primary">
+<div class="flex justify-between items-center mb-4">
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Intelligence_Engine</span>
+<span class="text-[10px] text-outline-variant font-mono">T-MINUS 12:44:00</span>
+</div>
+<p class="text-on-surface leading-relaxed text-sm">
+                                Analysis of tomorrow's <span class="text-primary-dim font-bold">Laparoscopic Cholecystectomy</span> (Case #103) indicates a 15% probability of scar tissue complications based on the patient's previous abdominal history. 
+                                <br/><br/>
+<span class="font-bold">Recommendation:</span> Prioritize a multi-port entry strategy and adjust intra-abdominal pressure parameters by +2mmHg for optimal visualization.
+                            </p>
+<div class="mt-6 flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest hover:bg-primary/20">Apply Protocol</button>
+<button class="px-4 py-2 border border-outline-variant/30 text-on-surface-variant text-[10px] font-bold uppercase tracking-widest hover:bg-surface-container-high">Request Details</button>
+</div>
+</div>
+<!-- User Interaction Indicator -->
+<div class="flex justify-end">
+<div class="bg-surface-container-highest p-4 rounded-xl rounded-tr-none max-w-[80%] border border-outline-variant/20">
+<p class="text-sm text-on-surface">Understood. Provide the adjusted pressure log for review.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Risk Mitigation Dashboard (Side Panel) -->
+<div class="md:col-span-5 glass-panel rounded-lg overflow-hidden">
+<div class="p-6 border-b border-outline-variant/10">
+<h3 class="font-headline text-lg font-bold uppercase tracking-tighter flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">security</span>
+                            RISK_MITIGATION
+                        </h3>
+</div>
+<div class="p-6 space-y-6">
+<!-- Risk Item 1 -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs uppercase font-bold tracking-widest">Haemorrhage Control</span>
+<span class="text-[10px] font-mono text-secondary">LOW RISK</span>
+</div>
+<div class="h-1.5 bg-surface-container-lowest w-full rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[85%] rounded-full shadow-[0_0_10px_#669dff]"></div>
+</div>
+</div>
+<!-- Risk Item 2 -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs uppercase font-bold tracking-widest">Surgical Fatigue</span>
+<span class="text-[10px] font-mono text-error">ELEVATED</span>
+</div>
+<div class="h-1.5 bg-surface-container-lowest w-full rounded-full overflow-hidden">
+<div class="h-full bg-error w-[68%] rounded-full shadow-[0_0_10px_#ff716c]"></div>
+</div>
+<p class="mt-2 text-[10px] text-on-surface-variant">Continuous shift duration: 10.5 hrs. Break recommended before next procedure.</p>
+</div>
+<!-- Risk Item 3 -->
+<div>
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs uppercase font-bold tracking-widest">Asset Redundancy</span>
+<span class="text-[10px] font-mono text-primary">OPTIMAL</span>
+</div>
+<div class="h-1.5 bg-surface-container-lowest w-full rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[98%] rounded-full shadow-[0_0_10px_#5bffd3]"></div>
+</div>
+</div>
+<!-- Data Grid -->
+<div class="mt-8 border-t border-outline-variant/10 pt-6">
+<span class="text-[10px] font-bold text-outline-variant uppercase tracking-widest mb-4 block">Fleet Integrity Log</span>
+<div class="space-y-3">
+<div class="flex justify-between text-[11px] font-mono p-2 bg-surface-container-low rounded">
+<span class="text-on-surface-variant">SCRUB_BOT_A1</span>
+<span class="text-primary">ONLINE</span>
+</div>
+<div class="flex justify-between text-[11px] font-mono p-2 bg-surface-container-low rounded">
+<span class="text-on-surface-variant">LENS_STAB_04</span>
+<span class="text-primary">ONLINE</span>
+</div>
+<div class="flex justify-between text-[11px] font-mono p-2 bg-surface-container-low rounded">
+<span class="text-on-surface-variant">POWER_GRID_SEC</span>
+<span class="text-secondary">BACKUP</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Predictive Layout: Upcoming Case Visualizer -->
+<section class="mt-12">
+<h3 class="font-headline text-xl font-bold uppercase tracking-tight mb-6">NEXT_SURGICAL_SEQUENCE</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="glass-panel group relative aspect-video overflow-hidden rounded-lg">
+<img alt="Anatomy visualization" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Futuristic digital blue wireframe of a human cardiac system on a dark background with holographic data overlays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJF9IhQQVd1nKIQUiC_nMiAmu764ubdFb5S8yax_JwTPgYQLr5EeoSCMv4JEn1LbPYrdrickzjTM4jd_9VlEUzsZs0hsgmdisgYTNEu76wE7dJ_aCjU1D8HNPA_FMZdl5S44riOzuIjojLKEyOqQcTCHA3Qn0wrHGN_Vx2LNVjMiSyI6aGpWjzJLkDOO3Fa2pWYjj7R3GOdpkoh0BeVIzrz8km0up1UL-04ZImNOOzAKS8shz6E5w4DwUQs-UcUhY4LgmCmhX1Dh52"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent p-4 flex flex-col justify-end">
+<span class="text-[10px] font-bold text-primary">08:00 AM</span>
+<span class="text-sm font-headline font-bold uppercase">Cardiac_Bypass</span>
+</div>
+</div>
+<div class="glass-panel group relative aspect-video overflow-hidden rounded-lg">
+<img alt="Data visualization" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Complex 3D digital data points cluster, vibrant teal and electric blue highlights, depth of field, medical analysis style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7iUQjM97mVSk4VFYhmOE15YDxr5_haPfN619li8E55hDDslfDpwou-BpxJyynkjWrN5omqGMyzRmMRniKYgl4CDWKAof7X2bbH_v-iK-fDm95dLFhXKnbZF9Xak168d8ZSu5GAe-tHkgPS9I695Iq_1codNqJQcBMvQ0PL7rl82Lxm5XbsFxlKwN-46YEfg5v7BD4ZhxrMGTRKEF9Lxt6TQo1xZS5LxX1opqHl4Eo4goi-tyEdnXoAOckpFgO6ZuVeBeDzDuSg_o1"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent p-4 flex flex-col justify-end">
+<span class="text-[10px] font-bold text-primary">10:30 AM</span>
+<span class="text-sm font-headline font-bold uppercase">Neuro_Ablation</span>
+</div>
+</div>
+<div class="glass-panel group relative aspect-video overflow-hidden rounded-lg">
+<img alt="Operating room" class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Wide shot of a futuristic sterile operating room with glowing blue medical monitors and robotic arms, cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLiqlMR0W5g1riJvWZMFIma9RANLKPalUEYu-jUvE22kNr_ucpUR59AspXlNIwZ4WjBJIzQdH6RctHDbGNkILltiJXLCi-lrIOWFulZOGi19I9AqHD3bNzUgryVl2iK4fXfDa3mrB9aI-rApJYd8pV8kW6_NuMbi_tt5NjW9GkMAElUKmU7Vw-Y228SG3puf3TihKSnuL5dRDBddg-8qoVS0AyQZYBeqE_bN9tiTcIgqrdus0eHpSgJHAPtNTQmdQTo_IRrYvhb8xg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent p-4 flex flex-col justify-end">
+<span class="text-[10px] font-bold text-primary">01:15 PM</span>
+<span class="text-sm font-headline font-bold uppercase">OR_Maintenance</span>
+</div>
+</div>
+<div class="border border-dashed border-outline-variant/30 flex flex-col items-center justify-center p-4 rounded-lg hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors text-3xl">add_circle</span>
+<span class="text-[10px] font-bold uppercase tracking-widest mt-2 text-outline-variant group-hover:text-primary">Schedule New</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 px-4 bg-[#0c0e12]/80 backdrop-blur-md z-50 border-t border-[#ffffff]/5">
+<div class="flex flex-col items-center justify-center text-slate-500 font-['Space_Grotesk'] text-[10px] uppercase font-bold">
+<span class="material-symbols-outlined">adjust</span>
+<span>STATUS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 font-['Space_Grotesk'] text-[10px] uppercase font-bold">
+<span class="material-symbols-outlined">analytics</span>
+<span>ANALYTICS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#00F2C3] scale-110 font-['Space_Grotesk'] text-[10px] uppercase font-bold">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+<span>PULSE</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-500 font-['Space_Grotesk'] text-[10px] uppercase font-bold">
+<span class="material-symbols-outlined">notifications_active</span>
+<span>ALERTS</span>
+</div>
+</nav>
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

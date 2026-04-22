@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Surgical Intel | Executive Practice Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#d1e1f4",
+                    "inverse-surface": "#2e3132",
+                    "on-tertiary-container": "#fffbff",
+                    "on-surface": "#191c1d",
+                    "tertiary": "#a13a0f",
+                    "on-secondary-container": "#556474",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#380c00",
+                    "primary": "#0058bc",
+                    "surface-container-highest": "#e1e3e4",
+                    "surface-variant": "#e1e3e4",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#50606f",
+                    "background": "#f8f9fa",
+                    "error": "#ba1a1a",
+                    "tertiary-fixed": "#ffdbcf",
+                    "surface-tint": "#005bc1",
+                    "tertiary-container": "#c25227",
+                    "primary-container": "#0070eb",
+                    "on-secondary-fixed": "#0d1d2a",
+                    "on-primary": "#ffffff",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-background": "#191c1d",
+                    "surface": "#f8f9fa",
+                    "outline-variant": "#c1c6d7",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb59c",
+                    "on-primary-fixed": "#001a41",
+                    "on-tertiary-fixed-variant": "#822800",
+                    "surface-bright": "#f8f9fa",
+                    "inverse-on-surface": "#f0f1f2",
+                    "secondary-fixed-dim": "#b8c8da",
+                    "on-secondary": "#ffffff",
+                    "surface-container-low": "#f3f4f5",
+                    "secondary-fixed": "#d4e4f6",
+                    "inverse-primary": "#adc6ff",
+                    "on-secondary-fixed-variant": "#394857",
+                    "surface-dim": "#d9dadb",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#414755",
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-container-high": "#e7e8e9",
+                    "on-primary-fixed-variant": "#004493",
+                    "on-primary-container": "#fefcff",
+                    "surface-container": "#edeeef",
+                    "outline": "#717786"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .intelligence-gradient {
+            background: linear-gradient(135deg, #0058bc 0%, #0070eb 100%);
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #191c1d;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface antialiased min-h-screen pb-24 md:pb-0">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#ffffffcc] backdrop-blur-xl shadow-[0_12px_40px_-15px_rgba(25,28,29,0.05)]">
+<div class="flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img alt="Dr. Julian" class="w-full h-full object-cover" data-alt="Close up portrait of a professional male doctor with a kind expression in a clinical setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHdKXwq01YOHMLexY4UJ-J0ScZSADy-uPK6um1sOddCiVrZR3w38LJjPTipGv0H1SLnN6eqh_LGvvsgurXDGXh_HDP53QPcMv-QsXFSQOc-QSKrf6Pd0if63MYGUeTAonBXGRSxAa2JJ7TLYvl54hBw6yCaM2Aa7_0d0s0-5UqeL_zsx_MJlmtnnRdjVb8c8sWHuQFE529xKkyCTAzMpPA3OBxTrCaBr8PlCg31Cvu2yj3ZlrMBWl3ZYkzppR86HLdjkRVXW6ApIj-"/>
+</div>
+<span class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-xl text-slate-900">Surgical Intel</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100/50 transition-colors text-slate-500">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-100/50 transition-colors text-slate-500">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-7xl mx-auto pb-12">
+<!-- Greeting Section -->
+<section class="mb-10">
+<h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-2">Good morning, Dr. Julian</h1>
+<p class="text-lg text-on-surface-variant flex items-center gap-2">
+<span class="text-primary material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                Your AI team is hard at work optimizing your practice today.
+            </p>
+</section>
+<!-- Bento Grid: Main Analytics -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Daily Insight Card (Primary) -->
+<div class="md:col-span-8 p-8 rounded-2xl bg-surface-container-lowest shadow-[0_12px_40px_rgba(25,28,29,0.03)] flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-tertiary-fixed opacity-20 blur-3xl -mr-20 -mt-20"></div>
+<div>
+<div class="flex items-center gap-2 mb-6">
+<span class="px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-semibold tracking-wide">DAILY INSIGHT</span>
+<span class="text-on-surface-variant text-sm">Today, 08:45 AM</span>
+</div>
+<h2 class="text-2xl font-bold mb-4 leading-snug max-w-lg">The AI Agent recovered $12,400 in under-coded robotic surgical procedures from last Tuesday.</h2>
+<p class="text-on-surface-variant leading-relaxed max-w-xl">
+                        By cross-referencing your operating logs with current clinical guidelines, we automatically updated three claims that would have otherwise been missed.
+                    </p>
+</div>
+<div class="mt-8 flex gap-4">
+<button class="px-6 py-3 rounded-lg intelligence-gradient text-on-primary font-semibold text-sm shadow-lg hover:opacity-90 transition-opacity">
+                        View Detailed Audit
+                    </button>
+<button class="px-6 py-3 rounded-lg bg-surface-container-high text-on-surface font-semibold text-sm hover:bg-surface-container-highest transition-colors">
+                        Approve All
+                    </button>
+</div>
+</div>
+<!-- Agent Activity Sidebar -->
+<div class="md:col-span-4 p-8 rounded-2xl bg-surface-container-low flex flex-col">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-bold text-lg">Agent Activity</h3>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">hub</span>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Coding Agent</p>
+<p class="text-xs text-on-surface-variant">Validated 42 charts today</p>
+<div class="w-full h-1 bg-secondary-container mt-2 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Revenue Agent</p>
+<p class="text-xs text-on-surface-variant">Reconciling Payer A contracts</p>
+<div class="w-full h-1 bg-secondary-container mt-2 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[40%] rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-xl bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[20px]">event_repeat</span>
+</div>
+<div>
+<p class="text-sm font-semibold">Scheduling Agent</p>
+<p class="text-xs text-on-surface-variant">Optimal block time analysis</p>
+<div class="w-full h-1 bg-secondary-container mt-2 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[100%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-8">
+<div class="p-4 rounded-xl bg-white/50 border border-white/20">
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Status</p>
+<p class="text-sm font-medium">All systems performing optimally</p>
+</div>
+</div>
+</div>
+<!-- Revenue Recovered Card -->
+<div class="md:col-span-4 p-8 rounded-2xl bg-white shadow-sm flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-on-surface-variant font-medium text-sm">Revenue Recovered</p>
+<h4 class="text-3xl font-bold mt-1">$142,800</h4>
+</div>
+<span class="text-green-600 bg-green-50 px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> 12%
+                    </span>
+</div>
+<div class="h-16 flex items-end gap-1">
+<div class="flex-1 bg-secondary-container h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[45%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[70%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[65%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary-container h-[80%] rounded-t-sm"></div>
+</div>
+<p class="text-xs text-on-surface-variant">Past 30 days vs previous period</p>
+</div>
+<!-- Practice Efficiency Card -->
+<div class="md:col-span-4 p-8 rounded-2xl bg-white shadow-sm flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-on-surface-variant font-medium text-sm">Practice Efficiency</p>
+<h4 class="text-3xl font-bold mt-1">94.2%</h4>
+</div>
+<span class="text-primary bg-primary-fixed px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">check_circle</span> Stable
+                    </span>
+</div>
+<div class="mt-4 flex flex-col gap-3">
+<div class="flex justify-between text-xs">
+<span class="text-on-surface-variant">OR Utilization</span>
+<span class="font-bold">91%</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full">
+<div class="h-full bg-primary w-[91%] rounded-full"></div>
+</div>
+<div class="flex justify-between text-xs mt-1">
+<span class="text-on-surface-variant">Charting Delay</span>
+<span class="font-bold">0.8 Days</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full">
+<div class="h-full bg-tertiary-container w-[15%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Trend Overview -->
+<div class="md:col-span-4 p-8 rounded-2xl bg-white shadow-sm relative overflow-hidden group">
+<img alt="Trend analysis" class="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity" data-alt="Soft abstract visualization of data trends with smooth blue and teal lines on a light clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCX7TaOVmQzjdDqIFTdXW7aONnBEaPdETStWFfxwKsSaEHv-f0rHMKB8Mn91nMeIJC5_h_8CcOUirUZObv7avBgRvItowOH7VEJF3is3HIlQyjdETfcjYfcclZC1eYe2E_ZR2FxK-8BYBjYORjIZlBn1z4GhqFiJCA9t5XAmQuvYl8IdKHiFC4jLVqM-zuaIQqR43ofGu58km-RvH_9IOdiUTdUC44xXk-j90wjXAoTvAiksLQWGVFnLAA0DaBiSooFBe72iJMOBWpv"/>
+<div class="relative z-10 flex flex-col h-full">
+<h4 class="text-lg font-bold mb-2">Growth Projection</h4>
+<p class="text-sm text-on-surface-variant mb-6">Estimated revenue lift based on AI coding adoption.</p>
+<div class="mt-auto">
+<div class="text-4xl font-extrabold text-primary">+$48k</div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant mt-1">Potential Monthly Gain</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Section: Recent Notifications / Tasks -->
+<section class="mt-12">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold">Action Required</h3>
+<button class="text-primary font-semibold text-sm hover:underline">See all activity</button>
+</div>
+<div class="space-y-3">
+<div class="p-5 rounded-xl bg-white border-l-4 border-tertiary-container flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary">warning</span>
+<div>
+<p class="font-semibold text-sm">Payer Contract Variance</p>
+<p class="text-xs text-on-surface-variant">BlueShield is reimbursing CPT 44140 below agreed rate at St. Mary's.</p>
+</div>
+</div>
+<button class="text-xs font-bold px-4 py-2 bg-surface-container-high rounded-lg hover:bg-surface-container-highest transition-colors">Investigate</button>
+</div>
+<div class="p-5 rounded-xl bg-white flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">calendar_month</span>
+<div>
+<p class="font-semibold text-sm">Schedule Optimization</p>
+<p class="text-xs text-on-surface-variant">3 slots opened next Tuesday. AI is filling them with high-acuity consults.</p>
+</div>
+</div>
+<button class="text-xs font-bold px-4 py-2 bg-surface-container-high rounded-lg hover:bg-surface-container-highest transition-colors">Review Slots</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white flex justify-around items-center px-4 pb-6 pt-3 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] rounded-t-2xl z-50">
+<a class="flex flex-col items-center justify-center bg-blue-100 text-blue-800 rounded-2xl px-5 py-2" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-['Plus_Jakarta_Sans'] font-semibold text-[11px] mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="font-['Plus_Jakarta_Sans'] font-semibold text-[11px] mt-1">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Plus_Jakarta_Sans'] font-semibold text-[11px] mt-1">Team</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 px-5 py-2 hover:text-blue-600 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-['Plus_Jakarta_Sans'] font-semibold text-[11px] mt-1">Practice</span>
+</a>
+</nav>
+<!-- Floating Desktop Navigation -->
+<nav class="hidden md:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-6 bg-white/80 backdrop-blur-md p-4 rounded-full shadow-2xl border border-white/50">
+<button class="w-12 h-12 rounded-full flex items-center justify-center bg-primary text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+</button>
+<button class="w-12 h-12 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</nav>
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

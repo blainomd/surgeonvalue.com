@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SurgeonValue | Agent Cohort Grid</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanning-line {
+            background: linear-gradient(to right, transparent, #5bffd3, transparent);
+            height: 1px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#004535",
+                        "secondary": "#669dff",
+                        "on-secondary": "#001f49",
+                        "inverse-on-surface": "#53555a",
+                        "inverse-surface": "#f9f9ff",
+                        "primary-dim": "#00e9bc",
+                        "error-container": "#9f0519",
+                        "background": "#0c0e12",
+                        "on-error-container": "#ffa8a3",
+                        "surface-container-highest": "#23262c",
+                        "error-dim": "#d7383b",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary-container": "#f8f1ff",
+                        "on-error": "#490006",
+                        "primary-fixed-dim": "#00e9bc",
+                        "primary": "#5bffd3",
+                        "tertiary": "#ac89ff",
+                        "on-surface-variant": "#aaabb0",
+                        "on-tertiary": "#290067",
+                        "on-primary-container": "#005643",
+                        "on-tertiary-fixed": "#1f0052",
+                        "inverse-primary": "#006c56",
+                        "surface-bright": "#292c33",
+                        "on-primary": "#005f4b",
+                        "secondary-container": "#005bc0",
+                        "secondary-fixed": "#bed2ff",
+                        "primary-fixed": "#20f9c9",
+                        "on-surface": "#f6f6fc",
+                        "primary-container": "#05f3c4",
+                        "secondary-fixed-dim": "#a8c4ff",
+                        "secondary-dim": "#0070ea",
+                        "outline-variant": "#46484d",
+                        "outline": "#74757a",
+                        "surface-dim": "#0c0e12",
+                        "tertiary-fixed-dim": "#b190ff",
+                        "surface": "#0c0e12",
+                        "surface-container-low": "#111318",
+                        "on-background": "#f6f6fc",
+                        "surface-tint": "#5bffd3",
+                        "surface-container-high": "#1d2025",
+                        "error": "#ff716c",
+                        "tertiary-fixed": "#bda1ff",
+                        "tertiary-dim": "#874cff",
+                        "on-secondary-container": "#f7f7ff",
+                        "surface-container": "#171a1f",
+                        "on-secondary-fixed": "#00326f",
+                        "on-secondary-fixed-variant": "#004ea5",
+                        "on-tertiary-fixed-variant": "#4700a7",
+                        "on-primary-fixed-variant": "#00644f",
+                        "tertiary-container": "#7000ff",
+                        "surface-variant": "#23262c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e12]/80 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.5)] bg-gradient-to-b from-[#111318] to-transparent">
+<div class="flex items-center justify-between px-6 h-20 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#5bffd3] text-2xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="text-2xl font-bold tracking-tighter text-[#5bffd3] font-['Space_Grotesk']">SurgeonValue</h1>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<nav class="flex items-center space-x-6 text-sm font-label uppercase tracking-widest">
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Dashboard</a>
+<a class="text-[#5bffd3] hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Agents</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Analytics</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Integrations</a>
+</nav>
+<div class="h-10 w-10 rounded-full border border-primary/20 bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img alt="Surgeon Profile" data-alt="close-up portrait of a professional surgeon in blue scrubs with a focused expression, cinematic medical lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCouK3ygfhqJsEfdXaEkwTpxPT9kyZvtvjGybxsUpb6sTNgXUUzY5o7iG_IXKFOfH0zHFf7yTBdq3qpw83q4SdtQm1a4afnedeill9Z3t97-w-KZyoJFW1eAjSzwkb1Jt3hUBKBwm_GHLWATcXVyHVNRyruDkO49CM4rJOIeE-sybSl7zJZhY2KHYQ-fZe01W4LUo2xMvjZryC0RROEjO1nOGr9Ja13VMw3n7WvKYJ06XqGCs1jGoXmjrincZGOrLvICfuxocQUWUSL"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-32 px-6 max-w-7xl mx-auto">
+<!-- Search & Editorial Header -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="max-w-2xl">
+<p class="text-primary font-label text-xs uppercase tracking-[0.3em] mb-2">Operational Intelligence</p>
+<h2 class="text-5xl font-headline font-bold tracking-tighter leading-none mb-4">Agent Cohort</h2>
+<p class="text-on-surface-variant text-lg leading-relaxed">Deploying 19 autonomous clinical intelligences specialized in surgical lifecycle management and fiscal optimization.</p>
+</div>
+<div class="relative w-full md:w-80 group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+</div>
+<input class="block w-full bg-surface-container-lowest border-none border-b-2 border-outline-variant/20 focus:border-primary transition-all duration-300 py-3 pl-10 pr-3 text-xs font-label tracking-widest text-on-surface focus:ring-0" placeholder="FILTER BY FUNCTION..." type="text"/>
+<div class="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-primary to-secondary group-focus-within:w-full transition-all duration-500"></div>
+</div>
+</div>
+<!-- Agent Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Highlighted Agent: Prior Auth Sentinel -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] border-l-2 border-primary">
+<div class="scanning-line opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user">verified_user</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-primary uppercase tracking-widest mb-1">Efficiency</p>
+<p class="font-mono text-xl text-on-surface">99.4<span class="text-xs opacity-50">%</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Prior Auth Sentinel</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Autonomous navigation of payer requirements and automated authorization submission cycles.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-label text-primary uppercase tracking-tighter">Active System</span>
+</div>
+<button class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Configure</button>
+</div>
+</div>
+<!-- Highlighted Agent: CPT Optimizer -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] border-l-2 border-secondary">
+<div class="scanning-line opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="rebase_edit">rebase_edit</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-secondary uppercase tracking-widest mb-1">Accuracy</p>
+<p class="font-mono text-xl text-on-surface">98.2<span class="text-xs opacity-50">%</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">CPT Optimizer</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Real-time surgical documentation review to ensure maximum compliant coding value.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-[10px] font-label text-secondary uppercase tracking-tighter">Deep Scanning</span>
+</div>
+<button class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors">Logs</button>
+</div>
+</div>
+<!-- Highlighted Agent: PROM Tracker -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-tertiary">
+<div class="scanning-line opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-tertiary/10 rounded-lg">
+<span class="material-symbols-outlined text-tertiary" data-icon="monitor_heart">monitor_heart</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-tertiary uppercase tracking-widest mb-1">Compliance</p>
+<p class="font-mono text-xl text-on-surface">96.8<span class="text-xs opacity-50">%</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">PROM Tracker</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Patient-reported outcome measure harvesting through predictive outreach intelligence.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="text-[10px] font-label text-tertiary uppercase tracking-tighter">Harvesting</span>
+</div>
+<button class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant hover:text-tertiary transition-colors">Analytics</button>
+</div>
+</div>
+<!-- Highlighted Agent: Revenue Sentinel -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-primary">
+<div class="scanning-line opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="monetization_on">monetization_on</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-primary uppercase tracking-widest mb-1">Leakage Found</p>
+<p class="font-mono text-xl text-on-surface">-$12.4K</p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Revenue Sentinel</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Detecting fiscal slippage and ensuring every surgical procedure is fully captured and billed.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-label text-primary uppercase tracking-tighter">Monitoring</span>
+</div>
+<button class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">Recover</button>
+</div>
+</div>
+<!-- Highlighted Agent: Denial Fighter -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-error">
+<div class="scanning-line opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-error/10 rounded-lg">
+<span class="material-symbols-outlined text-error" data-icon="gavel">gavel</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-error uppercase tracking-widest mb-1">Win Rate</p>
+<p class="font-mono text-xl text-on-surface">84.5<span class="text-xs opacity-50">%</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Denial Fighter</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Autonomous claim appeal generation and payer negotiation for denied services.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="text-[10px] font-label text-error uppercase tracking-tighter">Aggregating Case</span>
+</div>
+<button class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant hover:text-error transition-colors">History</button>
+</div>
+</div>
+<!-- Standard Agent: Clinical Log Auditor -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-outline-variant">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-white/5 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="description">description</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest mb-1">Logs Scanned</p>
+<p class="font-mono text-xl text-on-surface">1.2M</p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Clinical Log Auditor</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Validation of surgical logs against EHR timestamps for operational consistency.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<span class="text-[10px] font-label text-outline uppercase tracking-tighter">Standby</span>
+</div>
+</div>
+</div>
+<!-- Standard Agent: Supply Chain Oracle -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-outline-variant">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-white/5 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="inventory_2">inventory_2</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest mb-1">Waste Red.</p>
+<p class="font-mono text-xl text-on-surface">15<span class="text-xs opacity-50">%</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Supply Chain Oracle</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Predictive implant and supply ordering based on surgical schedule velocity.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-label text-primary uppercase tracking-tighter">Ordering</span>
+</div>
+</div>
+</div>
+<!-- Standard Agent: Payer Liaison -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-outline-variant">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-white/5 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="forum">forum</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest mb-1">Response Time</p>
+<p class="font-mono text-xl text-on-surface">4.2<span class="text-xs opacity-50">m</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Payer Liaison</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">AI-led communications with insurance representatives to resolve pending queries.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-[10px] font-label text-primary uppercase tracking-tighter">Communicating</span>
+</div>
+</div>
+</div>
+<!-- Standard Agent: Schedule Harmonizer -->
+<div class="group relative overflow-hidden bg-surface-container-low p-6 rounded-lg transition-all duration-300 hover:bg-surface-bright border-l-2 border-outline-variant">
+<div class="flex justify-between items-start mb-6">
+<div class="p-2 bg-white/5 rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="calendar_month">calendar_month</span>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest mb-1">Opt. Rate</p>
+<p class="font-mono text-xl text-on-surface">94<span class="text-xs opacity-50">%</span></p>
+</div>
+</div>
+<h3 class="text-xl font-headline font-bold mb-2">Schedule Harmonizer</h3>
+<p class="text-sm text-on-surface-variant mb-6 leading-relaxed">Dynamic surgical scheduling to minimize block time waste and maximize throughput.</p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+<span class="text-[10px] font-label text-outline uppercase tracking-tighter">Inactive</span>
+</div>
+</div>
+</div>
+<!-- Continued list placeholders to imply the 19 agents -->
+<div class="lg:col-span-3 py-12 flex flex-col items-center justify-center opacity-40 border-t border-white/5">
+<span class="material-symbols-outlined text-4xl mb-4" data-icon="more_horiz">more_horiz</span>
+<p class="font-label text-xs uppercase tracking-widest">10 additional agents are monitoring sub-processes</p>
+</div>
+</div>
+</main>
+<!-- NavigationDrawer (Intelligence Feed) -->
+<aside class="hidden lg:flex fixed right-0 top-20 h-[calc(100vh-160px)] w-80 bg-[#111318]/60 backdrop-blur-2xl border-l border-white/5 flex-col p-4 space-y-4 shadow-2xl">
+<div class="flex items-center justify-between mb-2">
+<h4 class="font-headline font-bold text-sm text-[#669dff]">AI Intelligence Feed</h4>
+<span class="text-[#5bffd3] font-mono text-xs">v4.2.0</span>
+</div>
+<div class="flex-1 space-y-4 overflow-y-auto pr-2">
+<!-- Critical Alert -->
+<div class="bg-[#5bffd3]/5 border-r-2 border-[#5bffd3] p-4 transition-all duration-300">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-error text-sm" data-icon="emergency_home">emergency_home</span>
+<span class="text-[10px] font-label uppercase tracking-widest text-error">Critical Alert</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Denial Fighter detected systemic shift in Payer 144 requirements. Update required.</p>
+</div>
+<!-- Agent Log -->
+<div class="hover:bg-white/5 p-4 rounded transition-all duration-300">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="memory">memory</span>
+<span class="text-[10px] font-label uppercase tracking-widest text-secondary">Agent Log</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Prior Auth Sentinel successfully authorized 12 cases for Site A in 400ms.</p>
+</div>
+<!-- Real-time Feed -->
+<div class="hover:bg-white/5 p-4 rounded transition-all duration-300">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="sensors">sensors</span>
+<span class="text-[10px] font-label uppercase tracking-widest text-primary">Real-time Feed</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">PROM Tracker identified 4 high-risk recovery metrics from patient cohort.</p>
+</div>
+</div>
+</aside>
+<!-- BottomNavBar (Mobile & Tablet) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-4 bg-[#0c0e12]/90 backdrop-blur-lg border-t border-[#5bffd3]/10 shadow-[0_-10px_30px_rgba(0,242,195,0.05)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all hover:text-[#5bffd3]/80" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5bffd3] scale-110 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Agents</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all hover:text-[#5bffd3]/80" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="query_stats">query_stats</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all hover:text-[#5bffd3]/80" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="hub">hub</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Integrations</span>
+</a>
+</nav>
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

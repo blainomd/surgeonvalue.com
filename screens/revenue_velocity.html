@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revenue Velocity | Neural Pulse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#44474f",
+                    "on-primary-fixed": "#001a42",
+                    "surface-tint": "#465e8f",
+                    "primary": "#000a23",
+                    "inverse-on-surface": "#edf1f5",
+                    "on-secondary-fixed": "#00201a",
+                    "on-background": "#171c1f",
+                    "tertiary-fixed": "#ffdad6",
+                    "surface-container-high": "#e4e9ed",
+                    "secondary-fixed": "#afefdd",
+                    "surface-container": "#eaeef2",
+                    "secondary": "#29695b",
+                    "on-primary-fixed-variant": "#2e4675",
+                    "surface-container-low": "#f0f4f8",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#7189bc",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#f6fafe",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed-dim": "#94d3c1",
+                    "background": "#f6fafe",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#aec6fe",
+                    "surface-dim": "#d6dade",
+                    "error": "#ba1a1a",
+                    "primary-container": "#00204e",
+                    "on-secondary-container": "#2e6d5f",
+                    "tertiary-fixed-dim": "#ffb4ac",
+                    "tertiary": "#220001",
+                    "inverse-primary": "#aec6fe",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c4c6d0",
+                    "on-surface": "#171c1f",
+                    "surface-container-highest": "#dfe3e7",
+                    "tertiary-container": "#4d0004",
+                    "outline": "#747780",
+                    "on-tertiary-container": "#dd635a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#410003",
+                    "surface": "#f6fafe",
+                    "secondary-container": "#acedda",
+                    "inverse-surface": "#2c3134",
+                    "primary-fixed": "#d8e2ff",
+                    "surface-variant": "#dfe3e7",
+                    "on-secondary-fixed-variant": "#065043",
+                    "on-tertiary-fixed-variant": "#85221f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .river-gradient {
+            background: linear-gradient(90deg, rgba(0,10,35,0.05) 0%, rgba(41,105,91,0.1) 50%, rgba(0,10,35,0.05) 100%);
+        }
+        .glass-card {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .stalled-glow {
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar Navigation Shell -->
+<header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl text-slate-900 dark:text-slate-50 fixed top-0 w-full z-50 shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="Surgeon Profile" class="w-full h-full object-cover" data-alt="Professional medical headshot of a surgeon in blue scrubs with a focused and confident expression in a bright clinical setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj4db8_XkvfmKjXzNLTh3qq962DYRdtj9xcj8zT6xN970WcXST6-1n5oZdwy0PHWz7o7h9AfcwevmbxQ1b2dp31wctXrXKIuPVsLDddr4M4vxpy7W9Tdq2X_ilb0EaHzrUydRaPAvCthfpCogk0qNsPjDnbJUXa9GHXp7L_iUbUIqWXH2yD8HH8__EY1TLMBy12wSXXk6FkA26N2ibGv0xQ3B2BTY7qBVQ5Fwejt-w5CoSaRon0f70OZpeEZb2F-e260bKG_SfX-g"/>
+</div>
+<span class="font-manrope font-black text-2xl text-blue-900 dark:text-blue-400">Neural Pulse</span>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-slate-500 dark:text-slate-400 font-manrope font-bold text-lg tracking-tight hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-2 py-1 rounded" href="#">Clinical Ops</a>
+<a class="text-emerald-700 dark:text-emerald-400 font-bold font-manrope text-lg tracking-tight px-2 py-1 rounded" href="#">Revenue Flow</a>
+<a class="text-slate-500 dark:text-slate-400 font-manrope font-bold text-lg tracking-tight hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors px-2 py-1 rounded" href="#">Family Sync</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-2xl active:scale-95 duration-150" data-icon="emergency">emergency</button>
+<div class="hidden md:block h-8 w-[1px] bg-outline-variant/20"></div>
+<button class="material-symbols-outlined text-2xl text-primary" data-icon="search">search</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-screen-2xl mx-auto min-h-screen">
+<!-- Header Section -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-headline text-4xl font-extrabold text-primary tracking-tight mb-2">Revenue Velocity</h1>
+<p class="text-on-surface-variant max-w-xl">Live forecasting engine for Neural Intensive Care. Spatial analysis of claim life-cycles and predictive liquidity modeling.</p>
+</div>
+<div class="flex gap-3">
+<div class="bg-surface-container-low px-4 py-2 rounded-xl border border-outline-variant/10">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest block mb-1">Current Velocity</span>
+<span class="text-secondary font-headline font-bold text-2xl">14.2 days</span>
+</div>
+<div class="bg-surface-container-low px-4 py-2 rounded-xl border border-outline-variant/10">
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest block mb-1">Forecasted 30d</span>
+<span class="text-primary font-headline font-bold text-2xl">$2.84M</span>
+</div>
+</div>
+</div>
+<!-- Spatial Revenue River Visualization -->
+<section class="mb-12 relative">
+<div class="bg-surface-container-low rounded-[2rem] p-8 overflow-hidden relative">
+<!-- River Background Path -->
+<div class="absolute inset-0 river-gradient opacity-40 pointer-events-none"></div>
+<!-- Flow Columns -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
+<!-- Phase 1: Capture -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="fact_check">fact_check</span>
+                                Capture
+                            </h3>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold">142 Cases</span>
+</div>
+<!-- High Density Items -->
+<div class="space-y-4">
+<div class="glass-card p-4 rounded-2xl border border-white/40 shadow-sm transition-transform hover:-translate-y-1">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm">Neuro-Vascular Bundle</span>
+<span class="text-xs text-on-surface-variant">2h ago</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-4/5"></div>
+</div>
+<div class="mt-2 flex justify-between text-[11px] font-bold uppercase tracking-tight text-outline">
+<span>Coding: Verified</span>
+<span class="text-secondary">$42,500</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-2xl border border-white/40 shadow-sm opacity-80">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm">Cranial Decompression</span>
+<span class="text-xs text-on-surface-variant">5h ago</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-2/5"></div>
+</div>
+<div class="mt-2 text-[11px] font-bold uppercase text-outline">Pending Transcription</div>
+</div>
+</div>
+</div>
+<!-- Phase 2: Adjudication (The "Stalled" Hub) -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-xl flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
+                                Adjudication
+                            </h3>
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-bold">89 Claims</span>
+</div>
+<!-- STALLED STREAM (LMN Denials) -->
+<div class="space-y-4">
+<div class="bg-white p-5 rounded-2xl border-2 border-amber-400/30 stalled-glow relative">
+<div class="absolute -top-3 -right-2 bg-amber-500 text-white text-[10px] font-black px-2 py-1 rounded-md rotate-3">STALLED</div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm text-primary">Spinal Fusion L4-L5</span>
+<span class="material-symbols-outlined text-amber-600 text-lg" data-icon="warning">warning</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-4">LMN Denied: Medical necessity documentation mismatch in clinical notes.</p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white text-xs font-bold py-2 rounded-lg">Update LMN</button>
+<button class="flex-1 bg-surface-container-highest text-primary text-xs font-bold py-2 rounded-lg">Appeal</button>
+</div>
+</div>
+<div class="glass-card p-4 rounded-2xl border border-white/40 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm">Deep Brain Stim. (DBS)</span>
+<span class="text-xs text-on-surface-variant">Payer: BlueCross</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px]">MD</div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-emerald-100 flex items-center justify-center text-[10px]">AI</div>
+</div>
+<span class="text-[10px] font-medium text-on-surface-variant">Payer Review Phase</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Phase 3: Payment -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-xl flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="payments">payments</span>
+                                Payment
+                            </h3>
+<span class="bg-emerald-100 text-secondary px-3 py-1 rounded-full text-xs font-bold">24 Settled</span>
+</div>
+<div class="space-y-4">
+<div class="bg-secondary/5 border border-secondary/20 p-4 rounded-2xl">
+<div class="flex justify-between items-center">
+<div>
+<span class="block text-xs font-bold text-secondary uppercase">EFT Confirmed</span>
+<span class="font-headline font-bold text-lg">$128,400.00</span>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-2xl border border-white/40 shadow-sm">
+<div class="flex justify-between items-start mb-2">
+<span class="font-bold text-sm">Batch Settlement #882</span>
+<span class="text-xs text-on-surface-variant">Expected 14:00</span>
+</div>
+<div class="text-[11px] font-bold text-primary">TRANSFERRED TO VAULT</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Predictive Revenue Curves & Stress Analytics -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Revenue Curve Chart (Large) -->
+<div class="md:col-span-8 bg-surface-container-low rounded-3xl p-6 overflow-hidden min-h-[400px] flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h4 class="font-headline font-bold text-lg">30-Day Predictive Flow</h4>
+<p class="text-xs text-on-surface-variant">Neural predictive model based on current clinical census.</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-[10px] font-bold text-outline">Realized</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-[10px] font-bold text-outline">Projected</span>
+</div>
+</div>
+</div>
+<div class="flex-grow flex items-end gap-1 px-2">
+<!-- Simulated Data Visualization Bars -->
+<div class="flex-1 bg-primary/20 h-1/4 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/30 h-1/3 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/40 h-2/5 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/50 h-1/2 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-3/5 rounded-t-sm"></div>
+<div class="flex-1 bg-primary/70 h-2/3 rounded-t-sm"></div>
+<div class="flex-1 bg-primary h-3/4 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/80 h-4/5 rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/70 h-[85%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/60 h-[75%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/50 h-[80%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/40 h-[90%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/30 h-[95%] rounded-t-sm"></div>
+<div class="flex-1 bg-secondary/20 h-full rounded-t-sm"></div>
+</div>
+<div class="pt-4 flex justify-between text-[10px] font-bold text-outline uppercase tracking-widest border-t border-outline-variant/10 mt-4">
+<span>Oct 01</span>
+<span>Oct 15 (Today)</span>
+<span>Oct 30</span>
+</div>
+</div>
+<!-- Side Metrics (Systems Thinker) -->
+<div class="md:col-span-4 space-y-6">
+<!-- Liquidity Score -->
+<div class="bg-primary text-white p-6 rounded-3xl relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 opacity-10">
+<span class="material-symbols-outlined text-9xl" data-icon="monitoring">monitoring</span>
+</div>
+<span class="text-[11px] font-bold uppercase tracking-widest text-primary-container">System Liquidity Index</span>
+<h5 class="text-5xl font-black font-manrope mt-2">94.2</h5>
+<p class="text-xs mt-4 text-on-primary-container">Excellent efficiency. Neural reconciliation currently matching 98.4% of hospital charges.</p>
+</div>
+<!-- Denial Vector Analysis -->
+<div class="bg-surface-container-low p-6 rounded-3xl">
+<h4 class="font-headline font-bold text-md mb-4">Denial Vectors</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold w-24">Coding Mismatch</span>
+<div class="flex-grow h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[15%]"></div>
+</div>
+<span class="text-[11px] font-bold">15%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold w-24">Missing LMN</span>
+<div class="flex-grow h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-amber-500 h-full w-[62%]"></div>
+</div>
+<span class="text-[11px] font-bold">62%</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-[11px] font-bold w-24">Payer Lag</span>
+<div class="flex-grow h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[23%]"></div>
+</div>
+<span class="text-[11px] font-bold">23%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center pt-3 pb-8 px-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl z-50 rounded-t-3xl border-t border-slate-200/10 shadow-[0_-4px_24px_0_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center text-slate-400 dark:text-slate-600 hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="insights">insights</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Pulse</span>
+</a>
+<a class="flex flex-col items-center text-emerald-600 dark:text-emerald-400 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="show_chart" style="font-variation-settings: 'FILL' 1;">show_chart</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Velocity</span>
+</a>
+<a class="flex flex-col items-center text-slate-400 dark:text-slate-600 hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="favorite">favorite</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Sync</span>
+</a>
+<a class="flex flex-col items-center text-slate-400 dark:text-slate-600 hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="security">security</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Vault</span>
+</a>
+</nav>
+<!-- FAB for Task-Specific Action -->
+<button class="fixed bottom-28 right-6 md:bottom-12 md:right-12 w-14 h-14 bg-primary text-white rounded-2xl flex items-center justify-center shadow-xl hover:bg-primary-container transition-all active:scale-95 group z-40">
+<span class="material-symbols-outlined group-hover:rotate-90 transition-transform" data-icon="add">add</span>
+</button>
+</body></html>

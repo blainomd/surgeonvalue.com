@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;family=Inter+Tight:wght@400;700;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#5516be",
+                        "surface-dim": "#0c1324",
+                        "on-primary-fixed-variant": "#004e5a",
+                        "background": "#0c1324",
+                        "surface-tint": "#2fd9f4",
+                        "inverse-primary": "#006877",
+                        "surface-container-high": "#23293c",
+                        "on-secondary": "#3c0091",
+                        "on-error": "#690005",
+                        "inverse-surface": "#dce1fb",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "on-tertiary-container": "#4c4f51",
+                        "tertiary-container": "#bfc1c3",
+                        "secondary": "#d0bcff",
+                        "surface-variant": "#2e3447",
+                        "primary-fixed": "#a2eeff",
+                        "outline": "#859397",
+                        "outline-variant": "#3c494c",
+                        "on-secondary-container": "#c4abff",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "secondary-fixed": "#e9ddff",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#33394c",
+                        "tertiary": "#dbdddf",
+                        "on-tertiary": "#2d3133",
+                        "on-primary": "#00363e",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#bbc9cd",
+                        "on-tertiary-fixed": "#191c1e",
+                        "tertiary-fixed": "#e0e3e5",
+                        "surface-container-lowest": "#070d1f",
+                        "surface": "#0c1324",
+                        "on-surface": "#dce1fb",
+                        "primary-container": "#22d3ee",
+                        "inverse-on-surface": "#2a3043",
+                        "surface-container": "#191f31",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "on-primary-container": "#005763",
+                        "surface-container-highest": "#2e3447",
+                        "on-background": "#dce1fb",
+                        "secondary-container": "#571bc1",
+                        "primary": "#8aebff",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#001f25",
+                        "on-secondary-fixed": "#23005c",
+                        "primary-fixed-dim": "#2fd9f4",
+                        "surface-container-low": "#151b2d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter Tight"],
+                        "body": ["Inter"],
+                        "label": ["JetBrains Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(34, 211, 238, 0.05);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(187, 201, 205, 0.15);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 40px rgba(47, 217, 244, 0.1);
+        }
+        .neural-radial {
+            background: conic-gradient(from 180deg at 50% 50%, #8aebff 0deg, #571bc1 140deg, #0c1324 360deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container/30">
+<!-- TopAppBar -->
+<header class="bg-[#0c1324] bg-gradient-to-b from-[#2e3447] to-[#0c1324] fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 shadow-[0_0_40px_rgba(47,217,244,0.06)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#8aebff]" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="text-lg font-black tracking-[0.2em] text-[#8aebff] font-['Inter_Tight'] uppercase">SYNTHETIC CLINICAL</h1>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8 items-center text-[#3c494c] font-label text-[11px] tracking-widest uppercase">
+<a class="text-[#8aebff] hover:text-[#8aebff] transition-colors" href="#">Workspace</a>
+<a class="hover:text-[#8aebff] transition-colors" href="#">Protocols</a>
+<a class="hover:text-[#8aebff] transition-colors" href="#">Analytics</a>
+</div>
+<span class="material-symbols-outlined text-[#8aebff] cursor-pointer hover:bg-[#22d3ee]/10 p-2 rounded-lg transition-colors" data-icon="settings_input_component">settings_input_component</span>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-[1600px] mx-auto grid grid-cols-12 gap-8 h-screen overflow-hidden">
+<!-- Left Column: Cognitive State & Predictive Feed -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-8 h-full overflow-y-auto pr-4 scrollbar-hide">
+<!-- Cognitive State Section -->
+<section class="bg-surface-container-low rounded-xl p-8 border-l-2 border-primary relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 font-label text-[10px] text-primary/40">STATUS: ACTIVE_NEURAL_LINK</div>
+<div class="flex flex-col gap-2">
+<h2 class="text-sm font-label text-secondary uppercase tracking-[0.3em]">Cognitive State</h2>
+<div class="flex items-end gap-4">
+<span class="text-5xl font-headline font-black tracking-tighter text-on-surface uppercase">Optimizing</span>
+<div class="flex gap-1 mb-2">
+<div class="w-1 h-4 bg-primary rounded-full animate-pulse"></div>
+<div class="w-1 h-6 bg-primary rounded-full animate-pulse delay-75"></div>
+<div class="w-1 h-3 bg-primary rounded-full animate-pulse delay-150"></div>
+</div>
+</div>
+<p class="text-on-surface-variant max-w-xl mt-4 leading-relaxed">
+                        Artificial Intelligence has synchronized with your surgical schedule. Analyzing 14 impending variables to pre-emptively resolve clinical conflicts and resource allocation.
+                    </p>
+</div>
+</section>
+<!-- Predictive Intelligence Feed -->
+<section class="flex flex-col gap-6">
+<div class="flex justify-between items-center">
+<h3 class="text-xs font-label text-primary uppercase tracking-[0.2em]">Predictive Intelligence Feed</h3>
+<span class="text-[10px] font-label text-outline-variant">T-MINUS COORDINATES: 42.11.09</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Predictive Card 1 -->
+<div class="glass-panel rounded-xl p-6 flex flex-col justify-between h-48 border border-outline-variant/10 hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start">
+<span class="font-label text-[10px] text-primary bg-primary/10 px-2 py-1 rounded">LOG_PREDICTION_044</span>
+<span class="material-symbols-outlined text-primary text-sm" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-lg leading-tight text-on-surface">Potential Denied Claim</h4>
+<p class="text-xs text-on-surface-variant mt-2 font-label">CASE #204: ARTHROPLASTY REVISION</p>
+</div>
+<div class="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-primary text-on-primary font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Accept</button>
+<button class="border border-outline-variant text-on-surface font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Delegate</button>
+</div>
+</div>
+<!-- Predictive Card 2 -->
+<div class="glass-panel rounded-xl p-6 flex flex-col justify-between h-48 border border-outline-variant/10 hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start">
+<span class="font-label text-[10px] text-secondary bg-secondary/10 px-2 py-1 rounded">SCHED_OPTIM_88</span>
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="schedule">schedule</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-lg leading-tight text-on-surface">Predicted Slot Opening</h4>
+<p class="text-xs text-on-surface-variant mt-2 font-label">TUE 09:45 — EST. LIKELIHOOD 84%</p>
+</div>
+<div class="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-secondary text-on-secondary font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Queue Patient</button>
+<button class="border border-outline-variant text-on-surface font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Ignore</button>
+</div>
+</div>
+<!-- Predictive Card 3 -->
+<div class="glass-panel rounded-xl p-6 flex flex-col justify-between h-48 border border-outline-variant/10 hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start">
+<span class="font-label text-[10px] text-error bg-error/10 px-2 py-1 rounded">CRITICAL_VITAL_ALPHA</span>
+<span class="material-symbols-outlined text-error text-sm" data-icon="warning">warning</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-lg leading-tight text-on-surface">Resource Shortage Alert</h4>
+<p class="text-xs text-on-surface-variant mt-2 font-label">TITANIUM IMPLANT G7 — INBOUND DELAY</p>
+</div>
+<div class="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-error text-on-error font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Re-Route</button>
+<button class="border border-outline-variant text-on-surface font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Manual Override</button>
+</div>
+</div>
+<!-- Predictive Card 4 -->
+<div class="glass-panel rounded-xl p-6 flex flex-col justify-between h-48 border border-outline-variant/10 hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start">
+<span class="font-label text-[10px] text-primary-fixed-dim bg-primary-fixed-dim/10 px-2 py-1 rounded">INSIGHT_GEN_002</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-sm" data-icon="psychology">psychology</span>
+</div>
+<div>
+<h4 class="font-headline font-bold text-lg leading-tight text-on-surface">Outcome Anomaly Detected</h4>
+<p class="text-xs text-on-surface-variant mt-2 font-label">PATIENT #0993: PRE-HAB RESPONSE</p>
+</div>
+<div class="flex gap-2 mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="bg-primary-container text-on-primary-container font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Review Data</button>
+<button class="border border-outline-variant text-on-surface font-label text-[10px] px-3 py-1.5 rounded uppercase tracking-wider">Dismiss</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Practice Vitality Index -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-8">
+<!-- Vitality Index Circular Chart -->
+<section class="bg-surface-container rounded-xl p-8 border border-outline-variant/10 glow-cyan relative overflow-hidden">
+<h3 class="text-xs font-label text-on-surface-variant uppercase tracking-[0.2em] mb-8">Practice Vitality Index</h3>
+<div class="relative w-64 h-64 mx-auto flex items-center justify-center">
+<!-- Layered Circular Chart -->
+<div class="absolute inset-0 rounded-full border-4 border-outline-variant/10"></div>
+<div class="absolute inset-4 rounded-full border-[6px] border-primary/20 border-t-primary rotate-45"></div>
+<div class="absolute inset-10 rounded-full border-[6px] border-secondary/20 border-r-secondary rotate-[-120deg]"></div>
+<div class="absolute inset-16 rounded-full border-[6px] border-tertiary-container/20 border-b-tertiary-container"></div>
+<div class="text-center z-10">
+<span class="block font-headline font-black text-4xl text-primary">94.8</span>
+<span class="block font-label text-[10px] uppercase text-on-surface-variant tracking-widest mt-1">Global Vitality</span>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4 mt-8">
+<div class="flex justify-between items-center text-xs font-label">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="text-on-surface-variant">Clinical Outcomes</span>
+</div>
+<span class="text-on-surface">98%</span>
+</div>
+<div class="flex justify-between items-center text-xs font-label">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-on-surface-variant">Operational Efficiency</span>
+</div>
+<span class="text-on-surface">82%</span>
+</div>
+<div class="flex justify-between items-center text-xs font-label">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<span class="text-on-surface-variant">Revenue Velocity</span>
+</div>
+<span class="text-on-surface">91%</span>
+</div>
+</div>
+</section>
+<!-- Rapid Directives -->
+<section class="flex flex-col gap-4">
+<h3 class="text-[10px] font-label text-outline uppercase tracking-widest px-1">Rapid Directives</h3>
+<button class="flex items-center justify-between w-full p-4 bg-primary-container text-on-primary-container rounded-xl font-headline font-bold uppercase text-xs tracking-widest hover:scale-105 transition-transform">
+<span>Accept All Predictions</span>
+<span class="material-symbols-outlined" data-icon="double_arrow">double_arrow</span>
+</button>
+<button class="flex items-center justify-between w-full p-4 border border-outline-variant text-on-surface rounded-xl font-headline font-bold uppercase text-xs tracking-widest hover:bg-surface-bright transition-colors">
+<span>Delegate to Neural Agent</span>
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+</button>
+</section>
+<!-- Telemetry Footer -->
+<div class="mt-auto border-t border-outline-variant/10 pt-4 opacity-40">
+<div class="flex flex-col gap-1 font-label text-[9px] uppercase tracking-tighter">
+<div class="flex justify-between">
+<span>LATENCY_SYNC</span>
+<span>0.002MS</span>
+</div>
+<div class="flex justify-between">
+<span>NEURAL_LOAD</span>
+<span>14.2%</span>
+</div>
+<div class="flex justify-between">
+<span>UPTIME_INDEX</span>
+<span>0.99998</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-[#0c1324]/80 backdrop-blur-xl z-50 border-t border-[#3c494c]/15 shadow-[0_-10px_40px_rgba(47,217,244,0.06)]">
+<div class="flex flex-col items-center justify-center text-[#8aebff] bg-[#22d3ee]/10 rounded-xl px-4 py-1 ring-1 ring-[#8aebff]/30 transition-all duration-500 ease-out">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest mt-1">Neural Feed</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3c494c] opacity-60 px-4 py-1 hover:text-[#d0bcff] hover:opacity-100 transition-all duration-500 ease-out">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest mt-1">Agent Nexus</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3c494c] opacity-60 px-4 py-1 hover:text-[#d0bcff] hover:opacity-100 transition-all duration-500 ease-out">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest mt-1">Horizon Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3c494c] opacity-60 px-4 py-1 hover:text-[#d0bcff] hover:opacity-100 transition-all duration-500 ease-out">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest mt-1">Profile</span>
+</div>
+</nav>
+<!-- Contextual FAB (Hidden as per hierarchy on complex dashboard) -->
+<div class="fixed bottom-24 right-8 z-50">
+<button class="w-14 h-14 bg-secondary text-on-secondary rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="add" data-weight="fill" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</div>
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

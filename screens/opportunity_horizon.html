@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&amp;family=Inter+Tight:wght@400;700;800;900&amp;family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary-fixed-variant": "#5516be",
+                "surface-dim": "#0c1324",
+                "on-primary-fixed-variant": "#004e5a",
+                "background": "#0c1324",
+                "surface-tint": "#2fd9f4",
+                "inverse-primary": "#006877",
+                "surface-container-high": "#23293c",
+                "on-secondary": "#3c0091",
+                "on-error": "#690005",
+                "inverse-surface": "#dce1fb",
+                "secondary-fixed-dim": "#d0bcff",
+                "on-tertiary-container": "#4c4f51",
+                "tertiary-container": "#bfc1c3",
+                "secondary": "#d0bcff",
+                "surface-variant": "#2e3447",
+                "primary-fixed": "#a2eeff",
+                "outline": "#859397",
+                "outline-variant": "#3c494c",
+                "on-secondary-container": "#c4abff",
+                "on-tertiary-fixed-variant": "#444749",
+                "secondary-fixed": "#e9ddff",
+                "on-error-container": "#ffdad6",
+                "surface-bright": "#33394c",
+                "tertiary": "#dbdddf",
+                "on-tertiary": "#2d3133",
+                "on-primary": "#00363e",
+                "error-container": "#93000a",
+                "on-surface-variant": "#bbc9cd",
+                "on-tertiary-fixed": "#191c1e",
+                "tertiary-fixed": "#e0e3e5",
+                "surface-container-lowest": "#070d1f",
+                "surface": "#0c1324",
+                "on-surface": "#dce1fb",
+                "primary-container": "#22d3ee",
+                "inverse-on-surface": "#2a3043",
+                "surface-container": "#191f31",
+                "tertiary-fixed-dim": "#c4c7c9",
+                "on-primary-container": "#005763",
+                "surface-container-highest": "#2e3447",
+                "on-background": "#dce1fb",
+                "secondary-container": "#571bc1",
+                "primary": "#8aebff",
+                "error": "#ffb4ab",
+                "on-primary-fixed": "#001f25",
+                "on-secondary-fixed": "#23005c",
+                "primary-fixed-dim": "#2fd9f4",
+                "surface-container-low": "#151b2d"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Inter Tight"],
+                "body": ["Inter"],
+                "label": ["JetBrains Mono"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(34, 211, 238, 0.05);
+            backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(187, 201, 205, 0.1);
+        }
+        .perspective-map {
+            perspective: 1200px;
+        }
+        .terrain-grid {
+            transform: rotateX(45deg) rotateZ(-15deg);
+        }
+        .glow-point {
+            box-shadow: 0 0 20px #8aebff;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-[#0c1324] bg-gradient-to-b from-[#2e3447] to-[#0c1324] shadow-[0_0_40px_rgba(47,217,244,0.06)] flex justify-between items-center w-full px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#8aebff]" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="text-lg font-black tracking-[0.2em] text-[#8aebff] font-['Inter_Tight'] uppercase">SYNTHETIC CLINICAL</h1>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-[10px] font-['JetBrains_Mono'] uppercase tracking-widest text-[#3c494c] hover:bg-[#22d3ee]/10 transition-colors px-3 py-1 rounded" href="#">Neural Feed</a>
+<a class="text-[10px] font-['JetBrains_Mono'] uppercase tracking-widest text-[#3c494c] hover:bg-[#22d3ee]/10 transition-colors px-3 py-1 rounded" href="#">Agent Nexus</a>
+<a class="text-[10px] font-['JetBrains_Mono'] uppercase tracking-widest text-[#8aebff] hover:bg-[#22d3ee]/10 transition-colors px-3 py-1 rounded" href="#">Horizon Map</a>
+<a class="text-[10px] font-['JetBrains_Mono'] uppercase tracking-widest text-[#3c494c] hover:bg-[#22d3ee]/10 transition-colors px-3 py-1 rounded" href="#">Profile</a>
+</nav>
+<button class="material-symbols-outlined text-[#8aebff] hover:bg-[#22d3ee]/10 transition-colors rounded p-1" data-icon="settings_input_component">settings_input_component</button>
+</header>
+<main class="pt-24 px-6 md:px-12 max-w-[1600px] mx-auto">
+<!-- Dashboard Header & AI Briefing -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-end">
+<div class="lg:col-span-7">
+<div class="flex items-center gap-2 mb-2">
+<div class="w-1 h-4 bg-primary"></div>
+<span class="font-label text-xs uppercase text-primary/60 tracking-widest">System Intelligence / Strategy</span>
+</div>
+<h2 class="text-4xl md:text-6xl font-headline font-black text-on-surface tracking-tighter leading-none">Clinical Opportunity <span class="text-primary-container">Horizon</span></h2>
+</div>
+<div class="lg:col-span-5 glass-panel p-6 rounded-xl border-l-4 border-secondary-container">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="psychology">psychology</span>
+<span class="font-label text-[10px] uppercase tracking-widest text-secondary">Executive Intelligence Briefing</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed font-body">
+                    Analysis of the next fiscal cycle indicates a <span class="text-primary">14.2% structural inefficiency</span> within surgical scheduling and payer-mix optimization. By pivoting to the Value-Based model identified in Cluster 7, we project a captured revenue surge of $1.2M. The Horizon Map confirms three distinct "Profit Peaks" currently undergoing neural validation.
+                </p>
+</div>
+</div>
+<!-- Revenue Horizon Map: 3D Aesthetic -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-lowest border border-outline-variant/15 p-8 mb-12 h-[500px] perspective-map">
+<div class="absolute top-8 left-8 z-10">
+<h3 class="text-xl font-headline font-bold text-on-surface">Revenue Horizon Map</h3>
+<div class="font-label text-[10px] text-primary/50">3D TOPOGRAPHICAL PROJECTION // REVENUE DENSITY</div>
+</div>
+<!-- Visualization Layers -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+<div class="w-[120%] h-[120%] terrain-grid flex items-center justify-center">
+<!-- Mesh Gradient Placeholder representing 3D landscape -->
+<div class="w-full h-full rounded-full blur-[100px] bg-gradient-to-tr from-surface via-primary/20 to-secondary/10"></div>
+</div>
+</div>
+<!-- Peaks / Opportunities -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative w-full h-full max-w-4xl mx-auto">
+<!-- Peak 1 -->
+<div class="absolute top-[20%] left-[30%] group cursor-pointer">
+<div class="w-4 h-4 bg-primary rounded-full glow-point transition-all group-hover:scale-150"></div>
+<div class="absolute bottom-6 left-0 w-48 glass-panel p-3 rounded shadow-2xl opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+<div class="font-label text-[9px] text-primary">OPPORTUNITY P-09</div>
+<div class="font-headline font-bold text-sm">Value-Based Transition</div>
+<div class="text-xs text-on-surface-variant">+$420k potential</div>
+</div>
+</div>
+<!-- Peak 2 -->
+<div class="absolute top-[60%] left-[55%] group cursor-pointer">
+<div class="w-6 h-6 bg-secondary-fixed-dim rounded-full glow-point transition-all group-hover:scale-150" style="box-shadow: 0 0 25px #d0bcff"></div>
+<div class="absolute bottom-8 left-0 w-48 glass-panel p-3 rounded shadow-2xl opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+<div class="font-label text-[9px] text-secondary">OPPORTUNITY X-14</div>
+<div class="font-headline font-bold text-sm">Post-Acute Synergy</div>
+<div class="text-xs text-on-surface-variant">+$890k potential</div>
+</div>
+</div>
+<!-- Peak 3 -->
+<div class="absolute top-[40%] right-[15%] group cursor-pointer">
+<div class="w-3 h-3 bg-primary rounded-full glow-point transition-all group-hover:scale-150"></div>
+<div class="absolute bottom-6 left-0 w-48 glass-panel p-3 rounded shadow-2xl opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+<div class="font-label text-[9px] text-primary">OPPORTUNITY A-02</div>
+<div class="font-headline font-bold text-sm">Supply Optimization</div>
+<div class="text-xs text-on-surface-variant">+$210k potential</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Telemetry Overlay -->
+<div class="absolute bottom-8 right-8 text-right font-label text-[10px] text-primary/40 leading-tight">
+                LAT: 40.7128 N<br/>
+                LNG: 74.0060 W<br/>
+                Z-COORD: SY-889.4<br/>
+                STATUS: NEURAL_MAPPING_ACTIVE
+            </div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-12">
+<!-- Untapped Value Clusters -->
+<div class="xl:col-span-1">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-headline font-bold">Untapped Clusters</h3>
+<span class="material-symbols-outlined text-outline" data-icon="bubble_chart">bubble_chart</span>
+</div>
+<div class="space-y-4">
+<div class="group surface-container-low p-5 rounded-xl border-l-2 border-primary-container/30 hover:border-primary-container transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-on-surface">Shift to Value-Based Care</h4>
+<span class="font-label text-xs text-primary">+$400k</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-4">Leveraging AI-driven patient risk stratification to maximize PMPM reimbursement rates.</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 bg-primary/10 text-[9px] font-label text-primary rounded-sm uppercase">Priority High</span>
+<span class="px-2 py-0.5 bg-surface-container-high text-[9px] font-label text-on-surface-variant rounded-sm uppercase">6-Month Window</span>
+</div>
+</div>
+<div class="group surface-container-low p-5 rounded-xl border-l-2 border-secondary-container/30 hover:border-secondary-container transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-on-surface">OR Block Reallocation</h4>
+<span class="font-label text-xs text-secondary">+$275k</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-4">Dynamic reallocation of underutilized block time based on predictive high-margin surgical demand.</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 bg-secondary-container/20 text-[9px] font-label text-secondary rounded-sm uppercase">Automation Ready</span>
+<span class="px-2 py-0.5 bg-surface-container-high text-[9px] font-label text-on-surface-variant rounded-sm uppercase">Immediate</span>
+</div>
+</div>
+<div class="group surface-container-low p-5 rounded-xl border-l-2 border-outline/30 hover:border-primary transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-on-surface">Inventory Synthetic Tracking</h4>
+<span class="font-label text-xs text-on-surface-variant">+$115k</span>
+</div>
+<p class="text-xs text-on-surface-variant mb-4">Implementing RFID-less synthetic vision tracking to eliminate shrinkage in clinical supply chains.</p>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 bg-surface-container-high text-[9px] font-label text-on-surface-variant rounded-sm uppercase">R&amp;D Stage</span>
+<span class="px-2 py-0.5 bg-surface-container-high text-[9px] font-label text-on-surface-variant rounded-sm uppercase">12-Month Window</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Tactical Roadmap Timeline -->
+<div class="xl:col-span-2">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-headline font-bold">Tactical Roadmap</h3>
+<div class="flex gap-4">
+<span class="font-label text-[10px] text-primary">PHASE: EXECUTION_ALPHA</span>
+<span class="material-symbols-outlined text-outline" data-icon="timeline">timeline</span>
+</div>
+</div>
+<div class="relative surface-container-low p-8 rounded-xl min-h-[400px] overflow-hidden">
+<!-- Background Visual Decor -->
+<div class="absolute right-0 top-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="relative space-y-12">
+<!-- Step 1 -->
+<div class="flex gap-8 group">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-label font-bold text-xs ring-4 ring-primary-container/20">M1</div>
+<div class="w-px h-full bg-outline-variant mt-2"></div>
+</div>
+<div class="pt-1">
+<span class="font-label text-[10px] uppercase text-primary/60 tracking-widest">Initialization</span>
+<h4 class="font-headline font-bold text-lg mb-1">Payer-Mix Synthetic Audit</h4>
+<p class="text-sm text-on-surface-variant max-w-lg">AI agents scan 24 months of claims data to identify contract leakages and renegotiation opportunities.</p>
+<div class="mt-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="check_circle">check_circle</span>
+<span class="text-[10px] font-label text-primary/80 uppercase">Deployment Complete</span>
+</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-8 group">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant text-on-surface flex items-center justify-center font-label font-bold text-xs group-hover:border-primary transition-colors">M4</div>
+<div class="w-px h-full bg-outline-variant mt-2"></div>
+</div>
+<div class="pt-1">
+<span class="font-label text-[10px] uppercase text-secondary/60 tracking-widest">Scale Expansion</span>
+<h4 class="font-headline font-bold text-lg mb-1">Operational Model Pivot</h4>
+<p class="text-sm text-on-surface-variant max-w-lg">Migration of elective orthopedics to Value-Based Care tracks. Activation of remote patient monitoring loops.</p>
+<div class="mt-4 flex items-center gap-4">
+<div class="w-32 h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="w-1/3 h-full bg-secondary"></div>
+</div>
+<span class="text-[10px] font-label text-on-surface-variant uppercase">34% Ready</span>
+</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-8 group">
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant text-on-surface flex items-center justify-center font-label font-bold text-xs">M12</div>
+</div>
+<div class="pt-1">
+<span class="font-label text-[10px] uppercase text-outline tracking-widest">Horizon Event</span>
+<h4 class="font-headline font-bold text-lg mb-1">Full Synthetic Governance</h4>
+<p class="text-sm text-on-surface-variant max-w-lg">Closed-loop autonomous scheduling and automated revenue cycle management. Projected $2.4M ARR uplift.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-[#0c1324]/80 backdrop-blur-xl border-t border-[#3c494c]/15 z-50">
+<div class="flex flex-col items-center justify-center text-[#3c494c] opacity-60 px-4 py-1 hover:text-[#d0bcff] hover:opacity-100 transition-all duration-500 ease-out cursor-pointer">
+<span class="material-symbols-outlined text-xl mb-1" data-icon="psychology">psychology</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest">Neural Feed</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3c494c] opacity-60 px-4 py-1 hover:text-[#d0bcff] hover:opacity-100 transition-all duration-500 ease-out cursor-pointer">
+<span class="material-symbols-outlined text-xl mb-1" data-icon="hub">hub</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest">Agent Nexus</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#8aebff] bg-[#22d3ee]/10 rounded-xl px-4 py-1 ring-1 ring-[#8aebff]/30 transition-all duration-500 ease-out cursor-pointer">
+<span class="material-symbols-outlined text-xl mb-1" data-icon="explore">explore</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest">Horizon Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#3c494c] opacity-60 px-4 py-1 hover:text-[#d0bcff] hover:opacity-100 transition-all duration-500 ease-out cursor-pointer">
+<span class="material-symbols-outlined text-xl mb-1" data-icon="account_circle">account_circle</span>
+<span class="font-['JetBrains_Mono'] text-[10px] uppercase tracking-widest">Profile</span>
+</div>
+</footer>
+<!-- FAB (Suppressed on this deep strategy screen as per guidelines for Details/Transactional focus) -->
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

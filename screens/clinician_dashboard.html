@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SurgeonValue — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1B2A4A;
+    --navy-deep: #0d1a30;
+    --teal: #0D7377;
+    --teal-light: #14a8ad;
+    --surface: #f5f8fc;
+    --surface-2: #eaf0f8;
+    --on-surface: #1a2333;
+    --muted: #6b7a99;
+    --error: #ba1a1a;
+    --warning: #e07b00;
+    --success: #1a7a4a;
+    --border: rgba(27,42,74,0.10);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--surface);
+    color: var(--on-surface);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+  /* Header */
+  .header {
+    background: var(--navy-deep);
+    padding: 20px 20px 16px;
+    color: white;
+  }
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .header-greeting {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-name {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: white;
+    margin-top: 2px;
+  }
+  .header-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: white;
+  }
+  /* Stats strip */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 14px 20px;
+    background: var(--navy);
+  }
+  .stat-item {
+    text-align: center;
+  }
+  .stat-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+  }
+  .stat-value.teal { color: var(--teal-light); }
+  .stat-value.amber { color: #fbbf24; }
+  .stat-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 20px;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    overflow-x: auto;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.45);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+  .tab.active {
+    color: var(--teal-light);
+    border-bottom-color: var(--teal-light);
+  }
+  /* Content */
+  .content { padding: 16px 16px 0; }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 20px 0 10px;
+  }
+
+  /* Glass card */
+  .glass-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 12px rgba(27,42,74,0.06);
+  }
+
+  /* Priority feed item */
+  .feed-item {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    box-shadow: 0 1px 6px rgba(27,42,74,0.05);
+  }
+  .feed-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .feed-icon.urgent { background: #fff0f0; }
+  .feed-icon.amber { background: #fff8e6; }
+  .feed-icon.teal { background: #e6f7f7; }
+  .feed-icon.navy { background: #eef1f8; }
+  .feed-icon .material-symbols-outlined {
+    font-size: 20px;
+  }
+  .feed-icon.urgent .material-symbols-outlined { color: var(--error); }
+  .feed-icon.amber .material-symbols-outlined { color: var(--warning); }
+  .feed-icon.teal .material-symbols-outlined { color: var(--teal); }
+  .feed-icon.navy .material-symbols-outlined { color: var(--navy); }
+  .feed-body { flex: 1; min-width: 0; }
+  .feed-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--on-surface);
+    margin-bottom: 3px;
+  }
+  .feed-sub {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .feed-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  .feed-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+  .feed-badge.urgent { background: #fff0f0; color: var(--error); }
+  .feed-badge.amber { background: #fff8e6; color: var(--warning); }
+  .feed-badge.teal { background: #e6f7f7; color: var(--teal); }
+  .feed-badge.navy { background: #eef1f8; color: var(--navy); }
+  .feed-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .feed-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .btn-sm {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-sm:hover { opacity: 0.85; }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-ghost { background: var(--surface-2); color: var(--navy); }
+  .btn-teal { background: var(--teal); color: white; }
+
+  /* Metrics grid */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .metric-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    padding: 14px 12px;
+    box-shadow: 0 1px 4px rgba(27,42,74,0.04);
+  }
+  .metric-icon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .metric-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .metric-dot.green { background: #22c55e; }
+  .metric-dot.amber { background: #f59e0b; }
+  .metric-dot.red { background: var(--error); }
+  .metric-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+  .metric-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .metric-delta {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .metric-delta.up { color: var(--success); }
+  .metric-delta.down { color: var(--error); }
+
+  /* Confidence bar */
+  .confidence-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .confidence-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .confidence-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .progress-bar {
+    height: 5px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    display: flex;
+    padding: 8px 0 12px;
+    box-shadow: 0 -4px 20px rgba(27,42,74,0.08);
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+  }
+  .nav-item .material-symbols-outlined { font-size: 22px; color: var(--muted); }
+  .nav-item.active .material-symbols-outlined { color: var(--teal); }
+  .nav-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+  .nav-item.active .nav-label { color: var(--teal); }
+
+  /* Pill tag */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .pill.green { background: #dcfce7; color: #15803d; }
+  .pill.amber { background: #fef3c7; color: #92400e; }
+  .pill.navy { background: #eef1f8; color: var(--navy); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-greeting">SurgeonValue — Practice OS</div>
+      <div class="header-name">Good morning, Dr. Chen.</div>
+    </div>
+    <div class="header-avatar">SC</div>
+  </div>
+</div>
+
+<!-- Stats strip -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-value teal">$14,280</div>
+    <div class="stat-label">Recovered MTD</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value amber">7</div>
+    <div class="stat-label">Action Items</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value">34</div>
+    <div class="stat-label">Auth Approvals</div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <div class="tab active">Dashboard</div>
+  <div class="tab">Revenue</div>
+  <div class="tab">Prior Auth</div>
+  <div class="tab">Patients</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- AI Confidence -->
+  <div class="section-label">AI Signal Strength</div>
+  <div class="glass-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div>
+        <div style="font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--navy)">Billing Intelligence</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Based on 28 recent encounters</div>
+      </div>
+      <span class="pill green">Active</span>
+    </div>
+    <div class="confidence-row">
+      <span class="confidence-label">Code Capture Accuracy</span>
+      <span class="confidence-value">94.2%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:94.2%"></div></div>
+    <div class="confidence-row">
+      <span class="confidence-label">Documentation Match</span>
+      <span class="confidence-value">88.7%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:88.7%"></div></div>
+    <div class="confidence-row">
+      <span class="confidence-label">Prior Auth Success Rate</span>
+      <span class="confidence-value">91.4%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:91.4%"></div></div>
+  </div>
+
+  <!-- Metrics grid -->
+  <div class="section-label">This Week</div>
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-icon-row">
+        <span class="material-symbols-outlined" style="font-size:18px;color:var(--teal)">paid</span>
+        <div class="metric-dot green"></div>
+      </div>
+      <div class="metric-value">$4,820</div>
+      <div class="metric-label">Revenue Recovered</div>
+      <div class="metric-delta up">↑ 23% vs last week</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon-row">
+        <span class="material-symbols-outlined" style="font-size:18px;color:var(--warning)">assignment_late</span>
+        <div class="metric-dot amber"></div>
+      </div>
+      <div class="metric-value">3</div>
+      <div class="metric-label">Pending Auth</div>
+      <div class="metric-delta down">2 expiring soon</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon-row">
+        <span class="material-symbols-outlined" style="font-size:18px;color:var(--navy)">description</span>
+        <div class="metric-dot green"></div>
+      </div>
+      <div class="metric-value">12</div>
+      <div class="metric-label">Notes Scribed</div>
+      <div class="metric-delta up">↑ 4 from avg</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-icon-row">
+        <span class="material-symbols-outlined" style="font-size:18px;color:var(--error)">search</span>
+        <div class="metric-dot amber"></div>
+      </div>
+      <div class="metric-value">5</div>
+      <div class="metric-label">Missed Codes</div>
+      <div class="metric-delta down">$1,240 at risk</div>
+    </div>
+  </div>
+
+  <!-- Priority feed -->
+  <div class="section-label">AI Priority Feed</div>
+
+  <div class="feed-item">
+    <div class="feed-icon urgent">
+      <span class="material-symbols-outlined">warning</span>
+    </div>
+    <div class="feed-body">
+      <div class="feed-title">Missed Add-On Code — Enc. #2048</div>
+      <div class="feed-sub">22840 (spinal instrumentation) not captured. Documentation supports billing. $2,100 at risk.</div>
+      <div class="feed-meta">
+        <span class="feed-badge urgent">High Priority</span>
+        <span class="feed-value">$2,100</span>
+      </div>
+      <div class="feed-actions">
+        <button class="btn-sm btn-primary">Bill Now</button>
+        <button class="btn-sm btn-ghost">Review Note</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-item">
+    <div class="feed-icon amber">
+      <span class="material-symbols-outlined">pending_actions</span>
+    </div>
+    <div class="feed-body">
+      <div class="feed-title">Prior Auth Expiring — Knee Arthroplasty</div>
+      <div class="feed-sub">Patient M. Torres. Auth expires in 4 days. Renew now to avoid surgery delay.</div>
+      <div class="feed-meta">
+        <span class="feed-badge amber">Expires Soon</span>
+        <span style="font-size:11px;color:var(--muted)">4 days</span>
+      </div>
+      <div class="feed-actions">
+        <button class="btn-sm btn-teal">Renew Auth</button>
+        <button class="btn-sm btn-ghost">Dismiss</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-item">
+    <div class="feed-icon teal">
+      <span class="material-symbols-outlined">auto_awesome</span>
+    </div>
+    <div class="feed-body">
+      <div class="feed-title">Wonder Bill — 3 Encounters Ready</div>
+      <div class="feed-sub">AI identified billable modifiers on 3 recent encounters. Review takes ~90 seconds.</div>
+      <div class="feed-meta">
+        <span class="feed-badge teal">AI Ready</span>
+        <span class="feed-value">$890</span>
+      </div>
+      <div class="feed-actions">
+        <button class="btn-sm btn-primary">Review All</button>
+        <button class="btn-sm btn-ghost">Later</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-item">
+    <div class="feed-icon navy">
+      <span class="material-symbols-outlined">check_circle</span>
+    </div>
+    <div class="feed-body">
+      <div class="feed-title">Prior Auth Approved — Hip Replacement</div>
+      <div class="feed-sub">UnitedHealthcare approved case #PA-8841. Procedure window: 30 days.</div>
+      <div class="feed-meta">
+        <span class="feed-badge navy">Approved</span>
+        <span style="font-size:11px;color:var(--muted)">2h ago</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:8px"></div>
+</div>
+
+<!-- Bottom nav -->
+<div class="bottom-nav">
+  <div class="nav-item active">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="nav-label">Dashboard</span>
+  </div>
+  <div class="nav-item">
+    <span class="material-symbols-outlined">payments</span>
+    <span class="nav-label">Revenue</span>
+  </div>
+  <div class="nav-item">
+    <span class="material-symbols-outlined">smart_toy</span>
+    <span class="nav-label">AI Agents</span>
+  </div>
+  <div class="nav-item">
+    <span class="material-symbols-outlined">group</span>
+    <span class="nav-label">Patients</span>
+  </div>
+  <div class="nav-item">
+    <span class="material-symbols-outlined">settings</span>
+    <span class="nav-label">Settings</span>
+  </div>
+</div>
+
+</body>
+</html>

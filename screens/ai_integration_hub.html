@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SurgeonValue | AI Connect &amp; Integration Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#004535",
+                        "secondary": "#669dff",
+                        "on-secondary": "#001f49",
+                        "inverse-on-surface": "#53555a",
+                        "inverse-surface": "#f9f9ff",
+                        "primary-dim": "#00e9bc",
+                        "error-container": "#9f0519",
+                        "background": "#0c0e12",
+                        "on-error-container": "#ffa8a3",
+                        "surface-container-highest": "#23262c",
+                        "error-dim": "#d7383b",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary-container": "#f8f1ff",
+                        "on-error": "#490006",
+                        "primary-fixed-dim": "#00e9bc",
+                        "primary": "#5bffd3",
+                        "tertiary": "#ac89ff",
+                        "on-surface-variant": "#aaabb0",
+                        "on-tertiary": "#290067",
+                        "on-primary-container": "#005643",
+                        "on-tertiary-fixed": "#1f0052",
+                        "inverse-primary": "#006c56",
+                        "surface-bright": "#292c33",
+                        "on-primary": "#005f4b",
+                        "secondary-container": "#005bc0",
+                        "secondary-fixed": "#bed2ff",
+                        "primary-fixed": "#20f9c9",
+                        "on-surface": "#f6f6fc",
+                        "primary-container": "#05f3c4",
+                        "secondary-fixed-dim": "#a8c4ff",
+                        "secondary-dim": "#0070ea",
+                        "outline-variant": "#46484d",
+                        "outline": "#74757a",
+                        "surface-dim": "#0c0e12",
+                        "tertiary-fixed-dim": "#b190ff",
+                        "surface": "#0c0e12",
+                        "surface-container-low": "#111318",
+                        "on-background": "#f6f6fc",
+                        "surface-tint": "#5bffd3",
+                        "surface-container-high": "#1d2025",
+                        "error": "#ff716c",
+                        "tertiary-fixed": "#bda1ff",
+                        "tertiary-dim": "#874cff",
+                        "on-secondary-container": "#f7f7ff",
+                        "surface-container": "#171a1f",
+                        "on-secondary-fixed": "#00326f",
+                        "on-secondary-fixed-variant": "#004ea5",
+                        "on-tertiary-fixed-variant": "#4700a7",
+                        "on-primary-fixed-variant": "#00644f",
+                        "tertiary-container": "#7000ff",
+                        "surface-variant": "#23262c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(35, 38, 44, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(70, 72, 77, 0.15);
+        }
+        .scanning-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #5bffd3, transparent);
+            animation: scan 3s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(400px); opacity: 0; }
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 selection:text-primary min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e12]/80 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center justify-between px-6 h-20 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#5bffd3] text-3xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="text-2xl font-bold tracking-tighter text-[#5bffd3] font-['Space_Grotesk']">SurgeonValue</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex items-center gap-6 font-['Space_Grotesk'] text-sm tracking-tight">
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Dashboard</a>
+<a class="text-[#5bffd3] hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Integrations</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-3 py-2 rounded-lg" href="#">Analytics</a>
+</nav>
+<div class="h-10 w-10 rounded-full border-2 border-primary/20 p-0.5">
+<img alt="Surgeon Profile" class="w-full h-full rounded-full object-cover" data-alt="professional portrait of a high-level surgical director in a clinical setting with soft blue ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-pRBiy-2Suw5a4DpNGGV7r2gmsg4eUdkwqGNWg8D8Q5lp-KEaGkRlYi9HAqL_ai2GVYCCZVCOFO_QVyrRDhq5gt9P4CM0RjnwPh-JYu04PQ36QqWUplRto5m4ymB74tDrJ8KL0hys27BNxZcj4EeHa8h5HldmpbEZ_ncSkfDR1IgOM0vfNvA17s8h6Z_JG5Zak7LZ8R6MgHqAeQDYZhn7cPGFSHyC-dt38R4whUEkYX4E-xhNi3QXNnm-iIC9qBAUXqUDFocMWDO1"/>
+</div>
+</div>
+</header>
+<!-- NavigationDrawer -->
+<aside class="fixed right-0 top-20 h-[calc(100vh-160px)] w-80 bg-[#111318]/60 backdrop-blur-2xl border-l border-white/5 shadow-2xl flex flex-col p-4 space-y-4 z-40 hidden xl:flex">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-['Space_Grotesk'] text-sm text-[#669dff] font-bold uppercase tracking-widest">AI Intelligence Feed</h2>
+<span class="text-[#5bffd3] font-mono text-xs">SV-CORE-v2.4</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-3 rounded-lg border-r-2 border-[#5bffd3] bg-[#5bffd3]/5 transition-all duration-300">
+<span class="material-symbols-outlined text-sm text-[#5bffd3]" data-icon="sensors">sensors</span>
+<span class="font-['Space_Grotesk'] text-sm">Real-time Feed</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg text-slate-400 hover:bg-white/5 transition-all duration-300">
+<span class="material-symbols-outlined text-sm" data-icon="memory">memory</span>
+<span class="font-['Space_Grotesk'] text-sm">Agent Logs</span>
+</div>
+<div class="flex items-center gap-3 p-3 rounded-lg text-slate-400 hover:bg-white/5 transition-all duration-300">
+<span class="material-symbols-outlined text-sm" data-icon="emergency_home">emergency_home</span>
+<span class="font-['Space_Grotesk'] text-sm">Critical Alerts</span>
+</div>
+</div>
+<div class="mt-auto border-t border-white/5 pt-4">
+<div class="bg-surface-container-highest p-4 rounded-xl">
+<p class="text-xs text-on-surface-variant font-mono mb-2">LAST RECOVERY ACTION</p>
+<p class="text-sm font-medium text-[#5bffd3]">+$12,400 identified from unbilled oncology codes.</p>
+</div>
+</div>
+</aside>
+<main class="pt-24 pb-24 px-6 max-w-7xl mx-auto xl:mr-80">
+<!-- Dashboard Header -->
+<div class="mb-10">
+<h2 class="text-4xl font-headline font-bold tracking-tight mb-2">Integration Hub</h2>
+<p class="text-on-surface-variant max-w-2xl">Connect your practice ecosystem to SurgeonValue Intelligence. Unified data flows for autonomous revenue recovery and clinical insight.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Connection Setup: MCP Connector -->
+<div class="md:col-span-8 glass-panel p-6 rounded-xl relative overflow-hidden group">
+<div class="scanning-line absolute top-0 left-0 w-full pointer-events-none opacity-20"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary" data-icon="database">database</span>
+<h3 class="text-xl font-headline font-semibold">MCP Connector</h3>
+</div>
+<p class="text-sm text-on-surface-variant">Model Context Protocol for HIPAA-compliant clinical data.</p>
+</div>
+<div class="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
+<div class="w-2 h-2 rounded-full bg-primary pulse-glow"></div>
+<span class="text-[10px] font-bold text-primary tracking-widest uppercase">Syncing</span>
+</div>
+</div>
+<div class="space-y-4">
+<div class="relative">
+<label class="text-[10px] font-bold text-on-surface-variant tracking-widest uppercase mb-1 block">Data Node URL</label>
+<input class="w-full bg-surface-container-lowest border-0 border-b-2 border-outline-variant focus:border-primary transition-all p-3 font-mono text-sm text-primary-dim rounded-t-lg" type="text" value="mcp://clinical-node.surgeonvalue.internal:8080/v1"/>
+</div>
+<div class="flex gap-4">
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary-container px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:shadow-[0_0_20px_rgba(91,255,211,0.3)] transition-all">Test Connection</button>
+<button class="border border-outline-variant text-on-surface px-6 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest hover:border-primary transition-all">View Schema</button>
+</div>
+</div>
+</div>
+<!-- Twilio SMS (Day 1 Product) -->
+<div class="md:col-span-4 glass-panel p-6 rounded-xl border-l-4 border-secondary/50">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-2 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="sms">sms</span>
+</div>
+<h3 class="text-xl font-headline font-semibold">Twilio SMS</h3>
+</div>
+<p class="text-sm text-on-surface-variant mb-6">Automated patient outreach and surgical rescheduling workflows.</p>
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs text-on-surface-variant">Status</span>
+<span class="text-xs font-bold text-[#5bffd3] flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle">check_circle</span>
+                        ACTIVE
+                    </span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-4/5"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant mt-2 font-mono">82% SUCCESSFUL DELIVERY RATE</p>
+</div>
+<!-- 'Ask Any AI' Revenue Recovery Chat Interface -->
+<div class="md:col-span-12 lg:col-span-7 glass-panel rounded-xl flex flex-col h-[500px]">
+<div class="p-4 border-b border-white/5 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="smart_toy">smart_toy</span>
+<div>
+<h3 class="text-sm font-bold font-headline">Ask Any AI: Revenue Recovery</h3>
+<p class="text-[10px] text-on-surface-variant">Switching: <span class="text-secondary">Gemini 1.5 Pro</span></p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="history">history</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="settings">settings</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="hub">hub</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl rounded-tl-none max-w-[80%] border-l border-primary/20">
+<p class="text-sm leading-relaxed">I've analyzed the last 48 hours of billing logs across your connected EHR. I found 12 instances of under-coded robotic prostatectomies. Would you like me to draft the adjustment requests?</p>
+<div class="mt-3 flex flex-wrap gap-2">
+<button class="text-[10px] font-bold text-primary border border-primary/30 px-3 py-1 rounded-full hover:bg-primary/10">Draft Requests</button>
+<button class="text-[10px] font-bold text-secondary border border-secondary/30 px-3 py-1 rounded-full hover:bg-secondary/10">Show Codes</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4 justify-end">
+<div class="bg-surface-container-highest p-4 rounded-2xl rounded-tr-none max-w-[80%]">
+<p class="text-sm leading-relaxed">Yes, show me the specific codes first.</p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-surface-container-low/50">
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-0 rounded-xl p-4 pr-12 text-sm focus:ring-1 focus:ring-primary" placeholder="Ask about revenue leakage or coding..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Connected Tools List -->
+<div class="md:col-span-12 lg:col-span-5 glass-panel p-6 rounded-xl flex flex-col h-[500px]">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="text-lg font-headline font-semibold">Connected Tools</h3>
+<p class="text-xs text-on-surface-variant">223 tools currently linked</p>
+</div>
+<button class="text-xs font-bold text-secondary flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto space-y-3 custom-scrollbar pr-2">
+<!-- Tool Item 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+<img alt="Epic Systems" class="w-6 h-6 grayscale group-hover:grayscale-0 transition-all" data-alt="minimalist logo for medical health records software with a corporate blue aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2HHnElWwQow8aq4m0XJ79JJVfUEYqw8OBse8PZ5frU2SpqrPsolfNlJDpsf-X0p-NJ_GAvIDHbbHQ3J7rOINaIPSoHZ9hbhN5MYC9EqSj_Mg5Ewx6Roc_MJkN0cm60HnKR0sNRh4EfcJIHpjB842zTyT_7AUJiOYYVtV4N4_ASpqrysyAPnlby6UezANhnUuFdxwxg6rDtcOXdXkSTuOKvnk8WgQ12ilioipEORxpN-TDlZwzKi-Zt2GNTr_06CxA6XPGxTL5e8Mj"/>
+</div>
+<div>
+<h4 class="text-sm font-medium">Epic EHR</h4>
+<p class="text-[10px] text-on-surface-variant">Patient Records &amp; Billing</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+<!-- Tool Item 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="mail">mail</span>
+</div>
+<div>
+<h4 class="text-sm font-medium">Microsoft Outlook</h4>
+<p class="text-[10px] text-on-surface-variant">Scheduling &amp; Coordination</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+<!-- Tool Item 3 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+<img alt="OpenAI" class="w-6 h-6" data-alt="logo for a high-tech artificial intelligence company with clean geometric lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrxRKgyZ8_xtPrjDSwbOVZ-0ybeiTAqgVavQqBfFvtnDp2N9_IcXbsIjSgCxY3E-Gevj4BOZSaRj0vh_XCFbznhe8V_X8A-QysrKePZqSnCcjQUOuOVPFEyC14-eH_HDIhzkpuHle7FEuJqaLW-AqbxlnMpBuKCBCWBArV4yXLx_dY5WnsbA4bP1SSCtYDk52tGPH7zyq86g2G9oyyTafsQ-uxj2VM0EwxpC2jh7Xq1qNxdeRvsXm2TsecpiSPGROlxC5nv4UkizU8"/>
+</div>
+<div>
+<h4 class="text-sm font-medium">ChatGPT-4</h4>
+<p class="text-[10px] text-on-surface-variant">Reasoning Engine</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary pulse-glow"></div>
+</div>
+</div>
+<!-- Tool Item 4 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<h4 class="text-sm font-medium">Chase Commerce</h4>
+<p class="text-[10px] text-on-surface-variant">Financial Settlements</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[8px] font-bold text-error">RE-AUTH REQUIRED</span>
+</div>
+</div>
+<!-- Tool Item 5 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lab_research">lab_research</span>
+</div>
+<div>
+<h4 class="text-sm font-medium">LabCorp Helix</h4>
+<p class="text-[10px] text-on-surface-variant">Diagnostic Feeds</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-4 bg-[#0c0e12]/90 backdrop-blur-lg border-t border-[#5bffd3]/10 shadow-[0_-10px_30px_rgba(0,242,195,0.05)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5bffd3] scale-110 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Agents</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold">Integrations</span>
+</a>
+</nav>
+<!-- Floating Action Button - Supressed as per Task Logic (Sub-page context) -->
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

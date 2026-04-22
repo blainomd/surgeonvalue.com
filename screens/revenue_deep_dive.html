@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revenue Leakage Deep-Dive | SurgeonValue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#004535",
+                        "secondary": "#669dff",
+                        "on-secondary": "#001f49",
+                        "inverse-on-surface": "#53555a",
+                        "inverse-surface": "#f9f9ff",
+                        "primary-dim": "#00e9bc",
+                        "error-container": "#9f0519",
+                        "background": "#0c0e12",
+                        "on-error-container": "#ffa8a3",
+                        "surface-container-highest": "#23262c",
+                        "error-dim": "#d7383b",
+                        "surface-container-lowest": "#000000",
+                        "on-tertiary-container": "#f8f1ff",
+                        "on-error": "#490006",
+                        "primary-fixed-dim": "#00e9bc",
+                        "primary": "#5bffd3",
+                        "tertiary": "#ac89ff",
+                        "on-surface-variant": "#aaabb0",
+                        "on-tertiary": "#290067",
+                        "on-primary-container": "#005643",
+                        "on-tertiary-fixed": "#1f0052",
+                        "inverse-primary": "#006c56",
+                        "surface-bright": "#292c33",
+                        "on-primary": "#005f4b",
+                        "secondary-container": "#005bc0",
+                        "secondary-fixed": "#bed2ff",
+                        "primary-fixed": "#20f9c9",
+                        "on-surface": "#f6f6fc",
+                        "primary-container": "#05f3c4",
+                        "secondary-fixed-dim": "#a8c4ff",
+                        "secondary-dim": "#0070ea",
+                        "outline-variant": "#46484d",
+                        "outline": "#74757a",
+                        "surface-dim": "#0c0e12",
+                        "tertiary-fixed-dim": "#b190ff",
+                        "surface": "#0c0e12",
+                        "surface-container-low": "#111318",
+                        "on-background": "#f6f6fc",
+                        "surface-tint": "#5bffd3",
+                        "surface-container-high": "#1d2025",
+                        "error": "#ff716c",
+                        "tertiary-fixed": "#bda1ff",
+                        "tertiary-dim": "#874cff",
+                        "on-secondary-container": "#f7f7ff",
+                        "surface-container": "#171a1f",
+                        "on-secondary-fixed": "#00326f",
+                        "on-secondary-fixed-variant": "#004ea5",
+                        "on-tertiary-fixed-variant": "#4700a7",
+                        "on-primary-fixed-variant": "#00644f",
+                        "tertiary-container": "#7000ff",
+                        "surface-variant": "#23262c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Space Grotesk"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0c0e12;
+            color: #f6f6fc;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(35, 38, 44, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(70, 72, 77, 0.15);
+        }
+        .scanning-line {
+            background: linear-gradient(90deg, transparent 0%, #5bffd3 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+            position: absolute;
+            opacity: 0.4;
+        }
+        .data-gradient {
+            background: linear-gradient(135deg, #5bffd3 0%, #05f3c4 100%);
+        }
+        .monospaced {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0c0e12]/80 backdrop-blur-xl bg-gradient-to-b from-[#111318] to-transparent shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+<div class="flex items-center justify-between px-6 h-20 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#5bffd3] text-3xl" data-icon="clinical_notes">clinical_notes</span>
+<h1 class="text-2xl font-bold tracking-tighter text-[#5bffd3] font-['Space_Grotesk']">SurgeonValue</h1>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<nav class="flex gap-6 text-sm font-['Space_Grotesk']">
+<a class="text-[#5bffd3]" href="#">Dashboard</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-2 py-1 rounded" href="#">Agents</a>
+<a class="text-slate-400 hover:bg-white/5 transition-colors px-2 py-1 rounded" href="#">Analytics</a>
+</nav>
+<div class="h-10 w-10 rounded-full border border-primary/20 overflow-hidden">
+<img alt="Surgeon Profile" class="w-full h-full object-cover" data-alt="professional portrait of a confident male surgeon in clinical attire with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm4C-be3jMT3kWFZe_VtXvxgUfdFQZJZQ6Ig-TLlfph6tveI-iftLffq9Ynw_olmqz6SasM6Ut6hpZozD8wROu39y4y28LUEMw5f4uA0a9GYE5owJ12Nblae53RP4BO0UYtF5mvdeLP8Uru8_kjgSKz01SlKswOjpkYVNjqQbX-wCBun6SZkyE13SoXMQ_fXAubEOuFB3fkOMNHNGb7k2oy7wP0sqAnRlDWGtBcdKZQ3VzinMg9DW1GO6i4FyYfmlyqoD1dPjGpUfU"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Sidebar Navigation Drawer -->
+<aside class="fixed right-0 top-20 h-[calc(100vh-160px)] w-80 bg-[#111318]/60 backdrop-blur-2xl border-l border-white/5 shadow-2xl flex flex-col p-4 space-y-4 hidden lg:flex">
+<div class="flex items-center justify-between mb-2">
+<h2 class="text-[#5bffd3] font-mono text-xs uppercase tracking-widest">AI Intelligence Feed</h2>
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+</div>
+<div class="space-y-3">
+<div class="p-3 border-r-2 border-[#5bffd3] bg-[#5bffd3]/5 transition-all duration-300">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-sm text-[#5bffd3]" data-icon="sensors">sensors</span>
+<span class="font-['Space_Grotesk'] text-sm text-on-surface">Real-time Feed</span>
+</div>
+<p class="text-[10px] text-slate-400">Monitoring $240k leakage targets...</p>
+</div>
+<div class="p-3 text-slate-400 hover:bg-white/5 transition-all duration-300">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-sm" data-icon="memory">memory</span>
+<span class="font-['Space_Grotesk'] text-sm">Agent Logs</span>
+</div>
+</div>
+<div class="p-3 text-slate-400 hover:bg-white/5 transition-all duration-300">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-sm" data-icon="emergency_home">emergency_home</span>
+<span class="font-['Space_Grotesk'] text-sm">Critical Alerts</span>
+</div>
+</div>
+</div>
+<div class="mt-auto p-4 glass-panel rounded-xl">
+<h4 class="text-[10px] font-bold text-secondary uppercase mb-2">System Status</h4>
+<div class="space-y-2">
+<div class="flex justify-between text-[10px]">
+<span class="text-slate-500">Processing Node</span>
+<span class="text-primary">Active</span>
+</div>
+<div class="flex justify-between text-[10px]">
+<span class="text-slate-500">Cloud Sync</span>
+<span class="text-primary">99.9%</span>
+</div>
+</div>
+</div>
+</aside>
+<main class="pt-28 pb-32 px-6 max-w-7xl mx-auto lg:mr-80">
+<!-- Hero Section: Total Leakage -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h2 class="text-on-surface-variant font-['Space_Grotesk'] text-sm uppercase tracking-[0.3em] mb-2">Intelligence Briefing</h2>
+<h1 class="text-5xl md:text-7xl font-bold font-['Space_Grotesk'] tracking-tighter text-on-surface leading-none">
+                        $<span class="text-primary">240,000</span>
+</h1>
+<p class="text-xl text-slate-400 mt-4 font-light max-w-xl">Identified annual revenue leakage across 3 key operational categories. AI-led recovery initiated.</p>
+</div>
+<div class="glass-panel p-6 rounded-xl flex flex-col items-center justify-center border-primary/10">
+<span class="text-xs font-mono text-secondary mb-1">MONTH 1 RECOVERY</span>
+<span class="text-3xl font-bold text-white monospaced">$1,865</span>
+<div class="w-full h-1 bg-white/10 mt-3 overflow-hidden rounded-full">
+<div class="h-full bg-secondary w-3/4"></div>
+</div>
+<span class="text-[10px] text-slate-500 mt-2">Up from $500 baseline</span>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Analytics & Map -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-12">
+<!-- Leakage Map Visual -->
+<div class="md:col-span-8 glass-panel rounded-2xl overflow-hidden relative group h-[400px]">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/5 to-transparent pointer-events-none"></div>
+<div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, #46484d 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="p-8 relative h-full flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<h3 class="text-xl font-bold font-['Space_Grotesk'] text-white">Interactive Leakage Map</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-highest text-[10px] monospaced border border-white/5 rounded-full">LIVE_HEATMAP</span>
+</div>
+</div>
+<div class="flex-grow flex items-center justify-center relative">
+<div class="w-full h-full relative overflow-hidden rounded-xl bg-surface-container-lowest/50">
+<img class="w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="abstract digital visualization of a healthcare data network map with glowing nodes and connecting lines in teal and blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3BVewkhcBuGDniXWQgZxw1Xn08UZR-dsybUrDtXuGS3Wm8J3H8ySrQEiksDNvX5w03XqXxdUf1nEE7jDrExh0P_nbjNe1wX808G0HxBAsGOcqtRpDBwAyupUWDABsjobNUk-FvQekVyDxxO1AcbC7j-YZyBAhTHWB6XXBMDFYk8a4SG-UfrYAmG4hEMI2tzmWgLpedCk38hLFVwMkJIXtNRAA03cylwcQKjGpEEKh0Ljlt-VNzVQmP9NPG2Pk6PH2A1qktvXt4yrL"/>
+<!-- Overlay markers -->
+<div class="absolute top-1/4 left-1/3 p-4 glass-panel rounded-lg border-error/30 animate-pulse">
+<p class="text-[10px] text-error monospaced font-bold">CRITICAL_LEAK</p>
+<p class="text-sm font-bold">$124,000</p>
+</div>
+<div class="absolute bottom-1/3 right-1/4 p-4 glass-panel rounded-lg border-primary/30">
+<p class="text-[10px] text-primary monospaced font-bold">RECOVERED_NODE</p>
+<p class="text-sm font-bold">$42,000</p>
+</div>
+<div class="scanning-line top-1/2"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Breakdown Category Cards -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<div class="glass-panel p-6 rounded-2xl border-l-4 border-primary shadow-lg">
+<span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Category 01</span>
+<h4 class="text-lg font-bold mt-1">Unbilled Encounters</h4>
+<div class="flex items-end justify-between mt-4">
+<span class="text-2xl font-bold monospaced">$120,000</span>
+<span class="text-xs text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                            50% of total
+                        </span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-2xl border-l-4 border-secondary shadow-lg">
+<span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Category 02</span>
+<h4 class="text-lg font-bold mt-1">Denied Claims</h4>
+<div class="flex items-end justify-between mt-4">
+<span class="text-2xl font-bold monospaced">$85,000</span>
+<span class="text-xs text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                            35% of total
+                        </span>
+</div>
+</div>
+<div class="glass-panel p-6 rounded-2xl border-l-4 border-tertiary shadow-lg">
+<span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Category 03</span>
+<h4 class="text-lg font-bold mt-1">Coding Errors</h4>
+<div class="flex items-end justify-between mt-4">
+<span class="text-2xl font-bold monospaced">$35,000</span>
+<span class="text-xs text-tertiary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                            15% of total
+                        </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chart Section & Recovery Action -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+<!-- Recovered vs Pending Chart Area -->
+<div class="glass-panel p-8 rounded-2xl flex flex-col">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold font-['Space_Grotesk']">Recovery Projection</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 bg-primary rounded-full"></span>
+<span class="text-[10px] text-slate-400">Recovered</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 bg-surface-container-highest rounded-full border border-white/20"></span>
+<span class="text-[10px] text-slate-400">Pending</span>
+</div>
+</div>
+</div>
+<div class="flex-grow flex items-end gap-4 h-48">
+<!-- Bar Chart Visual -->
+<div class="flex-grow flex flex-col justify-end gap-1">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-primary h-8"></div>
+</div>
+<span class="text-[10px] text-center text-slate-500">JAN</span>
+</div>
+<div class="flex-grow flex flex-col justify-end gap-1">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-36 relative">
+<div class="absolute bottom-0 w-full bg-primary h-12"></div>
+</div>
+<span class="text-[10px] text-center text-slate-500">FEB</span>
+</div>
+<div class="flex-grow flex flex-col justify-end gap-1">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-40 relative">
+<div class="absolute bottom-0 w-full bg-primary h-20"></div>
+</div>
+<span class="text-[10px] text-center text-slate-500">MAR</span>
+</div>
+<div class="flex-grow flex flex-col justify-end gap-1">
+<div class="w-full bg-surface-container-highest rounded-t-sm h-44 relative">
+<div class="absolute bottom-0 w-full bg-primary h-32"></div>
+</div>
+<span class="text-[10px] text-center text-slate-500">APR</span>
+</div>
+</div>
+</div>
+<!-- One-Click Recovery Action -->
+<div class="bg-gradient-to-br from-[#1d2025] to-[#0c0e12] p-8 rounded-2xl relative overflow-hidden border border-primary/10 flex flex-col justify-between">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="auto_awesome">auto_awesome</span>
+<span class="text-xs font-bold text-primary monospaced uppercase tracking-[0.2em]">AI Recommendation</span>
+</div>
+<h3 class="text-2xl font-bold font-['Space_Grotesk'] mb-2">High-Priority Recovery Queue</h3>
+<p class="text-slate-400 text-sm mb-6">Autonomous agents identified 14 cases with &gt;95% success probability. Estimated value: $42,300.</p>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+<div>
+<p class="text-xs font-bold">Case #UR-99210</p>
+<p class="text-[10px] text-slate-500">Missing CPT Modifier</p>
+</div>
+</div>
+<span class="text-sm font-bold monospaced">$2,450</span>
+</li>
+<li class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="description">description</span>
+<div>
+<p class="text-xs font-bold">Case #DEN-2283</p>
+<p class="text-[10px] text-slate-500">Insurance Auth Gap</p>
+</div>
+</div>
+<span class="text-sm font-bold monospaced">$1,890</span>
+</li>
+</ul>
+</div>
+<button class="relative z-10 w-full data-gradient py-4 rounded-lg text-on-primary-fixed font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-3 hover:shadow-[0_0_30px_rgba(91,255,211,0.3)] transition-all group active:scale-95 duration-200">
+                    One-Click Recovery
+                    <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform" data-icon="rocket_launch">rocket_launch</span>
+</button>
+<!-- Decorative Background Element -->
+<div class="absolute -bottom-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-4 bg-[#0c0e12]/90 backdrop-blur-lg border-t border-[#5bffd3]/10 shadow-[0_-10px_30px_rgba(0,242,195,0.05)] z-50">
+<a class="flex flex-col items-center justify-center text-[#5bffd3] scale-110 active:scale-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all hover:text-[#5bffd3]/80" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Agents</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all hover:text-[#5bffd3]/80" href="#">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Analytics</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 active:scale-90 transition-all hover:text-[#5bffd3]/80" href="#">
+<span class="material-symbols-outlined" data-icon="hub">hub</span>
+<span class="font-['Inter'] text-[10px] uppercase tracking-widest font-bold mt-1">Integrations</span>
+</a>
+</nav>
+<!-- Harness Health — footer for your health journey -->
+<script src="https://harnesshealth.ai/widget.js"></script>
+</body></html>

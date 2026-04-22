@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Neural Pulse | Critical Event View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#44474f",
+                        "on-primary-fixed": "#001a42",
+                        "surface-tint": "#465e8f",
+                        "primary": "#000a23",
+                        "inverse-on-surface": "#edf1f5",
+                        "on-secondary-fixed": "#00201a",
+                        "on-background": "#171c1f",
+                        "tertiary-fixed": "#ffdad6",
+                        "surface-container-high": "#e4e9ed",
+                        "secondary-fixed": "#afefdd",
+                        "surface-container": "#eaeef2",
+                        "secondary": "#29695b",
+                        "on-primary-fixed-variant": "#2e4675",
+                        "surface-container-low": "#f0f4f8",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#7189bc",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f6fafe",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#94d3c1",
+                        "background": "#f6fafe",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#aec6fe",
+                        "surface-dim": "#d6dade",
+                        "error": "#ba1a1a",
+                        "primary-container": "#00204e",
+                        "on-secondary-container": "#2e6d5f",
+                        "tertiary-fixed-dim": "#ffb4ac",
+                        "tertiary": "#220001",
+                        "inverse-primary": "#aec6fe",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c4c6d0",
+                        "on-surface": "#171c1f",
+                        "surface-container-highest": "#dfe3e7",
+                        "tertiary-container": "#4d0004",
+                        "outline": "#747780",
+                        "on-tertiary-container": "#dd635a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#410003",
+                        "surface": "#f6fafe",
+                        "secondary-container": "#acedda",
+                        "inverse-surface": "#2c3134",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-variant": "#dfe3e7",
+                        "on-secondary-fixed-variant": "#065043",
+                        "on-tertiary-fixed-variant": "#85221f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .critical-pulse {
+            animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .7; }
+        }
+        .stress-shadow {
+            box-shadow: 0 0 40px -10px rgba(186, 26, 26, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl fixed top-0 w-full z-50 shadow-sm dark:shadow-none border-b border-error/20">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a serious male chief surgeon in blue scrubs with neutral background and clinical lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyJfmfvIt8vcXMbWrcq4fOvfqi-CVLJpunHNhU8L03OakbnM3p62G-YejB9yUt7Eryq-hfzq_tJ_2icuROCgDHfn3YB9dSIiMKzMOF1oAVvotERGDAQi-mCu93pU5yqBhTh1LyTzd_zpoeoPPotJ9IMTn4sSaowcr_CJDLynbcoyjtQstpLfzBQD8pBM78XTJbIBgveZELDn61tLPfQYXrlsN1PPqitAQumUjz3_AEbgh7RZ1x3yOHI8CDGwXDR1yUsWFkkkf7p6I"/>
+</div>
+<h1 class="font-manrope font-black text-2xl text-blue-900 dark:text-blue-400">Neural Pulse</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-error critical-pulse" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span class="font-manrope font-bold text-lg tracking-tight text-error uppercase">Critical Alert: ICU-402</span>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-24 px-6 max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Patient Identity & Status Block (Full Width Top) -->
+<section class="md:col-span-12 bg-error text-on-error p-6 rounded-xl flex flex-wrap justify-between items-center gap-4">
+<div class="flex items-center gap-6">
+<div>
+<p class="text-[11px] uppercase tracking-widest font-bold opacity-80">Patient ID</p>
+<h2 class="font-headline text-3xl font-extrabold">HENRY, MARCUS [M-42]</h2>
+</div>
+<div class="h-12 w-px bg-white/20"></div>
+<div>
+<p class="text-[11px] uppercase tracking-widest font-bold opacity-80">Diagnosis</p>
+<p class="font-bold text-xl">Post-Op L4-L5 Fusion</p>
+</div>
+</div>
+<div class="bg-white/10 px-6 py-3 rounded-lg border border-white/20 backdrop-blur-md">
+<p class="text-[11px] uppercase tracking-widest font-bold text-white">Critical Event Trigger</p>
+<p class="font-black text-xl flex items-center gap-2">
+<span class="material-symbols-outlined">warning</span>
+                    AI DETECTED HEMORRHAGE (98% CONFIDENCE)
+                </p>
+</div>
+</section>
+<!-- Vital Monitor: High Stress Logic -->
+<section class="md:col-span-8 space-y-6">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Vitals Card -->
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-error shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold tracking-tighter uppercase text-on-surface-variant">MAP</span>
+<span class="material-symbols-outlined text-error text-sm">trending_down</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-black text-error">58</span>
+<span class="text-sm font-bold text-on-surface-variant">mmHg</span>
+</div>
+<div class="mt-2 text-xs font-bold text-error bg-error/10 py-1 px-2 rounded inline-block">-14% vs Baseline</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-error shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold tracking-tighter uppercase text-on-surface-variant">Heart Rate</span>
+<span class="material-symbols-outlined text-error text-sm">trending_up</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-black text-error">124</span>
+<span class="text-sm font-bold text-on-surface-variant">BPM</span>
+</div>
+<div class="mt-2 text-xs font-bold text-error bg-error/10 py-1 px-2 rounded inline-block">Sinus Tachycardia</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-amber-500 shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold tracking-tighter uppercase text-on-surface-variant">SpO2</span>
+<span class="material-symbols-outlined text-amber-500 text-sm">remove</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-black text-amber-500">91</span>
+<span class="text-sm font-bold text-on-surface-variant">%</span>
+</div>
+<div class="mt-2 text-xs font-bold text-amber-500 bg-amber-500/10 py-1 px-2 rounded inline-block">Borderline</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-secondary shadow-sm">
+<div class="flex justify-between items-start mb-1">
+<span class="text-[11px] font-bold tracking-tighter uppercase text-on-surface-variant">Drain Vol</span>
+<span class="material-symbols-outlined text-secondary text-sm">priority_high</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="text-5xl font-black text-on-surface">450</span>
+<span class="text-sm font-bold text-on-surface-variant">mL</span>
+</div>
+<div class="mt-2 text-xs font-bold text-secondary bg-secondary/10 py-1 px-2 rounded inline-block">Last 30 Min</div>
+</div>
+</div>
+<!-- AI Precision Graph Area -->
+<div class="bg-surface-container-low p-6 rounded-xl relative h-80 overflow-hidden flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-manrope font-bold text-lg text-blue-900 uppercase tracking-tight">Neural Flux Analysis</h3>
+<p class="text-sm font-medium text-on-surface-variant">Automated Volumetric Hemorrhage Detection</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-white rounded-full text-[10px] font-black border border-outline-variant/30">REAL-TIME TELEMETRY</span>
+<span class="px-3 py-1 bg-error text-white rounded-full text-[10px] font-black">HIGH VARIANCE DETECTED</span>
+</div>
+</div>
+<!-- Abstract Data Visualization Placeholder -->
+<div class="flex-grow flex items-end gap-1 px-2">
+<div class="bg-slate-300 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-slate-300 w-full h-2/3 rounded-t-sm"></div>
+<div class="bg-slate-300 w-full h-1/2 rounded-t-sm"></div>
+<div class="bg-slate-300 w-full h-3/4 rounded-t-sm"></div>
+<div class="bg-error w-full h-4/5 rounded-t-sm animate-pulse"></div>
+<div class="bg-error w-full h-[90%] rounded-t-sm animate-pulse"></div>
+<div class="bg-error w-full h-full rounded-t-sm animate-pulse"></div>
+<div class="bg-error w-full h-[85%] rounded-t-sm animate-pulse"></div>
+<div class="bg-error w-full h-full rounded-t-sm animate-pulse"></div>
+<div class="bg-error w-full h-[95%] rounded-t-sm animate-pulse"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent pointer-events-none"></div>
+</div>
+</section>
+<!-- Simplified Action Stack (Sidebar) -->
+<aside class="md:col-span-4 space-y-6">
+<div class="bg-primary-container p-6 rounded-xl shadow-2xl stress-shadow">
+<h3 class="text-white font-manrope font-extrabold text-xl mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-fixed">bolt</span>
+                    MISSION-CRITICAL ACTIONS
+                </h3>
+<div class="space-y-3">
+<button class="w-full bg-error text-white py-4 px-4 rounded-lg flex items-center justify-between font-black text-lg transition-transform active:scale-95">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined">call</span>
+                            CALL RAPID RESPONSE
+                        </span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="w-full bg-white text-primary-container py-4 px-4 rounded-lg flex items-center justify-between font-black text-lg transition-transform active:scale-95">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined">biotech</span>
+                            ORDER STAT LABS &amp; CROSS
+                        </span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="w-full bg-white text-primary-container py-4 px-4 rounded-lg flex items-center justify-between font-black text-lg transition-transform active:scale-95">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined">imagesmode</span>
+                            STAT CT ANGIOGRAPHY
+                        </span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="w-full bg-secondary text-white py-4 px-4 rounded-lg flex items-center justify-between font-black text-lg transition-transform active:scale-95">
+<span class="flex items-center gap-3">
+<span class="material-symbols-outlined">medical_mask</span>
+                            PREP OR FOR RE-EXPLORATION
+                        </span>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<div class="mt-6 pt-6 border-t border-white/10">
+<p class="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-3">On-Call Surgical Team</p>
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-slate-300">
+<img class="w-full h-full rounded-full object-cover" data-alt="professional female physician in white coat looking at camera with confident expression and soft hospital lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChOrfZ_IW1HT_88jRqwczPHoysusQ8cAv78XeJd6AgK8c3R7vzLevCxXDi2C0VPJlSC3dsCCpmibFxGM-QOolon3uaBa7rZT53VYQ8d2IAM4EX47EG4lwh3nyt7j6zA-vPc1gWaO0HITT79-CYnob92GZvjY7CmqnHOL-3J8QufVXHsaBlTRAWfJdeoZGYtbulkTMcDrrXdb3BAtY5OQR67cHpR_UZn-ix9I3UhTkM-ARp6zSs0CsI5POAq70tR4QETZ2oCZdbMPg"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-slate-300">
+<img class="w-full h-full rounded-full object-cover" data-alt="male intensive care doctor in blue scrubs with stethoscope, focused and professional studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0abtEVvVzueOT_J6Zqt-ru6WrRQRBhTq13Ncct6Bg_dIuFWA4A6JgKrKcJGyOOHWdcL2ZE2s1SPvAqPPz8t_RBymaPC_N80AQrhZlp2St0C27A4dGLDGn8aEmLPjZmei5zSC4N5MFQbCsN06m_XsYHFkSRKeoSeYLtxPF3vUiIunB3DXYyp0wYut7_AV9I8xO0uaBKr55EnJvn7EjOJDtuxLeZdY8TTp87wAaHV3jAvwkf_3GODQUX8lt1tDoAgavQN_j7_VhYqI"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-slate-300 flex items-center justify-center text-[10px] font-bold text-white bg-slate-700">+3</div>
+</div>
+</div>
+</div>
+<!-- Lab Trends (High Density) -->
+<div class="bg-surface-container-low p-5 rounded-xl">
+<h4 class="font-bold text-sm text-on-surface uppercase tracking-widest mb-4">Latest Lab Values</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/15">
+<span class="text-sm font-medium">Hgb</span>
+<div class="flex items-center gap-3">
+<span class="text-error font-black">7.2</span>
+<span class="text-[10px] text-on-surface-variant font-bold">14:02 PM</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/15">
+<span class="text-sm font-medium">Lactate</span>
+<div class="flex items-center gap-3">
+<span class="text-amber-600 font-black">2.8</span>
+<span class="text-[10px] text-on-surface-variant font-bold">13:45 PM</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-outline-variant/15">
+<span class="text-sm font-medium">Platelets</span>
+<div class="flex items-center gap-3">
+<span class="text-on-surface font-black">182</span>
+<span class="text-[10px] text-on-surface-variant font-bold">12:00 PM</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Navigation Shell (BottomNavBar for Mobile Responsive Pivot) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center pt-3 pb-8 px-4 bg-white/80 dark:bg-slate-950/80 backdrop-blur-2xl z-50 rounded-t-3xl shadow-[0_-4px_24px_0_rgba(0,0,0,0.04)] border-t border-slate-200/10">
+<a class="flex flex-col items-center text-emerald-600 dark:text-emerald-400 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Pulse</span>
+</a>
+<a class="flex flex-col items-center text-slate-400 dark:text-slate-600 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">show_chart</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Velocity</span>
+</a>
+<a class="flex flex-col items-center text-slate-400 dark:text-slate-600 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Sync</span>
+</a>
+<a class="flex flex-col items-center text-slate-400 dark:text-slate-600 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-inter text-[11px] uppercase tracking-widest font-bold">Vault</span>
+</a>
+</nav>
+<!-- Side Navigation for Web (NavigationDrawer Mirror) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-screen w-20 flex-col items-center py-10 bg-slate-50 border-r border-slate-200/50 z-40">
+<div class="mb-12">
+<span class="material-symbols-outlined text-blue-950 text-3xl font-bold">clinical_notes</span>
+</div>
+<div class="space-y-8 flex-grow">
+<div class="p-2 bg-blue-100/50 rounded-lg text-blue-900 cursor-pointer transition-colors hover:bg-slate-200/50">
+<span class="material-symbols-outlined">monitor_heart</span>
+</div>
+<div class="p-2 text-slate-500 cursor-pointer transition-colors hover:bg-slate-200/50">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<div class="p-2 text-slate-500 cursor-pointer transition-colors hover:bg-slate-200/50">
+<span class="material-symbols-outlined">family_restroom</span>
+</div>
+<div class="p-2 text-slate-500 cursor-pointer transition-colors hover:bg-slate-200/50">
+<span class="material-symbols-outlined">settings_input_component</span>
+</div>
+</div>
+<div class="mt-auto">
+<div class="w-10 h-10 rounded-full bg-slate-900 border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-lg">AT</div>
+</div>
+</aside>
+</body></html>
