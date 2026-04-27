@@ -974,7 +974,7 @@ footer { background: var(--navy); padding: 40px 32px; }
 .sso-provider-btn { display: flex; align-items: center; justify-content: center; gap: 8px; border: 1.5px solid var(--border); background: white; padding: 11px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color 0.2s; color: var(--text); }
 .sso-provider-btn:hover { border-color: var(--teal); }
 </style>
-<!-- SolvingHealth network footer: attestation ribbon + Reed + signup modal -->
+<!-- SolvingHealth network footer: attestation ribbon + Sage + signup modal -->
 <script src="https://harnesshealth.ai/footer.js" defer></script>
 <!-- Phase 2 SSO: shared auth across the SolvingHealth network (Apr 25, 2026) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
@@ -1314,7 +1314,7 @@ footer { background: var(--navy); padding: 40px 32px; }
     <div style="text-align:center;margin-bottom:52px">
       <div class="section-eyebrow" style="display:flex;justify-content:center">AI-powered setup · No forms</div>
       <h2 class="section-title" style="text-align:center">From NPI to first dollar<br>in 48 hours.</h2>
-      <p class="section-sub" style="text-align:center;margin:0 auto;max-width:560px">Reed reads your NPI record, listens to how you describe your practice, and analyzes your existing clinical notes — finding codes you're missing before you've signed in for the first time.</p>
+      <p class="section-sub" style="text-align:center;margin:0 auto;max-width:560px">Sage reads your NPI record, listens to how you describe your practice, and analyzes your existing clinical notes — finding codes you're missing before you've signed in for the first time.</p>
     </div>
     <div class="onboard-grid">
       <div>
@@ -1330,7 +1330,7 @@ footer { background: var(--navy); padding: 40px 32px; }
             <div class="onboard-step-num">2</div>
             <div class="onboard-step-body">
               <h4>Voice intake — "Tell me about your practice"</h4>
-              <p>Reed listens for 2–3 minutes. It identifies your case mix, payer profile, and which agents to activate first. Talk like you'd talk to a colleague.</p>
+              <p>Sage listens for 2–3 minutes. It identifies your case mix, payer profile, and which agents to activate first. Talk like you'd talk to a colleague.</p>
             </div>
           </div>
           <div class="onboard-step">
@@ -1368,7 +1368,7 @@ footer { background: var(--navy); padding: 40px 32px; }
         <div class="voice-intake" id="voiceIntake" onclick="toggleVoiceIntake()">
           <span class="ms" style="color:var(--teal);font-size:34px;font-variation-settings:'FILL' 1">mic</span>
           <div class="voice-intake-label" id="voiceIntakeLabel">Tap to speak — "Tell me about your practice"</div>
-          <div class="voice-intake-sub" id="voiceIntakeSub">Reed identifies your case mix, payer profile, and top billing gaps in ~2 minutes</div>
+          <div class="voice-intake-sub" id="voiceIntakeSub">Sage identifies your case mix, payer profile, and top billing gaps in ~2 minutes</div>
           <div class="voice-wave" id="voiceWave" style="display:none">
             <div class="voice-wave-bar" style="height:8px"></div>
             <div class="voice-wave-bar"></div>
@@ -1389,7 +1389,7 @@ footer { background: var(--navy); padding: 40px 32px; }
         <div class="upload-file-list" id="uploadFileList"></div>
         <button class="onboard-start-btn" onclick="openOnboarding('full')">
           <span class="ms" style="font-size:18px;font-variation-settings:'FILL' 1">rocket_launch</span>
-          Complete Setup with Reed
+          Complete Setup with Sage
         </button>
       </div>
     </div>
@@ -1776,8 +1776,8 @@ footer { background: var(--navy); padding: 40px 32px; }
       <!-- STEP 2: VOICE INTAKE -->
       <div class="ob-step" id="ob-step-2">
         <div class="ob-step-eyebrow">Step 2 of 4 · Practice Profile</div>
-        <div class="ob-step-title">Tell Reed about your practice.</div>
-        <div class="ob-step-sub">Press and speak for 1–3 minutes. Reed identifies your case mix, payer profile, and which agents to prioritize.</div>
+        <div class="ob-step-title">Tell Sage about your practice.</div>
+        <div class="ob-step-sub">Press and speak for 1–3 minutes. Sage identifies your case mix, payer profile, and which agents to prioritize.</div>
         <div class="voice-intake" id="obVoiceIntake" onclick="obToggleVoice()" style="margin-bottom:20px">
           <span class="ms" style="color:var(--teal);font-size:40px;font-variation-settings:'FILL' 1" id="obMicIcon">mic</span>
           <div class="voice-intake-label" id="obVoiceLabel" style="margin-top:8px">Tap to start speaking</div>
@@ -1875,7 +1875,7 @@ footer { background: var(--navy); padding: 40px 32px; }
   <div id="sage-toggle-bar" onclick="spOpen()">
     <div style="display:flex;align-items:center;gap:10px">
       <div class="sp-dot"></div>
-      <span class="st-label">Reed AI</span>
+      <span class="st-label">Sage AI</span>
       <span class="st-hint">Ask about Wonder Bill, prior auth, CJR-X, pricing...</span>
     </div>
     <span style="color:var(--teal-light);font-size:18px">&#x25B2;</span>
@@ -2037,7 +2037,7 @@ function runDemo() {
     tb.querySelector('span:last-child').innerHTML = '&#x25BC;';
     tb.onclick = window.spClose;
     if (!chatHistory.length) {
-      setTimeout(function() { addMsg('Hi — I\'m Reed. I can walk you through Wonder Bill, prior auth, CJR-X, or help you estimate your revenue recovery. What would you like to know?', 'sage'); }, 200);
+      setTimeout(function() { addMsg('Hi — I\'m Sage. I can walk you through Wonder Bill, prior auth, CJR-X, or help you estimate your revenue recovery. What would you like to know?', 'sage'); }, 200);
     }
   };
 
@@ -2199,12 +2199,12 @@ function toggleVoiceIntake() {
     if (_voiceRec) _voiceRec.stop(); _voiceListening = false;
     box.classList.remove('active'); wave.style.display = 'none';
     label.textContent = 'Tap to speak — "Tell me about your practice"';
-    sub.textContent = 'Reed identifies your case mix, payer profile, and top billing gaps in ~2 minutes';
+    sub.textContent = 'Sage identifies your case mix, payer profile, and top billing gaps in ~2 minutes';
     return;
   }
   _voiceRec = new SR(); _voiceRec.continuous = true; _voiceRec.interimResults = true; _voiceRec.lang = 'en-US';
   _voiceRec.onresult = function(e) { sub.textContent = Array.from(e.results).map(function(r){return r[0].transcript;}).join(' ').substring(0,150) + '…'; };
-  _voiceRec.onend = function() { _voiceListening=false; box.classList.remove('active'); wave.style.display='none'; label.textContent='Done — Reed is analyzing your practice'; };
+  _voiceRec.onend = function() { _voiceListening=false; box.classList.remove('active'); wave.style.display='none'; label.textContent='Done — Sage is analyzing your practice'; };
   _voiceRec.start(); _voiceListening=true; box.classList.add('active'); wave.style.display='flex';
   label.textContent = 'Listening… tap to stop'; sub.textContent = 'Speak naturally about your practice, case mix, and payer mix';
 }
@@ -2388,9 +2388,9 @@ async function svCheckout(plan) {
       </div>
     </div>
 
-    <!-- RIGHT: Ask Reed button -->
+    <!-- RIGHT: Ask Sage button -->
     <div style="flex: 0 0 auto; display: flex; align-items: center; gap: 8px;">
-      <button id="hh-sage-btn" onclick="hhRailToggleReed()" style="
+      <button id="hh-sage-btn" onclick="hhRailToggleSage()" style="
         background: transparent;
         border: 1px solid rgba(255,255,255,0.15);
         color: rgba(255,255,255,0.7);
@@ -2405,7 +2405,7 @@ async function svCheckout(plan) {
       "
       onmouseover="this.style.borderColor='var(--footer-accent)';this.style.color='var(--footer-accent)'"
       onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.7)'">
-        Ask Reed
+        Ask Sage
       </button>
     </div>
 
@@ -2445,10 +2445,10 @@ async function svCheckout(plan) {
           background: var(--footer-accent);
           box-shadow: 0 0 6px var(--footer-accent);
         "></div>
-        <span style="font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.85);">Reed</span>
+        <span style="font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.85);">Sage</span>
         <span style="font-size: 11px; color: rgba(255,255,255,0.3);">HarnessHealth AI</span>
       </div>
-      <button onclick="hhRailToggleReed()" style="
+      <button onclick="hhRailToggleSage()" style="
         background: none; border: none; cursor: pointer;
         color: rgba(255,255,255,0.35); font-size: 18px; line-height: 1;
         padding: 0 2px; font-family: -apple-system, sans-serif;
@@ -2485,7 +2485,7 @@ async function svCheckout(plan) {
         line-height: 1.6;
         max-width: 88%;
       ">
-        Hi. I'm Reed — the AI layer across the HarnessHealth network. Select a question below or type your own.
+        Hi. I'm Sage — the AI layer across the HarnessHealth network. Select a question below or type your own.
       </div>
     </div>
 
@@ -2497,7 +2497,7 @@ async function svCheckout(plan) {
       gap: 8px;
       flex-shrink: 0;
     ">
-      <input id="hh-sage-input" type="text" placeholder="Ask Reed anything about your care..."
+      <input id="hh-sage-input" type="text" placeholder="Ask Sage anything about your care..."
         style="
           flex: 1;
           background: rgba(255,255,255,0.06);
@@ -2509,11 +2509,11 @@ async function svCheckout(plan) {
           outline: none;
           font-family: -apple-system, 'Inter', sans-serif;
         "
-        onkeydown="if(event.key==='Enter'){hhRailReedSubmit()}"
+        onkeydown="if(event.key==='Enter'){hhRailSageSubmit()}"
         onfocus="this.style.borderColor='var(--footer-accent)'"
         onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
       />
-      <button onclick="hhRailReedSubmit()" style="
+      <button onclick="hhRailSageSubmit()" style="
         background: var(--footer-accent);
         border: none;
         border-radius: 8px;
@@ -2566,7 +2566,7 @@ async function svCheckout(plan) {
     ]
   };
 
-  // ── Reed chips per profile ────────────────────────────────────────
+  // ── Sage chips per profile ────────────────────────────────────────
   var CHIPS = {
     surgeon:   ['What codes am I likely missing?', 'How do I set up RTM billing?'],
     family:    ['Do I qualify for an LMN?', 'What does $59/mo include?'],
@@ -2728,7 +2728,7 @@ async function svCheckout(plan) {
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // ── RIGHT: Reed panel ─────────────────────────────────────────────
+  // ── RIGHT: Sage panel ─────────────────────────────────────────────
   function renderChips() {
     var profile = getProfile();
     var group   = profileGroup(profile);
@@ -2760,13 +2760,13 @@ async function svCheckout(plan) {
       });
       btn.addEventListener('click', function() {
         document.getElementById('hh-sage-input').value = q;
-        hhRailReedSubmit();
+        hhRailSageSubmit();
       });
       el.appendChild(btn);
     });
   }
 
-  window.hhRailToggleReed = function() {
+  window.hhRailToggleSage = function() {
     var panel = document.getElementById('hh-sage-panel');
     if (!panel) return;
     sageOpen = !sageOpen;
@@ -2780,7 +2780,7 @@ async function svCheckout(plan) {
     }
   };
 
-  window.hhRailReedSubmit = function() {
+  window.hhRailSageSubmit = function() {
     var input = document.getElementById('hh-sage-input');
     var msgs  = document.getElementById('hh-sage-messages');
     if (!input || !msgs) return;
@@ -2805,7 +2805,7 @@ async function svCheckout(plan) {
       msgs.removeChild(typing);
       var reply = document.createElement('div');
       reply.style.cssText = 'background:rgba(255,255,255,0.04);border-radius:10px 10px 10px 2px;padding:10px 12px;font-size:12px;color:rgba(255,255,255,0.6);line-height:1.65;max-width:88%';
-      reply.innerHTML = 'Reed is available through the HarnessHealth MCP connector. <a href="https://harnesshealth.ai/connect" style="color:var(--footer-accent);text-decoration:none;font-weight:600">Connect Claude \u2192</a> to start a conversation with full context.';
+      reply.innerHTML = 'Sage is available through the HarnessHealth MCP connector. <a href="https://harnesshealth.ai/connect" style="color:var(--footer-accent);text-decoration:none;font-weight:600">Connect Claude \u2192</a> to start a conversation with full context.';
       msgs.appendChild(reply);
       msgs.scrollTop = msgs.scrollHeight;
     }, 1200);

@@ -217,7 +217,7 @@
           "name": "SolvingHealth",
           "url": "https://solvinghealth.com"
         },
-        "aiContext": "This website is part of the SolvingHealth network. Reed AI is available to help patients and families understand their care options, find HSA/FSA savings, and connect with clinical support. Physicians can access SurgeonValue for practice intelligence and missed revenue detection. Visit surgeonvalue.com for surgeons, comfortcard.org for patients.",
+        "aiContext": "This website is part of the SolvingHealth network. Sage AI is available to help patients and families understand their care options, find HSA/FSA savings, and connect with clinical support. Physicians can access SurgeonValue for practice intelligence and missed revenue detection. Visit surgeonvalue.com for surgeons, comfortcard.org for patients.",
         "memberOf": {
           "@type": "Organization",
           "name": "SolvingHealth Network",
@@ -293,7 +293,7 @@
       // Inject llms.txt hint meta
       var metaAI = document.createElement('meta');
       metaAI.name = 'ai-context';
-      metaAI.content = 'SolvingHealth network. Reed AI assistant available. Surgeons: surgeonvalue.com. Patients/families: comfortcard.org. All sites feed membership and clinical review.';
+      metaAI.content = 'SolvingHealth network. Sage AI assistant available. Surgeons: surgeonvalue.com. Patients/families: comfortcard.org. All sites feed membership and clinical review.';
       document.head.appendChild(metaAI);
 
       // Build widget HTML
@@ -385,7 +385,7 @@
                 </button>
               </div>
               <hr class="sv-divider">
-              <div class="sv-q-sub" style="text-align:center;margin-bottom:10px">Want Reed to remember this and get smarter every week?</div>
+              <div class="sv-q-sub" style="text-align:center;margin-bottom:10px">Want Sage to remember this and get smarter every week?</div>
               <a href="https://comfortcard.org" target="_blank" class="sv-cta-btn sv-teal">
                 Join ComfortCard Free →
               </a>
@@ -393,7 +393,7 @@
                 Find Care in My Area
               </a>
               <hr class="sv-divider">
-              <a href="https://solvinghealth.com" target="_blank" class="sv-powered">Powered by <strong>SolvingHealth</strong> · <strong>Reed AI</strong></a>
+              <a href="https://solvinghealth.com" target="_blank" class="sv-powered">Powered by <strong>SolvingHealth</strong> · <strong>Sage AI</strong></a>
             </div>
           </div>
         </div>
